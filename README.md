@@ -1,4 +1,4 @@
 # DiggiDelivery
 
-# Norberto don't was here xD
+# Norberto was not here xD
 
