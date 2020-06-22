@@ -1908,6 +1908,15 @@ body.mobile-nav-active #mobile-nav-toggle {
   top: 0;
   bottom: 0;
 }
+.banner-contact {
+  background: url(../img/fondoRegistrar.jpg) right;
+  background-size: cover;
+}
+@media (max-width: 767.98px) {
+  .banner-contact .fullscreen {
+    height: 600px !important;
+  }
+}
 .banner-area {
   background: url(../img/header-bg.jpg) right;
   background-size: cover;
@@ -2201,25 +2210,25 @@ body.mobile-nav-active #mobile-nav-toggle {
   }
 }
 .contact-form ::-webkit-input-placeholder {
-  color: #777777;
+  color: #FFFEFE;
   font-weight: 300;
 }
 .contact-form :-moz-placeholder {
-  color: #777777;
+  color: #FFFEFE;
   opacity: 1;
   font-weight: 300;
 }
 .contact-form ::-moz-placeholder {
-  color: #777777;
+  color: #FFFEFE;
   opacity: 1;
   font-weight: 300;
 }
 .contact-form :-ms-input-placeholder {
-  color: #777777;
+  color: #FFFEFE;
   font-weight: 300;
 }
 .contact-form ::-ms-input-placeholder {
-  color: #777777;
+  color: #FFFEFE;
   font-weight: 300;
 }
 .common-input {
