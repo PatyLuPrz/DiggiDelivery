@@ -2426,3 +2426,22 @@ body.mobile-nav-active #mobile-nav-toggle {
 .switch-wrap p {
   margin: 0;
 }
+.banner-login {
+  background: url(../img/login.jpg) right;
+  background-size: cover;
+}
+@media (max-width: 767.98px) {
+  .banner-login .fullscreen {
+    height: 600px !important;
+  }
+}
+
+.banner-registro {
+  background: url(../img/fondoRegistrar.jpg) right;
+  background-size: cover;
+}
+@media (max-width: 767.98px) {
+  .banner-login .fullscreen {
+    height: 600px !important;
+  }
+}
