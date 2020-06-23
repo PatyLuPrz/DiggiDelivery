@@ -2361,6 +2361,20 @@ body.mobile-nav-active #mobile-nav-toggle {
   margin: 0px;
   padding: 0px;
 }
+.img-mb {
+  height: 265px;
+  width: 100%;
+  border-radius: 20px;
+  margin: 0px;
+  padding: 0px;
+}
+.img-reg {
+  height: 765px;
+  width: 100%;
+  border-radius: 20px;
+  margin: 0px;
+  padding: 0px;
+}
 .generic-banner {
   position: relative;
   display: inline-block;
@@ -2369,7 +2383,8 @@ body.mobile-nav-active #mobile-nav-toggle {
   text-align: left;
   border-radius: 20px;
   width: 97%;
-  margin: 2%;
+  margin-left: 2%;
+  margin-top: 3%;
   object-fit: cover;
   object-position: left;
 }
