@@ -1,7 +1,4 @@
 import web
-import config
-
-
 
 urls = (
     '/', 'application.controllers.main.index.Index',
