@@ -13,5 +13,13 @@ def getRestaurantes():
         return docs
     except Exception as e:
         return "Error getRestaurantes: " + str(e.args)
+
+def getLocales():
+    try:
+        locales_ref = db.collection(u'locales')
+        docs = locales_ref.stream()
+        return docs
+    except Exception as e:
+        return "Error getLocales: " + str(e.args)
     
     
