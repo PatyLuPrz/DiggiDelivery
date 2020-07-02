@@ -21,6 +21,14 @@ class Index():
                 diccionario = {"nombre":x.get("nombre"),"direccion":x.get("direccion")}
                 locales.append(diccionario)
 
-            return render.index(restaurantes,locales)
+            platillos = []
+            diccionario = {}
+            result = model_main.getPlatillos()
+            for x in result:
+                diccionario = {"descripcion":x.get("descripcion"),"nombre":x.get("nombre"),"restaurante":x.get("restaurante"),"tiempo_preparacion":x.get("tiempo_preparacion"),"restaurante":x.get("restaurante")}
+                platillos.append(diccionario)
+            
+            
+            return render.index(restaurantes,locales,platillos)
         except Exception as e:
             return "Error Index Controller" + str(e.args)

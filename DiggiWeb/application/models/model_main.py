@@ -21,5 +21,13 @@ def getLocales():
         return docs
     except Exception as e:
         return "Error getLocales: " + str(e.args)
+
+def getPlatillos():
+    try:
+        platillos_ref = db.collection(u'platillos')
+        docs = platillos_ref.stream()
+        return docs
+    except Exception as e:
+        return "Error getPlatillos: " +str(e.args)
     
     
