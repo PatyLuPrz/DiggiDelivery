@@ -23,4 +23,4 @@ class Index():
 
             return render.index(restaurantes,locales)
         except Exception as e:
-            return "Error: " + str(e.args)
+            return "Error Index Controller" + str(e.args)
