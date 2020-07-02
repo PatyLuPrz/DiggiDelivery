@@ -1,28 +1,24 @@
 import web
 import config
 import smtplib
-import socket
 
-
-
-
-def enviarMensaje(correo,mensaje):
+def enviarCorreo(message,remitente):
     try:
-        socket.getaddrinfo('localhost', 8080)
-        server = 'mail.server.com'
-        user = 'may.patrics@gmail.com'
-        password = 'Paydequeso16'
+        destinatario = '1717110752@utectulancingo.edu.mx'
+        subject = "Correo desde formulario - Diggi Delivery "
 
-        recipients = ['may.patrics@gmail.com', '1717110752@utectulancingo.edu.mx']
-        sender = correo
-        message = mensaje
+        message = 'Subject: {}\n\n Mensaje: {} \n\n Remitente: {}\n\n Destinatario: {}'.format(subject,message,remitente,destinatario)
 
-        session = smtplib.SMTP(server)
-        # if your SMTP server doesn't need authentications,
-        # you don't need the following line:
-        session.login(user, password)
-        session.sendmail(sender, recipients, message)
-        print("mensaje enviado")
+        server = smtplib.SMTP('smtp.gmail.com','587')
+        server.starttls()
+
+        server.login('may.patrics@gmail.com','Paydequeso16')
+
+        server.sendmail('may.patrics@gmail.com','1717110752@utectulancingo.edu.mx',message)
+
+        server.quit()
+        print("#############################################")
+        print("Esta cosa funciono :)")
+        print("#############################################")
     except Exception as e:
-        print("Error model contactanos: " + str(e.args))
-        return "Error model contactanos: " + str(e.args)
+        return "Error en model enviar correo: " + str(e.args)

@@ -4,7 +4,7 @@ urls = (
     '/', 'application.controllers.main.index.Index',
     '/nosotros','application.controllers.main.nosotros.Nosotros',
     '/registro','application.controllers.main.registro.Registro',
-    '/contactanos','application.controllers.main.contactanos.Contactanos',
+    '/contacto','application.controllers.main.contactanos.Contactanos',
 )
 
 app = web.application(urls, globals())

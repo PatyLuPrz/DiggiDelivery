@@ -9,7 +9,7 @@ class Contactanos():
             form = web.input()
             correo = form["correo"]
             mensaje = form["mensaje"]
-            model_contactanos.enviarMensaje(correo,mensaje)
+            model_contactanos.enviarCorreo(mensaje,correo)
             return render.mensajeEnviado()
         except Exception as e:
             return "Error contactanos POST Controller" + str(e.args)
