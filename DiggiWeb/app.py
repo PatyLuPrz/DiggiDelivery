@@ -1,10 +1,10 @@
 import web
-import config
-
-
 
 urls = (
     '/', 'application.controllers.main.index.Index',
+    '/nosotros','application.controllers.main.nosotros.Nosotros',
+    '/registro','application.controllers.main.registro.Registro',
+    '/contacto','application.controllers.main.contactanos.Contactanos',
 )
 
 app = web.application(urls, globals())

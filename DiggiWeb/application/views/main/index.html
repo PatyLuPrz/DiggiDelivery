@@ -1,1 +1,183 @@
-<h1>index xd</h1>
+$def with (restaurantes,locales,platillos)
+<!-- start banner Area -->
+<section class="banner-area relative generic-banner img-gb" id="home">
+    <div class="container">
+        <div class="row fullscreen d-flex align-items-center justify-content-start">
+            <div class="banner-content col-lg-8 col-md-12">
+                <h4 class="text-white text-uppercase">Encuentra la mejor comida</h4>
+                <h1>
+                    Cerca de ti
+                </h1>
+                <p class="text-white">
+                    Disponible ahora para Android y iOS
+                </p>
+                <a href="#" class="primary-btn header-btn text-uppercase">Descargar</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End banner Area -->
+
+<!-- Start top-dish Area -->
+<section class="top-dish-area section-gap" id="dish">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="menu-content pb-60 col-lg-8">
+                <div class="title text-center">
+                    <h1 class="mb-10">Platillos populares</h1>
+                    <p>Algunos platillos que fuerón seleccionados por nuestros usuarios</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            $for item in platillos
+                <div class="single-dish col-lg-4">
+                    <div class="thumb">
+                        <img class="img-fluid" src="static/img/d1.jpg" alt="" style="height: 250px;">
+                    </div>
+                    <h4 class="text-uppercase pt-20 pb-20">$item["nombre"]</h4>
+                    <h6><a href="restaurante.html" style="color: #CA3F43">Restaurante La Italiana</a></h6>
+                    <p>
+                        $item["descripcion"]
+                    </p>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#user-id-2">Agregar a la
+                        orden</button><br><br>
+                </div>
+                
+        </div>
+    </div>
+</section>
+<!-- End top-dish Area -->
+
+<!-- Start related Area -->
+<section class="related-area section-gap">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="menu-content pb-60 col-lg-8">
+                <div class="title text-center">
+                    <h1 class="mb-10">Restaurantes Populares</h1>
+                    <p>Elegidos por la comunidad</p>
+                </div>
+            </div>
+        </div>
+            <div class="row justify-content-center">
+                <div class="active-realated-carusel">
+                    $for item in restaurantes
+                        <div class="item row align-items-center">
+                            <div class="col-lg-6 rel-left">
+                                <h3>
+                                    $item['nombre']
+                                </h3>
+                                <p class="pt-30 pb-30">
+                                    $item['direccion']
+                                </p>
+                                <a href="local.html" class="primary-btn header-btn text-uppercase">Ver más</a>
+                            </div>
+                            <div class="col-lg-6">
+                                <img class="img-fluid" src="static/img/papeleria.jpg" alt="">
+                            </div>
+                        </div>
+                        $for item in locales
+                            <div class="item row align-items-center">
+                                <div class="col-lg-6 rel-left">
+                                    <h3>
+                                        $item['nombre']
+                                    </h3>
+                                    <p class="pt-30 pb-30">
+                                        $item['direccion']
+                                    </p>
+                                    <a href="local.html" class="primary-btn header-btn text-uppercase">Ver más</a>
+                                </div>
+                                <div class="col-lg-6">
+                                    <img class="img-fluid" src="static/img/papeleria.jpg" alt="">
+                                </div>
+                            </div>
+                </div>
+            </div>
+    </div>
+</section>
+<!-- End related Area -->
+
+
+<div id="user-id-2" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title text-danger " id="exampleModalLabel">Agregar ingredientes extra</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="static/img/modal.jpg" class="img-fluid" alt="Responsive image">
+                <form>
+                    <div class="form-group"><br>
+                        <div class="checkbox text-danger">
+                            <label>
+                                <h5>
+                                    <pre
+                                        class="text-danger"><input type="checkbox">&nbsp;Queso extra             		+$15</pre>
+                                </h5>
+                            </label>
+                        </div>
+                        <div class="checkbox text-danger">
+                            <label>
+                                <h5>
+                                    <pre
+                                        class="text-danger "><input type="checkbox">&nbsp;Jalapeños             		+$15</pre>
+                                </h5>
+                            </label>
+                        </div>
+                        <div class="checkbox text-danger">
+                            <label>
+                                <h5>
+                                    <pre
+                                        class="text-danger"><input type="checkbox" value="">&nbsp;Salsa Habanera             		+$15</pre>
+                                </h5>
+                            </label>
+                        </div>
+                        <div class="checkbox text-danger">
+                            <label>
+                                <h5>
+                                    <pre
+                                        class="text-danger"><input type="checkbox">&nbsp;Orden de papas             		+$35</pre>
+                                </h5>
+                            </label>
+                        </div>
+
+                        <div class="checkbox text-danger">
+                            <label>
+                                <h5>
+                                    <pre
+                                        class="text-danger"><input type="checkbox">&nbsp;Aderezo             			+$15</pre>
+                                </h5>
+                            </label>
+                        </div>
+                        <div class="checkbox text-danger">
+                            <label>
+                                <h5>
+                                    <pre
+                                        class="text-danger"><input type="checkbox">&nbsp;Jamon de pavo            		+$20</pre>
+                                </h5>
+                            </label>
+                        </div>
+                    </div>
+                    <form>
+                        <div class="form-group">
+                            <h5><label for="ingredienteNuevo" class="text-danger">Agregar otro ingrediente</label></h5>
+                            <textarea class="form-control" id="ingredienteNuevo" rows="2"></textarea>
+                        </div>
+                    </form>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-danger">Agregar a la orden</button>
+            </div>
+
+        </div>
+    </div>
+  </div>
