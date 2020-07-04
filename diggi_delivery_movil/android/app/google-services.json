@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "687183184740",
+    "firebase_url": "https://diggi-49418.firebaseio.com",
+    "project_id": "diggi-49418",
+    "storage_bucket": "diggi-49418.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:687183184740:android:e2ec946c766d4639e5b071",
+        "android_client_info": {
+          "package_name": "com.example.diggi_delivery_movil"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "687183184740-25advchsoojvitgfk7cc4lhbhaj66r20.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOdQVBG2u7JB6cigpzQfGTk-_WH4tqilk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "687183184740-25advchsoojvitgfk7cc4lhbhaj66r20.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
