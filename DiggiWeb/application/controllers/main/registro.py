@@ -15,8 +15,12 @@ class Registro():
             correo = form["email"]
             nombre = form["nombre"] + " " +form["apellido"]
             contrasena = form["contrasena"]
-            model_registro.registrarUsuarios(correo,contrasena,nombre)
-            return render.registroExitoso()
+            result = model_registro.registrarUsuarios(correo,contrasena,nombre)
+            print(result)
+            if(result):
+                return render.registroUsuarios()
+            else:
+                return render.registroErroneo()
         except Exception as e:
             return "Error RegistroPost Controller" + str(e.args)
 
