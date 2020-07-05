@@ -1,10 +1,13 @@
 import 'package:diggi_delivery_movil/helpers/style.dart';
+import 'package:diggi_delivery_movil/models/theme_preferences.dart';
 import 'package:diggi_delivery_movil/pages/clientes/inicio_clientes.dart';
 import 'package:diggi_delivery_movil/pages/clientes/mapa_clientes.dart';
 import 'package:diggi_delivery_movil/pages/clientes/pedidos_clientes.dart';
 import 'package:diggi_delivery_movil/pages/perfil_usuario_page.dart';
+import 'package:diggi_delivery_movil/providers/theme.dart';
 import 'package:diggi_delivery_movil/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -24,9 +27,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    
+    final currentTheme = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: currentTheme.isDarkTheme()
+          ? Colors.black12
+          : Colors.blue,
         elevation: 0.5,
         title: Align(
           alignment: Alignment.center,
@@ -36,7 +42,9 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: currentTheme.isDarkTheme()
+        ? Color(0xff2a293d)
+        : Colors.white,
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: _bottomNavigationBarCliente(),
     );
