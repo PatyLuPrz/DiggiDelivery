@@ -16,8 +16,9 @@ class Registro():
             nombre = form["nombre"] + " " +form["apellido"]
             contrasena = form["contrasena"]
             result = model_registro.registrarUsuarios(correo,contrasena,nombre)
+            print(result)
             if(result):
-                return render.elegirTipo()
+                return render.registroUsuarios()
             else:
                 return render.registroErroneo()
         except Exception as e:
