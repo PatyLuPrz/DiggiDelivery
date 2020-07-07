@@ -4,7 +4,7 @@ urls = (
     '/', 'application.controllers.main.index.Index',
     '/nosotros','application.controllers.main.nosotros.Nosotros',
     '/registro','application.controllers.main.registro.Registro',
-    '/usuario','application.controllers.main.registroUsuarios.RegistroUsuarios',
+    '/usuarios/(.*)','application.controllers.main.registroUsuarios.RegistroUsuarios',
     '/contacto','application.controllers.main.contactanos.Contactanos',
 )
 
