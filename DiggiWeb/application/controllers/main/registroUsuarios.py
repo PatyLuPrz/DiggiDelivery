@@ -4,22 +4,21 @@ import application.models.model_usuarios as model_usuarios
 render = web.template.render('application/views/main/', base="master.html")
 
 class RegistroUsuarios():
-    def GET(self,nivel):
+    def GET(self):
         try:
-            if(nivel == '0'):
-                print('0')
-            elif(nivel == '1'):
-                print("1")
-            elif(nivel == '2'):
-                print("2")
-            else:
-                print("Ese no existe brow")
+            print("get registro usuarios")
+            return render.registroUsuarios()
         except Exception as e:
             return "Error UsuarioGet Controller" + str(e.args)
-    def POST(self,nivel):
+    def POST(self):
         try:
-            print(nivel)
-            print(type(nivel))
+            print("post registro usuarios")
+            form = web.input()
+            nivel = form["nivel"]
+            if(model_usuarios.insertUsuario(nivel)):
+                return "todo bien crack"
+            else:
+                return "algo fallo crack"
         except Exception as e:
             return "Error UsuarioPOST Controller" + str(e.args)
 

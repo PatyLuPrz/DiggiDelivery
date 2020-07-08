@@ -18,7 +18,7 @@ class Registro():
             result = model_registro.registrarUsuarios(correo,contrasena,nombre)
             print(result)
             if(result):
-                return render.registroUsuarios()
+                raise  web.seeother("/usuarios")
             else:
                 return render.registroErroneo()
         except Exception as e:
