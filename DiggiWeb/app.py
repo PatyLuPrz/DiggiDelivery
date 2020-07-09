@@ -14,6 +14,9 @@ urls = (
     '/usuarios/restaurante/insertar/(.*)','application.controllers.restaurante.insertar.Insertar',
     '/usuarios/restaurante/editar/(.*)','application.controllers.restaurante.editar.Editar',
     '/usuarios/restaurante/eliminar/(.*)','application.controllers.restaurante.eliminar.Eliminar',
+    '/registrar/cliente','application.controllers.main.registrar.Clientes',
+    '/registrar/negocio','application.controllers.main.registrar.Negocios',
+    '/registrar/restaurante','application.controllers.main.registrar.Restaurantes',
 )
 
 app = web.application(urls, globals())

@@ -13,12 +13,20 @@ class RegistroUsuarios():
     def POST(self):
         try:
             print("post registro usuarios")
-            form = web.input()
+            form = web.input() 
             nivel = form["nivel"]
             if(model_usuarios.insertUsuario(nivel)):
-                return "todo bien crack"
+                if (str(nivel) == '0'):
+                    model_usuarios.insertUsuario("0")
+                    raise web.seeother("/registrar/restaurante")
+                elif (str(nivel) == '1'):
+                    model_usuarios.insertUsuario("1")
+                    raise web.seeother("/registrar/negocio")
+                elif (str(nivel) == '2'):
+                    model_usuarios.insertUsuario("2")
+                    raise web.seeother("/registrar/cliente")
             else:
-                return "algo fallo crack"
+                return "algo fallo"
         except Exception as e:
             return "Error UsuarioPOST Controller" + str(e.args)
 
