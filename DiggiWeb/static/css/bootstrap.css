@@ -567,6 +567,7 @@ pre code {
   flex-wrap: wrap;
   margin-right: -15px;
   margin-left: -15px;
+  height: auto;
 }
 .no-gutters {
   margin-right: 0;
