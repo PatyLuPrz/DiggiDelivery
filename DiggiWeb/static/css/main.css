@@ -2375,6 +2375,20 @@ body.mobile-nav-active #mobile-nav-toggle {
   margin: 0px;
   padding: 0px;
 }
+.img-tam3 {
+  height: 510px;
+  width: 100%;
+  border-radius: 20px;
+  margin: 0px;
+  padding: 0px;
+}
+.img-tam4 {
+  height: 600px;
+  width: 100%;
+  border-radius: 20px;
+  margin: 0px;
+  padding: 0px;
+}
 .img-mb {
   height: 265px;
   width: 100%;

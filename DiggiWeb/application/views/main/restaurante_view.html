@@ -1,0 +1,50 @@
+$def with (restaurante,platillos)
+<!-- start banner Area -->
+<br><br>
+<section class="banner-area relative generic-banner img-mb" style="background-image: url(../static/img/form-bg.jpg);">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-start">
+            <div class="banner-content col-lg-8 col-md-12">
+                <br><br>
+                <h1>
+                    $restaurante['nombre']
+                </h1>
+                <p class="text-white">
+                    $restaurante['direccion'] || $restaurante['telefono']
+                    
+                </p>
+            </div>												
+        </div>
+    </div>
+</section>
+<!-- End banner Area -->
+
+<!-- Start top-dish Area -->
+<section class="top-dish-area section-gap" id="dish">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="menu-content pb-60 col-lg-8">
+                <div class="title text-center">
+                    <h1 class="mb-10">Menu Disponible</h1>
+                    <p>Platillos que seguro que encantaran</p>
+                </div>
+            </div>
+        </div>						
+        <div class="row">
+            $for item in platillos
+                <div class="single-dish col-lg-4">
+                    <div class="thumb">
+                        <img class="img-fluid" src="../static/img/d1.jpg" alt="" style="height: 250px;">
+                    </div>
+                    <h4 class="text-uppercase pt-20 pb-20">$item["nombre"]</h4>
+                    <h6><a href="#" style="color: #CA3F43">$item["tiempo_preparacion"]</a></h6>
+                    <p>
+                        $item["descripcion"]
+                    </p>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#user-id-2">Agregar a la
+                        orden</button><br><br>
+                </div>
+                
+        </div>
+    </div>	
+</section>
