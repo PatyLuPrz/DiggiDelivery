@@ -1,5 +1,6 @@
 import 'package:diggi_delivery_movil/models/theme_preferences.dart';
 import 'package:diggi_delivery_movil/providers/theme.dart';
+import 'package:diggi_delivery_movil/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +27,7 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
     );
   }
 
+  //Switch para encender o apagar el modo oscuro de la app
   _modoOscuro(ThemeProvider currentTheme) {
     return Column(
       children: <Widget>[
@@ -58,6 +60,7 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
     );
   }
 
+  //Container que contiene información del usuario como su foto, nombre
   _userData(ThemeProvider currentTheme) {
     return Container(
       margin: EdgeInsets.all(20.0),
@@ -68,14 +71,27 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
         borderRadius: BorderRadius.circular(20.0),
         color: currentTheme.currentThemeColorContainer(currentTheme),
       ),
-      child: Stack(
+      child: Column(
         children: <Widget>[
-          CircleAvatar(
-              radius: 55.0,
-              backgroundColor: Color(0xffFDCF09),
+          //Imagen del usuario
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              height: 150.0,
+              width: 150.0,
+              padding: EdgeInsets.all(5.0),
               child: CircleAvatar(
-                
-              ))
+                  radius: 25.0,
+                  backgroundImage: NetworkImage(
+                      'https://img.favpng.com/6/24/19/user-profile-avatar-computer-icons-png-favpng-3r2RjSZGPQVAWPw2hFcQqTv1t.jpg')),
+            ),
+          ),
+          SizedBox(height: 50.0),
+          //Nombre del usuario
+          CustomText(
+            text: 'Luis Norberto Paloma Rodriguez',
+            color: Colors.white,
+          ),
         ],
       ),
     );

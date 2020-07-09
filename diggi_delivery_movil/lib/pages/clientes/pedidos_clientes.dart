@@ -80,6 +80,7 @@ class _PedidosClientesState extends State<PedidosClientes> {
         ));
   }
 
+  //Menu para acceder a los pedidos e historial del cliente
   Widget _drawerPedidos(ThemeProvider currentTheme) {
     return Drawer(
         child: ListView(
@@ -98,13 +99,6 @@ class _PedidosClientesState extends State<PedidosClientes> {
             decoration: BoxDecoration(
                 color: currentTheme.currentThemeColorComponents(currentTheme)),
           ),
-        ),
-        ListTile(
-          title: Text('Pedidos'),
-          onTap: () {
-            // Actualiza el estado de la aplicación
-            // ...
-          },
         ),
         ListTile(
           title: Text('En camino'),

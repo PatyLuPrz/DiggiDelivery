@@ -15,13 +15,17 @@ class ThemeProvider with ChangeNotifier {
 
   bool isDarkTheme() => _theme == ThemePreference.DARK;
 
+  //Cambia el color de algunos componentes
   currentThemeColorComponents(ThemeProvider currentTheme) {
     return currentTheme.isDarkTheme() ? Colors.white : Colors.black;
   }
 
+  //Cambia el color del texto
   currentThemeColorText(ThemeProvider currentTheme) {
     return currentTheme.isDarkTheme() ? Colors.black : Colors.white;
   }
+
+  //Cambia el color de los container
   currentThemeColorContainer(ThemeProvider currentTheme) {
     return currentTheme.isDarkTheme() ? Colors.black54 : Colors.white54;
   }
