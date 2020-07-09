@@ -67,6 +67,47 @@ $def with (restaurantes,locales,platillos)
 <!-- End top-dish Area -->
 
 
+<!-- Start top-dish Area -->
+<section class="top-dish-area section-gap" id="dish">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="menu-content pb-60 col-lg-8">
+                <div class="title text-center">
+                    <h1 class="mb-10">Nuestros aliados</h1>
+                    <p>Restaurantes, papelerias, ferreterias... ¡y mucho más!</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            $for item in restaurantes
+                <div class="single-dish col-lg-4">
+                    <div class="thumb">
+                        <img class="img-fluid" src="static/img/d1.jpg" alt="" style="height: 250px;">
+                    </div>
+                    <h4 class="text-uppercase pt-20 pb-20">$item["nombre"]</h4>
+                    <p>
+                        $item["direccion"]
+                    </p>
+                    <h6><a href="/restaurante/$item['id']" class="btn btn-danger">Ver más</a></h6>
+                </div>
+            $for item in locales
+                <div class="single-dish col-lg-4">
+                    <div class="thumb">
+                        <img class="img-fluid" src="static/img/d1.jpg" alt="" style="height: 250px;">
+                    </div>
+                    <h4 class="text-uppercase pt-20 pb-20">$item["nombre"]</h4>
+                    <p>
+                        $item["direccion"]
+                    </p>
+                    <h6><a href="/restaurante/$item['id']" class="btn btn-danger">Ver más</a></h6>
+                </div>
+        </div>
+    </div>
+</section>
+<!-- End top-dish Area -->
+
+
+
 
 <div id="user-id-2" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
     aria-labelledby="myLargeModalLabel" aria-hidden="true">

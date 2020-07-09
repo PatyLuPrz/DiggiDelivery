@@ -10,7 +10,13 @@ def getRestaurantes():
     try:
         restaurantes_ref = db.collection(u'restaurantes')
         docs = restaurantes_ref.stream()
-        return docs
+        restaurantes = []
+        diccionario = {}
+        result  = docs
+        for x in result:
+            diccionario = {"id":x.id,"nombre":x.get("nombre"),"direccion":x.get("direccion")}
+            restaurantes.append(diccionario)
+        return restaurantes
     except Exception as e:
         return "Error getRestaurantes: " + str(e.args)
 
@@ -18,7 +24,13 @@ def getLocales():
     try:
         locales_ref = db.collection(u'locales')
         docs = locales_ref.stream()
-        return docs
+        locales = []
+        diccionario = {}
+        result  = docs
+        for x in result:
+            diccionario = {"id":x.id,"nombre":x.get("nombre"),"direccion":x.get("direccion")}
+            locales.append(diccionario)
+        return locales
     except Exception as e:
         return "Error getLocales: " + str(e.args)
 
