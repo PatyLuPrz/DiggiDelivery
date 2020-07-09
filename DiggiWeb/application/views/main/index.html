@@ -18,6 +18,23 @@ $def with (restaurantes,locales,platillos)
 </section>
 <!-- End banner Area -->
 
+<form enctype="multipart/form-data" method="POST" action="">
+    <section class="top-dish-area section-gap" id="dish">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="menu-content pb-60 col-lg-8">
+                    <div class="title text-center">
+                        <h1 class="mb-10">Busca lo que necesitas</h1>
+                        <p>Restaurantes, platillos, productos o algun negocio.. Seguro que tenemos lo que buscas</p>
+                        <input type="text" name="busqueda" class="search-query form-control ml-5" placeholder="Buscar" /> <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+
+
 <!-- Start top-dish Area -->
 <section class="top-dish-area section-gap" id="dish">
     <div class="container">
@@ -36,7 +53,7 @@ $def with (restaurantes,locales,platillos)
                         <img class="img-fluid" src="static/img/d1.jpg" alt="" style="height: 250px;">
                     </div>
                     <h4 class="text-uppercase pt-20 pb-20">$item["nombre"]</h4>
-                    <h6><a href="restaurante.html" style="color: #CA3F43">Restaurante La Italiana</a></h6>
+                    <h6><a href="/restaurante/$item['id_restaurante']" style="color: #CA3F43">$item["restaurante"]</a></h6>
                     <p>
                         $item["descripcion"]
                     </p>
@@ -132,4 +149,4 @@ $def with (restaurantes,locales,platillos)
 
         </div>
     </div>
-  </div>
+</div>

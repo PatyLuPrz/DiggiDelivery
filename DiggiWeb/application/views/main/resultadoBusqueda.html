@@ -1,0 +1,27 @@
+$def with (result)
+
+<section class="top-dish-area section-gap" id="dish">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="menu-content pb-60 col-lg-8">
+                <div class="title text-center">
+                    <h1 class="mb-10">Resultados de busqueda</h1>
+                    <p>
+                        Aqui estan los resultados similares a lo que buscaste
+                        <br> <small>La barra de busqueda esta en mantenimiento</small>
+                    </p>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            $for item in result:
+                <div class="single-dish col-lg-4">
+                    <div class="thumb">
+                        <img class="img-fluid" src="static/img/d1.jpg" alt="" style="height: 250px;">
+                    </div>
+                    <h4 class="text-uppercase pt-20 pb-20">$item.get("nombre")</h4>
+                </div>
+        </div>
+    </div>
+</section>
