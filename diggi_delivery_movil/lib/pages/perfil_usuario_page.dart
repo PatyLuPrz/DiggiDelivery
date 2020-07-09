@@ -19,34 +19,65 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
       decoration: BoxDecoration(),
       child: Column(
         children: <Widget>[
-          Text(
-            'Toca para cambiar el tema',
-            style: TextStyle(color: currentThemeColor(currentTheme)),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Icon(Icons.wb_sunny, color: currentThemeColor(currentTheme)),
-              Switch(
-                  value: currentTheme.isDarkTheme(),
-                  onChanged: (value) {
-                    //Se cambia el tema de la app con u switch
-                    String newTheme =
-                        value ? ThemePreference.DARK : ThemePreference.LIGHT;
-                    currentTheme.setTheme = newTheme;
-                  }),
-              Icon(Icons.brightness_2, color: currentThemeColor(currentTheme))
-            ],
-          )
+          _userData(currentTheme),
+          _modoOscuro(currentTheme),
         ],
       ),
     );
   }
 
-  currentThemeColor(ThemeProvider currentTheme) {
-    return currentTheme.isDarkTheme() ? Colors.white : Colors.black;
+  _modoOscuro(ThemeProvider currentTheme) {
+    return Column(
+      children: <Widget>[
+        Text(
+          'Toca para cambiar el tema',
+          style: TextStyle(
+              color: currentTheme.currentThemeColorText(currentTheme)),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Icon(Icons.wb_sunny,
+                color: currentTheme.currentThemeColorText(currentTheme)),
+            Switch(
+                value: currentTheme.isDarkTheme(),
+                onChanged: (value) {
+                  //Se cambia el tema de la app con u switch
+                  String newTheme =
+                      value ? ThemePreference.DARK : ThemePreference.LIGHT;
+                  currentTheme.setTheme = newTheme;
+                }),
+            Icon(Icons.brightness_2,
+                color: currentTheme.currentThemeColorText(currentTheme))
+          ],
+        )
+      ],
+    );
+  }
+
+  _userData(ThemeProvider currentTheme) {
+    return Container(
+      margin: EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(20.0),
+      height: 300.0,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20.0),
+        color: currentTheme.currentThemeColorContainer(currentTheme),
+      ),
+      child: Stack(
+        children: <Widget>[
+          CircleAvatar(
+              radius: 55.0,
+              backgroundColor: Color(0xffFDCF09),
+              child: CircleAvatar(
+                
+              ))
+        ],
+      ),
+    );
   }
 }

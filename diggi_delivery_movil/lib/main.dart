@@ -41,9 +41,6 @@ class _MyAppState extends State<MyApp> {
           'login': (BuildContext context) => LoginPage(),
           'home': (BuildContext context) => HomePage(),
         },
-        // theme: ThemeData(
-        //   primaryColor: Color.fromRGBO(49, 49, 49, 1.0),
-        // ),
       ),
     );
   }

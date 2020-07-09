@@ -29,23 +29,19 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final currentTheme = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: currentTheme.isDarkTheme()
-          ? Colors.black12
-          : Colors.blue,
-        elevation: 0.5,
-        title: Align(
-          alignment: Alignment.center,
-          child: CustomText(
-            text: 'Diggi Delivery',
-            color: Colors.white,
-          ),
-        ),
-      ),
-      backgroundColor: currentTheme.isDarkTheme()
-        ? Color(0xff2a293d)
-        : Colors.white,
-      body: _widgetOptions.elementAt(_selectedIndex),
+      // appBar: AppBar(
+      //   backgroundColor: currentTheme.currentThemeColorComponents(currentTheme),
+      //   elevation: 0.5,
+      //   title: Align(
+      //     alignment: Alignment.center,
+      //     child: CustomText(
+      //       text: 'Diggi Delivery',
+      //       color: currentTheme.currentThemeColorText(currentTheme),
+      //     ),
+      //   ),
+      // ),
+      backgroundColor: currentTheme.currentThemeColorComponents(currentTheme),
+      body: SafeArea(child: _widgetOptions.elementAt(_selectedIndex)),
       bottomNavigationBar: _bottomNavigationBarCliente(),
     );
   }

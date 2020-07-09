@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diggi_delivery_movil/providers/theme.dart';
 import 'package:diggi_delivery_movil/widgets/text_title.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class InicioClientes extends StatelessWidget {
   final String nombre;
@@ -9,6 +11,7 @@ class InicioClientes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<ThemeProvider>(context);
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -19,13 +22,15 @@ class InicioClientes extends StatelessWidget {
         child: Column(
           children: <Widget>[
             //Barra de busqueda
-            _barraDeBusqueda(),
+            _barraDeBusqueda(currentTheme),
             //Espacio entre widgets
             SizedBox(height: 10.0),
             //Titulo de populares
-            TextTitle(text: 'Populares', color: Colors.black),
+            TextTitle(
+                text: 'Populares',
+                color: currentTheme.currentThemeColorText(currentTheme)),
             //ListView de populares
-            _popularesEstablecimientos(),
+            _popularesEstablecimientos(currentTheme),
           ],
         ),
       ),
@@ -33,28 +38,30 @@ class InicioClientes extends StatelessWidget {
   }
 
   //Barra de busqueda de establecimientos en el incio de clientes
-  Widget _barraDeBusqueda() {
+  Widget _barraDeBusqueda(ThemeProvider currentTheme) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: currentTheme.currentThemeColorComponents(currentTheme),
         borderRadius: BorderRadius.circular(20),
       ),
       child: ListTile(
         leading: Icon(
           Icons.search,
-          color: Colors.red,
+          color: currentTheme.currentThemeColorText(currentTheme),
         ),
         title: TextField(
           decoration: InputDecoration(
-            hintText: "Encuentra un establecimiento",
-            border: InputBorder.none,
-          ),
+              hintText: "Encuentra un establecimiento",
+              border: InputBorder.none,
+              fillColor: currentTheme.currentThemeColorText(currentTheme),
+              hintStyle: TextStyle(
+                  color: currentTheme.currentThemeColorText(currentTheme))),
         ),
       ),
     );
   }
 
-  Widget _popularesEstablecimientos() {
+  Widget _popularesEstablecimientos(ThemeProvider currentTheme) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20.0),
       height: 150.0,
@@ -100,11 +107,11 @@ class InicioClientes extends StatelessWidget {
     );
   }
 
-  Widget _popularesRestaurantes() {
+  Widget _popularesRestaurantes(ThemeProvider currentTheme) {
     return Container();
   }
 
-  Widget _categorias() {
+  Widget _categorias(ThemeProvider currentTheme) {
     return Container();
   }
 }

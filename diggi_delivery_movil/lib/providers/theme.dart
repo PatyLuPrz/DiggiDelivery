@@ -14,4 +14,15 @@ class ThemeProvider with ChangeNotifier {
   }
 
   bool isDarkTheme() => _theme == ThemePreference.DARK;
+
+  currentThemeColorComponents(ThemeProvider currentTheme) {
+    return currentTheme.isDarkTheme() ? Colors.white : Colors.black;
+  }
+
+  currentThemeColorText(ThemeProvider currentTheme) {
+    return currentTheme.isDarkTheme() ? Colors.black : Colors.white;
+  }
+  currentThemeColorContainer(ThemeProvider currentTheme) {
+    return currentTheme.isDarkTheme() ? Colors.black54 : Colors.white54;
+  }
 }
