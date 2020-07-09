@@ -1,0 +1,2 @@
+firebase-admin==4.3.0
+web.py==0.51
