@@ -1,10 +1,13 @@
 import 'package:diggi_delivery_movil/helpers/style.dart';
+import 'package:diggi_delivery_movil/models/theme_preferences.dart';
 import 'package:diggi_delivery_movil/pages/clientes/inicio_clientes.dart';
 import 'package:diggi_delivery_movil/pages/clientes/mapa_clientes.dart';
 import 'package:diggi_delivery_movil/pages/clientes/pedidos_clientes.dart';
 import 'package:diggi_delivery_movil/pages/perfil_usuario_page.dart';
+import 'package:diggi_delivery_movil/providers/theme.dart';
 import 'package:diggi_delivery_movil/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -24,20 +27,21 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    
+    final currentTheme = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.5,
-        title: Align(
-          alignment: Alignment.center,
-          child: CustomText(
-            text: 'Diggi Delivery',
-            color: Colors.white,
-          ),
-        ),
-      ),
-      backgroundColor: Colors.white,
-      body: _widgetOptions.elementAt(_selectedIndex),
+      // appBar: AppBar(
+      //   backgroundColor: currentTheme.currentThemeColorComponents(currentTheme),
+      //   elevation: 0.5,
+      //   title: Align(
+      //     alignment: Alignment.center,
+      //     child: CustomText(
+      //       text: 'Diggi Delivery',
+      //       color: currentTheme.currentThemeColorText(currentTheme),
+      //     ),
+      //   ),
+      // ),
+      backgroundColor: currentTheme.currentThemeColorComponents(currentTheme),
+      body: SafeArea(child: _widgetOptions.elementAt(_selectedIndex)),
       bottomNavigationBar: _bottomNavigationBarCliente(),
     );
   }
