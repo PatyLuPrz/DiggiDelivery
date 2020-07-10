@@ -46,44 +46,43 @@ def getProductoByID(uid):
     except Exception as e:
         return "Error get Producto by id model productos: " + str(e.args)
 
-def insertProducto(nombre,descripcion,foto,ingredientes_extra,tiempo_preparacion,uid):
+def insertProducto(nombre,marca,foto,descripcion,uid):
     try:
         doc_ref = db.collection(u'productos').document() 
         doc_ref.set({
             u'nombre': nombre,
-            u'descripcion': descripcion,
             u'foto': foto,
             u'marca': marca,
+            u'descripcion': descripcion,
             u'local':db.collection(u'locales').document(uid),
-            u'tiempo_preparacion':str(tiempo_preparacion)+" min",
         })
         return True
     except Exception as e:
         return False
-        return "Error insert producto model local"
+        return "Error insert producto model local" + str(e.args)
 
-def update(uid,nombre,descripcion,foto,ingredientes_extra,tiempo_preparacion):
+
+def update(nombre,marca,imagen,descripcion,uid):
     try:
         doc_ref = db.collection(u'productos').document(uid) 
         doc_ref.update({
             u'nombre': nombre,
+            u'foto': imagen,
+            u'marca': marca,
             u'descripcion': descripcion,
-            u'foto': foto,
-            u'ingredientes_extra': ingredientes_extra,
-            u'tiempo_preparacion':str(tiempo_preparacion)+" min",
         }) 
         return True
     except Exception as e:
         return False
-        return "Error update producto model local"
+        return "Error update producto model local" + str(e.args)
 
 def delete(uid):
     try:
         db.collection(u'productos').document(uid).delete()
         return True
     except Exception as e:
+        return "Error delete producto model local" + str(e.args)
         return False
-        return "Error delete producto model local"
 
 def getAllProductos(udi):
     try:

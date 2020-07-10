@@ -7,8 +7,12 @@ class Insertar():
     def POST(self,uid):
         try:
             form = web.input()
-            insert = model_locales.insertPlatillo(form['Nombre'],form['Descripcion'],form['Imagen'],
-            form['Ingredientes_extra'].split(","),form['Tiempo_preparacion'],uid)
+            descripcion = {'cantidad_disponible':form['Cant_disponible'] , 'precio':form['Precio'] ,'presentacion': form['Presentacion']}
+            imagen = form['Imagen']
+            marca = form['Marca']
+            nombre = form['Nombre']
+
+            insert = model_locales.insertProducto(nombre,marca,imagen,descripcion,uid)
             if(insert):
                 return "Registro insertado"
             else:
