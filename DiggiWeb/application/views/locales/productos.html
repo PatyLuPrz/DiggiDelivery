@@ -17,4 +17,23 @@ $def with (productos,uid)
     </div>
 </section>
 <!-- End banner Area --><br><br><br>
-$productos <br> $uid
+
+<section class="top-dish-area section-gap" id="dish">
+    <div class="container">
+        <div class="row">
+            $for item in productos:
+                <div class="single-dish col-lg-4">
+                    <div class="thumb">
+                        <img class="img-fluid" src="../../../static/img/d1.jpg" alt="" style="height: 250px;">
+                    </div>
+                    <h4 class="text-uppercase pt-20 pb-20">$item["nombre"]</h4>
+                    <a href="/usuarios/locales/editar/$item['id']" class="btn btn-outline btn-danger">
+                        <span class="fa fa-pencil"></span>
+                    </a>
+                    <a href="/usuarios/locales/eliminar/$item['id']" class="btn btn-outline btn-danger">
+                        <span class="fa fa-trash"></span>
+                    </a>
+                </div>
+        </div>
+    </div>
+</section>
