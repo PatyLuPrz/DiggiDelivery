@@ -27,6 +27,7 @@
 	<link rel="stylesheet" href="css/animate.min.css">
 	<link rel="stylesheet" href="css/owl.carousel.css">
 	<link rel="stylesheet" href="css/main.css">
+
 </head>
 
 <body>
@@ -38,61 +39,70 @@
 				</div>
 				<nav id="nav-menu-container">
 					<ul class="nav-menu">
-						<li><a href="index_restaurante.html">Inicio</a></li>
-						<li class="menu-active"><a href="catalogo_platillos.html">Platillos</a></li>
-						<li><a href="login.html">Cerrar Sesión</a></li>
+						<li class="menu-active"><a href="index_locale.html">Inicio</a></li>
+                        <li><a href="nosotros.html">Nosotros</a></li>
+                        <li><a href="locales.html">Local</a></li>
+						<li><a href="index.html">Cerrar Sesión</a></li>
 					</ul>
 				</nav><!-- #nav-menu-container -->
 			</div>
 		</div>
-	</header><br><br>
+	</header><!-- #header --><br>
 
 	<!-- start banner Area -->
-	<section class="generic-banner relative" id="">
-		<img class="img-tam relative" src="img/form-bg.jpg" alt="">
+	<br><br>
+	<section class="banner-area relative generic-banner img-mb" style="background-image: url(img/imgl4.jpg);">
 		<div class="container">
-			<div class="row d-flex justify-content-start">
-				<div class="generic-content text-over relative"><br>
-					<h3 class="text-white">Platillo</h3>
-					<p style="font-size:large;">Introduce la información del platillo que deseas agregar!</p>
-					<form action="#">
-						<div class="mt-10">
-							<input type="text" name="" placeholder="Nombre" onfocus="this.placeholder = ''"
-								onblur="this.placeholder = ''" required class="single-input">
-						</div>
-						<div class="mt-10">
-							<input type="" name="" placeholder="Imagen" onfocus="this.placeholder = ''"
-								onblur="this.placeholder = ''" required class="single-input">
-						</div>
-						<div class="mt-10">
-							<textarea class="single-textarea" placeholder="Descripción" onfocus="this.placeholder = ''"
-								onblur="this.placeholder = ''" required></textarea>
-						</div>
-						<div class="mt-10">
-							<input type="number" name="" placeholder="Tiempo de preparación"
-								onfocus="this.placeholder = ''" onblur="this.placeholder = ''" required
-								class="single-input">
-						</div>
-						<div class="mt-10">
-							<input type="text" name="" placeholder="Ingredientes extra" onfocus="this.placeholder = ''"
-								onblur="this.placeholder = ''" required class="single-input">
-						</div>
-						<div class="mt-10">
-							<textarea class="single-textarea" placeholder="Nota" onfocus="this.placeholder = ''"
-								onblur="this.placeholder = ''" required></textarea>
-						</div>
-						<div class="mt-10 center">
-							<a href="catalogo_platillos.html" class="genric-btn primary radius">Enviar</a>
-						</div>
-					</form><br>
+			<div class="d-flex align-items-center justify-content-start">
+				<div class="banner-content col-lg-8 col-md-12">
+					<br><br>
+					<h1>
+						Configuración del perfil
+					</h1>
 				</div>
 			</div>
 		</div>
 	</section>
-	<!-- End banner Area -->
+	<!-- End banner Area --><br><br><br>
+    
+    <div class="whole-wrap">
+        <div class="container">
+            <div class="row section-top">
+				<div class="col-md-4">
+					<div class="single-defination"><br><br>
+						<img src="img/imgl7.jpg" alt="" class="card-img-top">	
+					</div>
+				</div>
+            	<div class="col-md-4">
+                	<div class="single-defination">
+                    	<h3 class="text-danger">Información general</h3>
+                	    <hr class="border-top">
+                    	<p>Nombre: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Papelería de picasso</b></p>
+    	                <p>Teléfono: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>+527751122029</b></p>
+        	            <p>Dirección: <b>Molino del Rey 300, San Luis, 43670 Tulancingo de Bravo, Hgo. </b></p>
+            	        <p>Coordenadas: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>20.072488°N, 98.3697801°E </b></p>
+    	            </div><br><br>
+        	        <div class="text-center">
+            	        <button onclick="enviarAlert();" class="btn btn-danger">Editar información</button>
+                	</div>
+	            </div>
+    	        <div class="col-md-4">
+        	        <div class="single-defination">
+            	        <h3 class="text-danger">Metodo de cobro</h3>
+                	    <hr class="border-top">
+                    	<p>Tarjeta: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>PayPal</b></p>
+    	                <p>Número de tarjeta: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>12345***14789</b></p>
+        	            <p>Fecha vencimiento: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>09/21</b></p>
+            	        <p>Codigo de seguridad: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>*******</b></p>
+                	</div><br><br><br>
+                	<div class="text-center">
+                    	<button onclick="enviarAlert();" class="btn btn-danger">Editar información</button>
+                	</div>
+            	</div>
+        	</div>
+    	</div>
+	</div><br><br>
 
-
-	<br><br>
 	<!-- start footer Area -->
 	<footer class="footer-area section-gap">
 		<div class="container">
@@ -164,6 +174,51 @@
 	</footer>
 	<!-- End footer Area -->
 </body>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script language="JavaScript" type="text/javascript">
+	function finAlert() {
+		swal({
+			title: '¿Estas seguro?',
+			text: 'Esta acción no puede deshacerse',
+			icon: 'warning',
+			buttons: true,
+			dangerMode: true,
+		})
+			.then((willDelete) => {
+				if (willDelete) {
+					swal('Asegurate de que el pedido haya llegado bien', {
+						icon: 'success',
+					});
+				} else {
+					swal('Aun hay que esperar');
+				}
+			});
+	};
+	function enviarAlert() {
+		swal({
+			title: '¿Estas seguro?',
+			text: 'Esta acción no puede deshacerse',
+			icon: 'warning',
+			buttons: true,
+			dangerMode: true,
+		})
+			.then((willDelete) => {
+				if (willDelete) {
+					swal('Un repartidor llegara pronto por el pedido!', {
+						icon: 'success',
+					});
+				} else {
+					swal('Bien! Apresurate que nuestro cliente espera');
+				}
+			});
+	};
+	function detalleAlert() {
+		swal("Detalle de la orden", "Cliente: Gabriela Curiel"
+		+ " \nPlatillo: Sandwich de queso "
+		+ " \nExtra: Jalapeños, Refresco de Limón "
+		+"\nTotal: $80.00");
+	};
+</script>
 <script src="js/vendor/jquery-2.2.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
 	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
