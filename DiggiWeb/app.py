@@ -2,6 +2,7 @@ import web
 
 urls = (
     '/', 'application.controllers.main.index.Index',
+    '/login', 'application.controllers.main.login.Login',
     '/nosotros','application.controllers.main.nosotros.Nosotros',
     '/registro','application.controllers.main.registro.Registro',
     '/usuarios','application.controllers.main.registroUsuarios.RegistroUsuarios',
@@ -17,6 +18,11 @@ urls = (
     '/registrar/cliente','application.controllers.main.registrar.Clientes',
     '/registrar/negocio','application.controllers.main.registrar.Negocios',
     '/registrar/restaurante','application.controllers.main.registrar.Restaurantes',
+    '/usuarios/locales','application.controllers.locales.index.Index',
+    '/usuarios/locales/productos/(.*)','application.controllers.locales.productos.productos',
+    '/usuarios/locales/insertar/(.*)','application.controllers.locales.insertar.Insertar',
+    '/usuarios/locales/editar/(.*)','application.controllers.locales.editar.Editar',
+    '/usuarios/locales/eliminar/(.*)','application.controllers.locales.eliminar.Eliminar',
 )
 
 app = web.application(urls, globals())

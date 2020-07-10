@@ -4,6 +4,8 @@ import application.models.model_registroUsuarios as model_registro
 import application.models.model_registro as model
 render = web.template.render('application/views/main/', base="master.html")
 
+# TODO: Esta cosa hace el registro en las tablas segun el nivel de usuario xd 
+
 class Clientes():
     def GET(self):
         try:
