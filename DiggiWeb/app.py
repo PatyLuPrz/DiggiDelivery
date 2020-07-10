@@ -19,7 +19,7 @@ urls = (
     '/registrar/negocio','application.controllers.main.registrar.Negocios',
     '/registrar/restaurante','application.controllers.main.registrar.Restaurantes',
     '/usuarios/locales','application.controllers.locales.index.Index',
-    '/usuarios/locales/productos/(.*)','application.controllers.locales.productos.productos',
+    '/usuarios/locales/productos/(.*)','application.controllers.locales.productos.Productos',
     '/usuarios/locales/insertar/(.*)','application.controllers.locales.insertar.Insertar',
     '/usuarios/locales/editar/(.*)','application.controllers.locales.editar.Editar',
     '/usuarios/locales/eliminar/(.*)','application.controllers.locales.eliminar.Eliminar',

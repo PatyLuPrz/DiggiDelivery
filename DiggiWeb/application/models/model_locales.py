@@ -6,61 +6,65 @@ from firebase_admin import firestore
 db = config.db
 
 
-def viewRestaurantes(udi):
+def viewLocales(udi):
     try:
-        ref_restaurantes = db.collection(u'restaurantes')
-        docs = ref_restaurantes.stream()
+        ref_locales = db.collection(u'locales')
+        docs = ref_locales.stream()
         for x in docs:
             if x.id == udi:
-                diccionario = {"nombre":x.get('nombre'),"direccion":x.get('direccion'),"telefono":x.get('telefono')}
+                diccionario = {"nombre":x.get('nombre'),
+                "direccion":x.get('direccion'),
+                "telefono":x.get('telefono')}
                 break
         return diccionario
     except Exception as e:
         return "Error view Restaurant: " + str(e.args)
 
-def getPlatillos(uid):
+def getProductos(uid):
     try:
-        ref_platillos = db.collection(u'platillos')
-        docs = ref_platillos.stream()
+        ref_productos = db.collection(u'productos')
+        docs = ref_productos.stream()
         lista = []
         diccionario = {}
         for x in docs:
-            ref = x.get("restaurante").path.split("/",1)
+            ref = x.get("locales").path.split("/",1)
             if ref[1] == uid:
-                diccionario = {"nombre":x.get("nombre"),"descripcion":x.get("descripcion"),"tiempo_preparacion":x.get("tiempo_preparacion")}
+                diccionario = {"nombre":x.get("nombre"),
+                "descripcion":x.get("descripcion"),
+                "marca":x.get("marca")}
                 lista.append(diccionario)
         return lista
     except Exception as e:
-        return "Error get PLatillos model Platillos: " + str(e.args)
+        return "Error get productos model productos: " + str(e.args)
 
 
-def getPlatilloByID(uid):
+def getProductoByID(uid):
     try:
-        doc_ref = db.collection(u'platillos').document(uid)
+        doc_ref = db.collection(u'productos').document(uid)
         docs = doc_ref.get().to_dict()
         return docs
     except Exception as e:
-        return "Error get PLatillo by id model Platillos: " + str(e.args)
+        return "Error get Producto by id model productos: " + str(e.args)
 
-def insertPlatillo(nombre,descripcion,foto,ingredientes_extra,tiempo_preparacion,uid):
+def insertProducto(nombre,descripcion,foto,ingredientes_extra,tiempo_preparacion,uid):
     try:
-        doc_ref = db.collection(u'platillos').document() 
+        doc_ref = db.collection(u'productos').document() 
         doc_ref.set({
             u'nombre': nombre,
             u'descripcion': descripcion,
             u'foto': foto,
-            u'ingredientes_extra': ingredientes_extra,
-            u'restaurante':db.collection(u'restaurantes').document(uid),
+            u'marca': marca,
+            u'local':db.collection(u'locales').document(uid),
             u'tiempo_preparacion':str(tiempo_preparacion)+" min",
         })
         return True
     except Exception as e:
         return False
-        return "Error insert platillo model restaurante"
+        return "Error insert producto model local"
 
 def update(uid,nombre,descripcion,foto,ingredientes_extra,tiempo_preparacion):
     try:
-        doc_ref = db.collection(u'platillos').document(uid) 
+        doc_ref = db.collection(u'productos').document(uid) 
         doc_ref.update({
             u'nombre': nombre,
             u'descripcion': descripcion,
@@ -71,46 +75,44 @@ def update(uid,nombre,descripcion,foto,ingredientes_extra,tiempo_preparacion):
         return True
     except Exception as e:
         return False
-        return "Error update platillo model restaurante"
+        return "Error update producto model local"
 
 def delete(uid):
     try:
-        db.collection(u'platillos').document(uid).delete()
+        db.collection(u'productos').document(uid).delete()
         return True
     except Exception as e:
         return False
-        return "Error delete platillo model restaurante"
+        return "Error delete producto model local"
 
-def getAllPlatillos(udi):
+def getAllProductos(udi):
     try:
-        platillos_ref = db.collection(u'platillos')
-        docs = platillos_ref.stream()
-        platillos = []
+        productos_ref = db.collection(u'productos')
+        docs = productos_ref.stream()
+        productos = []
         for x in docs:
-            referencia = str(x.get("restaurante").path)
+            referencia = str(x.get("local").path)
             new = referencia.split("/",1)
             if (udi == str(new[1])):
                 diccionario = {
-                    "id":x.id,
+                    "id" : x.id,
                     "nombre" : x.get("nombre"),
                     "foto" : x.get("foto"),
-                    "descripcion" : x.get("descripcion"),
-                    "ingredientes_extra" : x.get("ingredientes_extra"),
-                    "tiempo_preparacion" : x.get("tiempo_preparacion"),
-                    "restaurante" : x.get("restaurante")}
-                platillos.append(diccionario)
-        return platillos
+                    "marca" : x.get("marca"),
+                    "local" : x.get("local")}
+                productos.append(diccionario)
+        return productos
     except Exception as e:
-        return "Error getPlatillos: " +str(e.args)
+        return "Error getProductos: " +str(e.args)
 
-def getRestaurantesPlatillos():
+def getLocalesProductos():
     try:
-        platillos_ref = db.collection(u'platillos')
-        docs = platillos_ref.limit(9).stream()
+        productos_ref = db.collection(u'productos')
+        docs = productos_ref.limit(9).stream()
 
         nombres = []
         for x in docs:
-            referencia = str(x.get("restaurante").path)
+            referencia = str(x.get("local").path)
             new = referencia.split("/",1)
             new_ref = db.collection(str(new[0]))
             query = new_ref.stream()
@@ -120,7 +122,7 @@ def getRestaurantesPlatillos():
 
         return nombres
     except Exception as e:
-        return "Error getRestaurantePlatillos " +str(e.args)
+        return "Error getlocalProductos " +str(e.args)
 
 
 
