@@ -86,12 +86,28 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
                       'https://img.favpng.com/6/24/19/user-profile-avatar-computer-icons-png-favpng-3r2RjSZGPQVAWPw2hFcQqTv1t.jpg')),
             ),
           ),
-          SizedBox(height: 50.0),
+          SizedBox(height: 30.0),
           //Nombre del usuario
           CustomText(
             text: 'Luis Norberto Paloma Rodriguez',
             color: Colors.white,
           ),
+          SizedBox(height: 10.0),
+          //Boton para llevar al usuario a editar sus datos
+          Container(
+            width: 170.0,
+            child: RaisedButton(
+              onPressed: () {},
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CustomText(text: 'Configuración', color: Colors.black),
+                  SizedBox(width: 10.0),
+                  Icon(Icons.settings, size: 20.0, color: Colors.black)
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );

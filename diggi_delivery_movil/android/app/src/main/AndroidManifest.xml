@@ -9,6 +9,7 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="diggi_delivery_movil"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.mapbox.token" android:value="pk.eyJ1Ijoibm9yYmVydG9wcjE5OTgiLCJhIjoiY2tjZjRyazJvMGM5YjJ5bWthN2FoN2JwcCJ9.-jdajP7EboeREWDxEvpwZg" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
