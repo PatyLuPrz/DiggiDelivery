@@ -10,11 +10,11 @@ class Productos():
             productos = model_locales.getAllProductos(uid)
             return render.productos(productos)
         except Exception as e:
-            return "Error platillos locales POST Controller" + str(e.args)
+            return "Error productos locales POST Controller" + str(e.args)
 
     def GET(self,uid):
         try:
             productos = model_locales.getAllProductos(uid)
             return render.productos(productos,uid)
         except Exception as e:
-            return "Error platillos locales GET controller: " +str(e.args) 
+            return "Error productos locales GET controller: " +str(e.args) 
