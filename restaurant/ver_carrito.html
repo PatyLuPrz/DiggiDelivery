@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="img/Logo1x1.png">
+    <!-- Author Meta -->
+    <meta name="author" content="Patricia Perez, Gabriela Curiel, Jocelyn Flores & Norberto Paloma ">
+    <!-- Meta Description -->
+    <meta name="description" content="Proyecto Diggi">
+    <!-- Meta Keyword -->
+    <meta name="keywords" content="Diggi,Comida,Delivery">
+    <!-- meta character set -->
+    <meta charset="UTF-8">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+    <!-- CSS ============================================= -->
+    <link rel="stylesheet" href="css/linearicons.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/nice-select.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <title>Ver carrito</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+    .container{padding: 20px;}
+    input[type="number"]{width: 20%;}
+    </style>
+    <script>
+    function updateCartItem(obj,id){
+        $.get("cartAction.php", {action:"updateCartItem", id:id, qty:obj.value}, function(data){
+            if(data == 'ok'){
+                location.reload();
+            }else{
+                alert('Cart update failed, please try again.');
+            }
+        });
+    }
+    </script>
+</head>
+</head>
+<body>
+<div class="container">
+<div class="panel panel-default">
+<div class="panel-heading"> 
+
+<ul class="nav nav-pills">
+  <li role="presentation"><a href="indexCarrito.html">Inicio</a></li>
+  <li role="presentation" class="active"><a href="ver_carrito.html">Ver Carta</a></li>
+  <li role="presentation"><a href="Pagos.html">Pagos</a></li>
+</ul>
+</div>
+
+<div class="panel-body">
+
+
+    <h1>Carrito de compras</h1>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Sub total</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><?php echo $item["name"]; ?></td>
+            <td><?php echo '$'.$item["price"].' USD'; ?></td>
+            <td><input type="number" class="form-control text-center" value="<?php echo $item["qty"]; ?></td>
+            <td><?php echo '$'.$item["subtotal"].' USD'; ?></td>
+            <td>
+                <a href="AccionCarta.php?action=removeCartItem&id=<?php echo $item["rowid"]; ?>
+                    <i class="glyphicon glyphicon-trash"></i></a>
+            </td>
+        </tr>
+        <tr><td colspan="5"><p>Tu carta esta vacia.....</p></td>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td><a href="index.php" class="btn btn-warning"><i class="glyphicon glyphicon-menu-left"></i> Continue Comprando</a></td>
+            <td colspan="2"></td>
+            <td class="text-center"><strong>Total <?php echo '$'.$cart->total().' USD'; ?></strong></td>
+            <td><a href="Pagos.html" class="btn btn-success btn-block">Pagos <i class="glyphicon glyphicon-menu-right"></i></a></td>
+            <?php } ?>
+        </tr>
+    </tfoot>
+    </table>
+    
+    </div>
+ </div><!--Panek cierra-->
+ 
+</div>
+ <footer class="footer-area section-gap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3  col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h4 class="text-white">Nosotros</h4>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                            ut labore dolore magna aliqua.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4  col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h4 class="text-white">Contactanos</h4>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                            ut labore dolore magna aliqua.
+                        </p>
+                        <p class="number">
+                            012-6532-568-9746 <br>
+                            012-6532-569-9748
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-5  col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h4 class="text-white">Suscribete!</h4>
+                        <p>Ofertas, cupones y mucho más! No el tipico spam.</p>
+                        <div class="d-flex flex-row" id="mc_embed_signup">
+
+
+                            <form class="navbar-form" novalidate="true"
+                                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                                method="get">
+                                <div class="input-group add-on">
+                                    <input class="form-control" name="EMAIL" placeholder="Correo electronico"
+                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'"
+                                        required="" type="email">
+                                    <div style="position: absolute; left: -5000px;">
+                                        <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value=""
+                                            type="text">
+                                    </div>
+                                    <div class="input-group-btn">
+                                        <button class="genric-btn"><span class="lnr lnr-arrow-right"></span></button>
+                                    </div>
+                                </div>
+                                <div class="info mt-20"></div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom d-flex justify-content-between align-items-center flex-wrap">
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                <p class="footer-text m-0">Copyright &copy;
+                    <script>document.write(new Date().getFullYear());</script> Todos los derechos resevados</p>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                <div class="footer-social d-flex align-items-center">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-dribbble"></i></a>
+                    <a href="#"><i class="fa fa-behance"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End footer Area -->
+</body>
+</html>
