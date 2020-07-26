@@ -15,9 +15,8 @@ class Registro():
         try:
             form = web.input()
             correo = form["email"]
-            nombre = form["nombre"] + " " +form["apellido"]
             contrasena = form["contrasena"]
-            result = model_registro.registrarUsuarios(correo,contrasena,nombre)
+            result = model_registro.registrarUsuarios(correo,contrasena)
             print(result)
             if(result):
                 raise  web.seeother("/usuarios")
