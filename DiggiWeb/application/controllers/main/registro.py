@@ -13,6 +13,7 @@ class Registro():
             return "Error RegistroGet Controller" + str(e.args)
     def POST(self):
         try:
+            print("post registro de usuario")
             form = web.input()
             correo = form["email"]
             contrasena = form["contrasena"]
@@ -23,7 +24,9 @@ class Registro():
             else:
                 return render.registroErroneo()
         except Exception as e:
-            return "Error RegistroPost Controller" + str(e.args)
+            print( "Error RegistroPost Controller" + str(e.args))
+            return render.registroErroneo()
+            
 
 
 

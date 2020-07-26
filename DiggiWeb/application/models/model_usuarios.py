@@ -1,15 +1,14 @@
 import web
 import config
-import firebase_admin
-import application.models.model_registro as model_registro
+from application.models.model_registro import token,email
 
 db = config.db
 
 def insertUsuario(nivel):
     try:
-        UID = model_registro.generarUID.get_UID()
-        print(UID)
-        print(nivel)
+        print("###########")
+        print(email,"\n",token)
+        UID = token
         usuarios_ref = db.collection(u'usuarios').document() 
         usuarios_ref.set({
             u'UID': UID,
@@ -17,5 +16,5 @@ def insertUsuario(nivel):
         })
         return True
     except Exception as e:
-        return "Error Model insertUsuarios: "+str(e.args)
+        print( "Error Model insertUsuarios: "+str(e.args))
         return False
