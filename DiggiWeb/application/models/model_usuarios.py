@@ -1,17 +1,17 @@
 import web
 import config
-from application.models.model_registro import token,email
+from application.models.model_registro import email
 
 db = config.db
 
 def insertUsuario(nivel):
     try:
-        print("###########")
-        print(email,"\n",token)
-        UID = token
+        global email
+        print(email)
+        print(nivel)
         usuarios_ref = db.collection(u'usuarios').document() 
         usuarios_ref.set({
-            u'UID': UID,
+            u'email': email,
             u'nivel': nivel,
         })
         return True

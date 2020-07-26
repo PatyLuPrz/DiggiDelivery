@@ -14,6 +14,7 @@ firebase = pyrebase.initialize_app(config)
 
 auth = firebase.auth()
 
+
 global token
 global email
 token = ''
@@ -25,11 +26,11 @@ def registrarUsuarios(correo,contrasena):
         auth.get_user_by_email(correo)
         return False
     except:
+        global email
+        email = correo
         user = auth.create_user_with_email_and_password(correo, contrasena)
         global token
-        global email
         token = user['idToken']
-        email = correo
         print(email,"\n",token)
         return True
 

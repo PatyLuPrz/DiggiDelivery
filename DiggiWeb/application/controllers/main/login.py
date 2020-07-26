@@ -13,7 +13,12 @@ class Login():
             return "Error RegistroGet Controller" + str(e.args)
     def POST(self):
         try:
-            return render.login()
+            form = web.input()
+            result = model_login.verificarUsuarios(form['email'],form['contrasena'])
+            if result:
+                return render.loginSucess()
+            else:
+                return "algo salio mal :("
         except Exception as e:
             return "Error RegistroPost Controller" + str(e.args)
 
