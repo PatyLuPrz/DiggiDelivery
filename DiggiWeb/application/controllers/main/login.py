@@ -1,5 +1,6 @@
 import web
 import app
+import firebase_admin
 import application.models.model_login as model_login
 render = web.template.render('application/views/main/', base="master.html")
 
@@ -16,7 +17,13 @@ class Login():
             form = web.input()
             result = model_login.verificarUsuarios(form['email'],form['contrasena'])
             if result:
-                return render.loginSucess()
+                nivel = model_login.searchUser(form['email'])
+                if nivel == '0':
+                    return render("Restaurante")
+                elif nivel == '1':
+                    return render("Negocio")
+                elif nivel == '2':
+                    return render("Cliente")
             else:
                 return "algo salio mal :("
         except Exception as e:
