@@ -38,7 +38,6 @@ def verificarUsuarios(correo, contrasena):
 
 
 
-
 # # def autenticar():
 # #     try:
 # #         archivo = buscar()

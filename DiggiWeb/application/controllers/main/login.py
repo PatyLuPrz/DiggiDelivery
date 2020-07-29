@@ -1,9 +1,11 @@
 import web
+import config
 import app
-import firebase_admin
-import application.models.model_login as model_login
+from application.models.model_login import verificarUsuarios
+#from firebase_admin import auth
 render = web.template.render('application/views/main/', base="master.html")
 
+db = config.db
 # TODO: Generar login
 
 class Login():
@@ -15,15 +17,28 @@ class Login():
     def POST(self):
         try:
             form = web.input()
-            result = model_login.verificarUsuarios(form['email'],form['contrasena'])
+            result = verificarUsuarios(form['email'],form['contrasena'])
             if result:
-                nivel = model_login.searchUser(form['email'])
-                if nivel == '0':
-                    return render("Restaurante")
-                elif nivel == '1':
-                    return render("Negocio")
-                elif nivel == '2':
-                    return render("Cliente")
+                ref_niveles = db.collection(u'usuarios')
+                docs = ref_niveles.stream()
+                for item in docs:
+                    print("for")
+                    if str(item.get("email")) == str(form['email']):
+                        print("if")
+                        nivel = item.get("nivel")
+                        #user = auth.get_user_by_email(str(form['email']))
+                        #uid = user.uid
+                        if nivel == '0':
+                            print("restaurante")
+                            return render.loginSucess("Restaurante",str(form['email']))
+                        elif nivel == '1':
+                            print("negocio")
+                            return render.loginSucess("Negocio",str(form['email']))
+                        elif nivel == '2':
+                            print("cliente")
+                            return render.loginSucess("Cliente",str(form['email']))
+                    else:
+                        print("no jalo xd")
             else:
                 return "algo salio mal :("
         except Exception as e:
