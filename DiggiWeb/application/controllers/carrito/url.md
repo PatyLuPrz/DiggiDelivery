@@ -1,0 +1,5 @@
+'/compra_de_productos', 'application.controllers.compra_de_productos.index.Index',
+'/compra_de_productos/view/(.+)', 'application.controllers.compra_de_productos.view.View',
+'/compra_de_productos/edit/(.+)', 'application.controllers.compra_de_productos.edit.Edit',
+'/compra_de_productos/delete/(.+)', 'application.controllers.compra_de_productos.delete.Delete',
+'/compra_de_productos/insert', 'application.controllers.compra_de_productos.insert.Insert',
