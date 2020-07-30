@@ -1,0 +1,29 @@
+$def with(compra_de_productos, message)
+<h3>
+    <a href="/compra_de_productos">compra_de_productos</a>
+</h3>
+$if message != None:
+    <div class="alert alert-warning">
+        <strong>Advertencia </strong> $message
+    </div>
+<br>
+
+<form action="" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="ID_CDP" id="ID_CDP" value="$compra_de_productos.ID_CDP" />
+
+    <div class="form-group">
+    <label for="ID_PROV">ID_PROV</label>
+    <input readonly id="ID_PROV" type="text" class="form-control" name="ID_PROV" size="30" value="$compra_de_productos.ID_PROV"/>
+</div><div class="form-group">
+    <label for="TOTAL_A_PAGAR">TOTAL_A_PAGAR</label>
+    <input readonly id="TOTAL_A_PAGAR" type="number" class="form-control" name="TOTAL_A_PAGAR" size="30" value="$compra_de_productos.TOTAL_A_PAGAR"/>
+</div>
+
+    <div class="form-group">
+        <label></label>
+        <button id="send" name="send" class="form-control"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+    </div>
+</form>
+<br>
+<br>
+<br>
