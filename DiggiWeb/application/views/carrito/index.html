@@ -2,8 +2,6 @@ $def with(platillos,productos)
 
 
 <script src="../../static/js/production.min.js"></script>
-$for item in productos
-    $item.to_dict() <br><br>
 
 <form class="form-horizontal" role="form">
   <div class="form-group">
@@ -11,7 +9,7 @@ $for item in productos
       <div class="col-sm-12">
           <select class="form-control" id="producto" onchange="javascript:calcular();">
             $for item in productos
-                <option value="">$item.get('nombre')</option>
+                <option value="$item.get('descripcion').get('precio')">$item.get('nombre')</option>
             $for item in platillos
                 <option value="$item.get('precio')">$item.get("nombre")</option>
       </select>
