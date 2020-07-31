@@ -100,7 +100,7 @@ $def with (restaurantes,locales,platillos)
                     <p>
                         $item["direccion"]
                     </p>
-                    <h6><a href="/restaurante/$item['id']" class="btn btn-danger">Ver más</a></h6>
+                    <h6><a href="/local/$item['id']" class="btn btn-danger">Ver más</a></h6>
                 </div>
         </div>
     </div>
@@ -132,19 +132,9 @@ $for item in platillos
                 <div class="modal-footer">
                     
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-danger" onClick="add_orden()">  Agregar a la orden</button>
-                    <a href="" id="carrito" class="btn btn-success">Ir al carrito</a>
+                    <a href="/carrito" id="carrito" class="btn btn-danger">Agregar a la orden</a>
                     
-                </div>
-                <script type="text/javascript">
-                    array_orden = new Array;
-                    function add_orden(){
-                        array_orden.push(document.getElementById("$item['uid']+$item['nombre']").value);
-                        document.getElementById("orden_array").value = array_orden;
-                        var nueva_url = document.getElementById("carrito");
-                        nueva_url.href = href = "/carrito?orden="+array_orden;
-                    }
-                </script>
+                </div>                
             </div>
         </div>
     </div>

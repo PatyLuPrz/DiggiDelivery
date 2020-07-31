@@ -1,4 +1,4 @@
-$def with (restaurante,platillos)
+$def with (local,productos)
 <!-- start banner Area -->
 <br><br>
 <section class="banner-area relative generic-banner img-mb" style="background-image: url(../static/img/form-bg.jpg);">
@@ -7,10 +7,10 @@ $def with (restaurante,platillos)
             <div class="banner-content col-lg-8 col-md-12">
                 <br><br>
                 <h1>
-                    $restaurante['nombre']
+                    $local['nombre']
                 </h1>
                 <p class="text-white">
-                    $restaurante['direccion'] || $restaurante['telefono']
+                    $local['direccion'] || $local['telefono']
                     
                 </p>
             </div>												
@@ -19,27 +19,31 @@ $def with (restaurante,platillos)
 </section>
 <!-- End banner Area -->
 
+
+
+
+
 <!-- Start top-dish Area -->
 <section class="top-dish-area section-gap" id="dish">
     <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="menu-content pb-60 col-lg-8">
                 <div class="title text-center">
-                    <h1 class="mb-10">Menu Disponible</h1>
-                    <p>Platillos que seguro que encantaran</p>
+                    <h1 class="mb-10">Productos Disponibles</h1>
+                    <p>Productos que seguro que encantaran</p>
                 </div>
             </div>
         </div>						
         <div class="row">
-            $for item in platillos
+            $for item in productos
                 <div class="single-dish col-lg-4">
                     <div class="thumb">
                         <img class="img-fluid" src="../static/img/d1.jpg" alt="" style="height: 250px;">
                     </div>
                     <h4 class="text-uppercase pt-20 pb-20">$item["nombre"]</h4>
-                    <h6><a href="#" style="color: #CA3F43">$item["tiempo_preparacion"]</a></h6>
+                    <h6>Marca: <a href="#" style="color: #CA3F43">$item["marca"]</a></h6>
                     <p>
-                        $item["descripcion"]
+                        Precio: $item["descripcion"].get("precio")
                     </p>
                     <a href="/carrito" id="carrito" class="btn btn-danger">Agregar a la orden</a>
                 </div>

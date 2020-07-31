@@ -1,10 +1,10 @@
 import web
 import hmac
-import application.models.model_compra_de_productos
+import application.models.model_carrito
 
 
-render = web.template.render('application/views/compra_de_productos/', base='master')
-model = application.models.model_compra_de_productos
+render = web.template.render('application/views/carrito/', base='master')
+model = application.models.model_carrito
 
 secret_key = "kuorra_key"
 

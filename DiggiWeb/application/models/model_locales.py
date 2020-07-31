@@ -17,8 +17,9 @@ def viewLocales(udi):
                 "telefono":x.get('telefono')}
                 break
         return diccionario
+        
     except Exception as e:
-        return "Error view Restaurant: " + str(e.args)
+        return "Error view Local: " + str(e.args)
 
 def getProductos(uid):
     try:
@@ -27,7 +28,7 @@ def getProductos(uid):
         lista = []
         diccionario = {}
         for x in docs:
-            ref = x.get("locales").path.split("/",1)
+            ref = x.get("local").path.split("/",1)
             if ref[1] == uid:
                 diccionario = {"nombre":x.get("nombre"),
                 "descripcion":x.get("descripcion"),
