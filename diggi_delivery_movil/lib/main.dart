@@ -5,6 +5,7 @@ import 'package:diggi_delivery_movil/pages/home_page.dart';
 import 'package:diggi_delivery_movil/pages/login_page.dart';
 import 'package:diggi_delivery_movil/pages/registro/cliente_page.dart';
 import 'package:diggi_delivery_movil/pages/registro/local_page.dart';
+import 'package:diggi_delivery_movil/pages/registro/mapa_registro.dart';
 import 'package:diggi_delivery_movil/pages/registro/registro_page.dart';
 import 'package:diggi_delivery_movil/pages/registro/restaurante_page.dart';
 import 'package:diggi_delivery_movil/providers/theme.dart';
@@ -49,6 +50,7 @@ class _MyAppState extends State<MyApp> {
           'cliente': (BuildContext context) => ClienteRegisgtro(),
           'local': (BuildContext context) => LocalRegisgtro(),
           'restaurante': (BuildContext context) => RestauranteRegistro(),
+          'registroMapa': (BuildContext context) => MapaRegistro(),
           'home': (BuildContext context) => HomePage(),
         },
       ),
