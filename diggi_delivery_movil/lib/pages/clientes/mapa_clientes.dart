@@ -1,4 +1,8 @@
+import 'package:diggi_delivery_movil/models/model_mapbox.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:location/location.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 
 class MapaClientes extends StatefulWidget {
   final String nombre;
@@ -10,14 +14,35 @@ class MapaClientes extends StatefulWidget {
 }
 
 class _MapaClientesState extends State<MapaClientes> {
+  MapasApi mapasApi = MapasApi();
+  MapboxMapController mapController;
   @override
   Widget build(BuildContext context) {
-    final MapCont
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage('assets/img/mapa.jpg'), fit: BoxFit.cover),
+    mapasApi.ubicacion();
+    return Scaffold(
+      appBar: AppBar(title: const Text('Location')),
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        child: MapboxMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition:
+              CameraPosition(target: _latlong(mapasApi), zoom: 15.0),
+        ),
       ),
     );
+  }
+
+  void _onMapCreated(MapboxMapController controller) {
+    mapController = controller;
+  }
+
+  LatLng _latlong(MapasApi mapasApi) {
+    mapasApi.location.onLocationChanged.listen((LocationData currentLocation) {
+      // Use current location
+      mapasApi.getUserLocation();
+    });
+    print(mapasApi.center);
+    return mapasApi.center;
   }
 }

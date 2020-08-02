@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  LoginPage({Key key}) : super(key: key);
+class RegistroPage extends StatefulWidget {
+  RegistroPage({Key key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegistroPageState createState() => _RegistroPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegistroPageState extends State<RegistroPage> {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
         children: <Widget>[
           _crearFondo(context),
-          _registerForm(context, size),
-          //_loginForm(),
+          _registerForm(context),
         ],
       ),
     );
@@ -31,8 +29,8 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _registerForm(BuildContext context, Size size) {
-    //Formulario de inicio de sesión
+  Widget _registerForm(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -64,29 +62,27 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
           ),
-          _registro(size, context),
+          _login(size, context),
         ],
       ),
     );
   }
 
-  //Campo para ingresar email
-  _crearEmail() {
+  Widget _crearEmail() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: TextField(
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-          icon: Icon(Icons.email, color: Colors.black, size: 20),
-          hintText: 'correo@email.com',
-          labelStyle: TextStyle(color: Colors.black),
-          labelText: 'Correo electrónico',
-        ),
-      ),
-    );
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        child: TextField(
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            icon: Icon(Icons.email, color: Colors.black, size: 20),
+            hintText: 'correo@email.com',
+            labelStyle: TextStyle(color: Colors.black),
+            labelText: 'Correo electrónico',
+          ),
+        ));
   }
 
-  _crearPassword() {
+  Widget _crearPassword() {
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         child: TextField(
@@ -99,17 +95,17 @@ class _LoginPageState extends State<LoginPage> {
         ));
   }
 
-  _crearBoton() {
+  Widget _crearBoton() {
     return RaisedButton(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
-        child: Text('Iniciar sesión'),
+        child: Text('Registrar'),
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
       elevation: 0.0,
       color: Color(0xFFC93F42),
       textColor: Colors.white,
-      onPressed: () {},
+      onPressed: () => Navigator.pushReplacementNamed(context, 'registroBienvenida'),
     );
   }
 
@@ -137,15 +133,14 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  _registro(Size size, BuildContext context) {
+  _login(Size size, BuildContext context) {
     return Container(
       child: Column(
         children: <Widget>[
-          Text('¿Aun no tienes una cuenta?'),
+          Text('¿Ya tienes una cuenta?'),
           FlatButton(
-            child: Text('Registrate aquí'),
-            onPressed: () =>
-                Navigator.pushReplacementNamed(context, 'registro'),
+            child: Text('Inicia sesión aquí'),
+            onPressed: () => Navigator.pushReplacementNamed(context, 'login'),
           ),
         ],
       ),
