@@ -132,7 +132,9 @@ class _ClienteRegisgtroState extends State<ClienteRegisgtro> {
 
   Widget _crearTelefono() {
     final dec = DecorationInputForm(
-        textLabel: "Telefono", textHint: "77512345678", icon: Icons.phone);
+        textLabel: "Número de teléfono",
+        textHint: "77512345678",
+        icon: Icons.phone);
     return Container(
       child: TextFormField(
         keyboardType: TextInputType.number,

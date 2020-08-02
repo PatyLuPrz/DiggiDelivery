@@ -47,7 +47,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
           SizedBox(height: size.height * 0.03),
           _crearDireccion(),
           SizedBox(height: size.height * 0.03),
-          _crearFoto(),
+          _crearFoto(size),
           SizedBox(height: size.height * 0.03),
           _crearNombre(),
           SizedBox(height: size.height * 0.03),
@@ -74,7 +74,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
 
   Widget _crearDireccion() {
     final dec = DecorationInputForm(
-        textLabel: "Dirección",
+        textLabel: "Dirección del local",
         textHint: "Camelia #256, 43600, Tulancingo",
         icon: Icons.map);
     return Container(
@@ -86,7 +86,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
     );
   }
 
-  Widget _crearFoto() {
+  Widget _crearFoto(Size size) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 60.0),
       height: 200.0,
@@ -105,7 +105,22 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
           RaisedButton(
             onPressed: () {},
             child: Container(
-              child: Text('Foto'),
+              width: size.width * 0.10,
+              height: size.width * 0.10,
+              child: RichText(
+                text: TextSpan(children: [
+                  WidgetSpan(
+                      child: SizedBox(
+                    height: 0.4,
+                  )),
+                  WidgetSpan(
+                      child: Center(
+                    child: Text("Foto"),
+                  )),
+                  WidgetSpan(
+                      child: Center(child: Icon(Icons.file_upload, size: 15.0)))
+                ]),
+              ),
             ),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0)),
@@ -134,7 +149,9 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
 
   Widget _crearTelefono() {
     final dec = DecorationInputForm(
-        textLabel: "Telefono", textHint: "77512345678", icon: Icons.phone);
+        textLabel: "Número de teléfono",
+        textHint: "77512345678",
+        icon: Icons.phone);
     return Container(
       child: TextFormField(
         keyboardType: TextInputType.number,

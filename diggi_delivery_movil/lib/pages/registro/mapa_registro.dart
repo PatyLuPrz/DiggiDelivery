@@ -20,7 +20,11 @@ class _MapaRegistroState extends State<MapaRegistro> {
   Widget build(BuildContext context) {
     mapasApi.ubicacion();
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: const Text('Ubicación')),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('Ubicación'),
+        backgroundColor: Color(0xFFC93F42),
+      ),
       body: Container(
         height: double.infinity,
         width: double.infinity,
