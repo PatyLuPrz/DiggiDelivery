@@ -1,6 +1,7 @@
 import web
 import app
 import application.models.model_usuarios as model_usuarios
+from application.models.model_registro import email
 render = web.template.render('application/views/main/', base="master.html")
 
 # FIXME: Este es el que no sirve
@@ -18,16 +19,24 @@ class RegistroUsuarios():
             print("post registro usuarios")
             form = web.input() 
             nivel = form["nivel"]
-            if(model_usuarios.insertUsuario(nivel)):
-                if (str(nivel) == '0'):
-                    model_usuarios.insertUsuario("0") # FIXME: Lo puse inclushive asi para ver si jalaba y nel
+            if (str(nivel) == '0'):
+                print("nivel 0")
+                if(model_usuarios.insertUsuario("0")):
                     raise web.seeother("/registrar/restaurante")
-                elif (str(nivel) == '1'):
-                    model_usuarios.insertUsuario("1")
+                else:
+                    return "algo fallo"    
+            elif (str(nivel) == '1'):
+                print("nivel 1")
+                if(model_usuarios.insertUsuario("1")):
                     raise web.seeother("/registrar/negocio")
-                elif (str(nivel) == '2'):
-                    model_usuarios.insertUsuario("2")
+                else:
+                    return "algo fallo"    
+            elif (str(nivel) == '2'):
+                print("nivel 2")
+                if(model_usuarios.insertUsuario("2")):
                     raise web.seeother("/registrar/cliente")
+                else:
+                    return "algo fallo"    
             else:
                 return "algo fallo"
         except Exception as e:

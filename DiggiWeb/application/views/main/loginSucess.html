@@ -1,0 +1,26 @@
+$def with(message,email)
+
+<!-- start banner Area -->
+
+    $if message == "Restaurante":
+        <section class="banner-area relative generic-banner img-mb" style="background-image: url(../static/img/header-bg.jpg);">
+    $elif message == "Negocio":
+        <section class="banner-area relative generic-banner img-mb" style="background-image: url(../static/img/local.jpg);">
+    $else:
+        <section class="banner-area relative generic-banner img-mb" style="background-image: url(../static/img/form-bg.jpg);">
+    
+<div class="container">
+    <div class="d-flex align-items-center justify-content-start">
+        <div class="banner-content col-lg-8 col-md-12">
+            <h1>Bienvenido de nuevo! </h1>
+            <h4 style="color: aliceblue; text-transform: uppercase;">Tipo de usuario: $message</h4>
+            <h4><small style="color: aliceblue;">$email</small></h4>
+            <br><a class="btn btn-danger" href="/login/home/$email">Ir al panel de control</a>
+        </div>
+    </div>
+</div>
+</section>
+<!-- End banner Area --><br><br><br>
+
+
+

@@ -1,0 +1,53 @@
+$def with (local,productos)
+<!-- start banner Area -->
+<br><br>
+<section class="banner-area relative generic-banner img-mb" style="background-image: url(../static/img/form-bg.jpg);">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-start">
+            <div class="banner-content col-lg-8 col-md-12">
+                <br><br>
+                <h1>
+                    $local['nombre']
+                </h1>
+                <p class="text-white">
+                    $local['direccion'] || $local['telefono']
+                    
+                </p>
+            </div>												
+        </div>
+    </div>
+</section>
+<!-- End banner Area -->
+
+
+
+
+
+<!-- Start top-dish Area -->
+<section class="top-dish-area section-gap" id="dish">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="menu-content pb-60 col-lg-8">
+                <div class="title text-center">
+                    <h1 class="mb-10">Productos Disponibles</h1>
+                    <p>Productos que seguro que encantaran</p>
+                </div>
+            </div>
+        </div>						
+        <div class="row">
+            $for item in productos
+                <div class="single-dish col-lg-4">
+                    <div class="thumb">
+                        <img class="img-fluid" src="../static/img/d1.jpg" alt="" style="height: 250px;">
+                    </div>
+                    <h4 class="text-uppercase pt-20 pb-20">$item["nombre"]</h4>
+                    <h6>Marca: <a href="#" style="color: #CA3F43">$item["marca"]</a></h6>
+                    <p>
+                        Precio: $item["descripcion"].get("precio")
+                    </p>
+                    <a href="/carrito" id="carrito" class="btn btn-danger">Agregar a la orden</a>
+                </div>
+                
+        </div>
+    </div>	
+</section>

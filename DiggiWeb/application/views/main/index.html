@@ -46,6 +46,7 @@ $def with (restaurantes,locales,platillos)
                 </div>
             </div>
         </div>
+        
         <div class="row">
             $for item in platillos
                 <div class="single-dish col-lg-4">
@@ -57,7 +58,7 @@ $def with (restaurantes,locales,platillos)
                     <p>
                         $item["descripcion"]
                     </p>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#user-id-2">Agregar a la
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#$item['uid']">Agregar a la
                         orden</button><br><br>
                 </div>
                 
@@ -99,7 +100,7 @@ $def with (restaurantes,locales,platillos)
                     <p>
                         $item["direccion"]
                     </p>
-                    <h6><a href="/restaurante/$item['id']" class="btn btn-danger">Ver más</a></h6>
+                    <h6><a href="/local/$item['id']" class="btn btn-danger">Ver más</a></h6>
                 </div>
         </div>
     </div>
@@ -108,86 +109,34 @@ $def with (restaurantes,locales,platillos)
 
 
 
+$for item in platillos
+    <div id="$item['uid']"  class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
 
-<div id="user-id-2" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
-    aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h5 class="modal-title text-danger " id="exampleModalLabel">Agregar ingredientes extra</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <img src="static/img/modal.jpg" class="img-fluid" alt="Responsive image">
-                <form>
-                    <div class="form-group"><br>
-                        <div class="checkbox text-danger">
-                            <label>
-                                <h5>
-                                    <pre
-                                        class="text-danger"><input type="checkbox">&nbsp;Queso extra             		+$15</pre>
-                                </h5>
-                            </label>
-                        </div>
-                        <div class="checkbox text-danger">
-                            <label>
-                                <h5>
-                                    <pre
-                                        class="text-danger "><input type="checkbox">&nbsp;Jalapeños             		+$15</pre>
-                                </h5>
-                            </label>
-                        </div>
-                        <div class="checkbox text-danger">
-                            <label>
-                                <h5>
-                                    <pre
-                                        class="text-danger"><input type="checkbox" value="">&nbsp;Salsa Habanera             		+$15</pre>
-                                </h5>
-                            </label>
-                        </div>
-                        <div class="checkbox text-danger">
-                            <label>
-                                <h5>
-                                    <pre
-                                        class="text-danger"><input type="checkbox">&nbsp;Orden de papas             		+$35</pre>
-                                </h5>
-                            </label>
-                        </div>
-
-                        <div class="checkbox text-danger">
-                            <label>
-                                <h5>
-                                    <pre
-                                        class="text-danger"><input type="checkbox">&nbsp;Aderezo             			+$15</pre>
-                                </h5>
-                            </label>
-                        </div>
-                        <div class="checkbox text-danger">
-                            <label>
-                                <h5>
-                                    <pre
-                                        class="text-danger"><input type="checkbox">&nbsp;Jamon de pavo            		+$20</pre>
-                                </h5>
-                            </label>
-                        </div>
-                    </div>
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger " id="exampleModalLabel">Agregar ingredientes extra</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img src="static/img/modal.jpg" class="img-fluid" alt="Responsive image">
                     <form>
-                        <div class="form-group">
-                            <h5><label for="ingredienteNuevo" class="text-danger">Agregar otro ingrediente</label></h5>
-                            <textarea class="form-control" id="ingredienteNuevo" rows="2"></textarea>
-                        </div>
+                        <h1>$item['nombre']</h1>       <h6>Precio: $item['precio'].00 MXN</h6>
+                        <p>$item['descripcion']</p>
                     </form>
-                </form>
+                </div>
+                <input type="hidden" id="$item['uid']+$item['nombre']" value="$item['nombre']">
+                <div class="modal-footer">
+                    
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <a href="/carrito" id="carrito" class="btn btn-danger">Agregar a la orden</a>
+                    
+                </div>                
             </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-danger">Agregar a la orden</button>
-            </div>
-
         </div>
     </div>
-</div>
+
+<input name="orden_array" type="hidden" value="" id="orden_array">

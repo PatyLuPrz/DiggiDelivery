@@ -1,38 +1,36 @@
 import web
-import config
-import firebase_admin
-from firebase_admin import auth
-import uuid
+import pyrebase
 
 
-def registrarUsuarios(correo,contrasena,nombre):
+config = {
+  "apiKey":"AIzaSyCRgTvKgLZVLLoeiL6J7lI4O5lwAwXqEVo",
+  "authDomain":"diggi-49418.firebaseapp.com",
+  "databaseURL":"https://diggi-49418.firebaseio.com",
+  "storageBucket":"diggi-49418.appspot.com",
+  "serviceAccount":"CuentaServicio.json"
+}
+
+firebase = pyrebase.initialize_app(config)
+
+auth = firebase.auth()
+
+
+global token
+global email
+token = ''
+email = ''
+
+
+def registrarUsuarios(correo,contrasena):
     try:
         auth.get_user_by_email(correo)
         return False
     except:
-        user = auth.create_user(
-            uid=obtenerUID(),
-            email=correo,
-            email_verified=False,
-            password=contrasena,
-            display_name=nombre,
-            disabled=False)
+        global email
+        email = correo
+        user = auth.create_user_with_email_and_password(correo, contrasena)
+        global token
+        token = user['idToken']
+        print(email,"\n",token)
         return True
 
-
-def obtenerUID():
-    try:
-        UID = generarUID(str(uuid.uuid4().fields[-1])[:20])
-        return UID.get_UID()
-    except Exception as e:
-        return "Error al generar UID: " + str(e.args)
-        
-class generarUID:
-    def __init__(self, UID):
-        self.__UID = UID
-
-    def get_UID(self):
-        return self.__UID
-
-    def set_UID(self, UID):
-        self.__UID = UID

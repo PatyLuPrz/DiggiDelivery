@@ -17,13 +17,13 @@ class Index():
             id_restaurante = model_main.getRestaurantesPlatillosID()
             cont = 0
             for x in result:
-                diccionario = {"descripcion":x.get("descripcion"),"nombre":x.get("nombre"),"tiempo_preparacion":x.get("tiempo_preparacion"),"restaurante":nombres[cont],"id_restaurante":id_restaurante[cont]}
+                diccionario = {"uid":x.id,"descripcion":x.get("descripcion"),"nombre":x.get("nombre"),"tiempo_preparacion":x.get("tiempo_preparacion"),"restaurante":nombres[cont],"id_restaurante":id_restaurante[cont],"ingredientes_extra":x.get('ingredientes_extra'),"precio":x.get("precio")}
                 platillos.append(diccionario)
                 cont += 1
 
             return render.index(restaurantes,locales,platillos)
         except Exception as e:
-            return "Error Index Controller" + str(e.args) + "\n Message: " + str(e.message)
+            return "Error Index Controller" + str(e.args) 
 
     def POST(self):
         try:
@@ -33,5 +33,5 @@ class Index():
             print(result)
             return render.resultadoBusqueda(result)
         except Exception as e:
-            return "Error Index Controller POST: " + str(e.args) + "\n Message: " + str(e.message)
+            return "Error Index Controller POST: " + str(e.args)
 

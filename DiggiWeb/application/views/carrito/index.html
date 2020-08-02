@@ -1,0 +1,56 @@
+$def with(platillos,productos)
+
+
+<script src="../../static/js/production.min.js"></script>
+
+<form class="form-horizontal" role="form">
+  <div class="form-group">
+      <label class="control-label col-sm-2">Producto</label>
+      <div class="col-sm-12">
+          <select class="form-control" id="producto" onchange="javascript:calcular();">
+            $for item in productos
+                <option value="$item.get('descripcion').get('precio')">$item.get('nombre')</option>
+            $for item in platillos
+                <option value="$item.get('precio')">$item.get("nombre")</option>
+      </select>
+      </div>
+  </div>
+  <div class="form-group">
+      <label class="control-label col-sm-2">Cantidad</label>
+      <div class="col-sm-12">
+          <input class="form-control" type="number" min="1" value="1" id="cantidad" onchange="javascript:calcular();">
+      </div>
+  </div>
+
+  <div class="form-group">
+      <label class="control-label col-sm-2">Costo X Producto</label>
+      <div class="col-sm-12">
+          <input class="form-control" type="number"  value="10.0" id="totalxproducto" readonly>
+      </div>
+  </div>
+
+  
+
+  <div class="form-group"> 
+  <div class="col-sm-offset-2 col-sm-12">
+    <button type="button" class="btn btn-default" onclick="agregar();" >Agregar</button>
+    <button type="button"class="btn btn-default" onclick="javascript:nueva();">Nueva</button>
+  </div>
+</div>
+
+
+<div class="table-responsive col-sm-offset-2 col-sm-12" id='carrito' style='height:140px; overflow-y:auto;'>
+</div>
+
+<div class="form-group">
+      <label class="control-label col-sm-2">Total de la venta</label>
+      <div class="col-sm-12">
+          <input class="form-control" type="number"  value="0.0" id="totalventa" readonly>
+      </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-12">
+        <a style="color: aliceblue;" class="btn btn-danger"><span class="fa fa-shopping-basket"></span> Pagar</a>
+    </div>
+</div>
+</form>

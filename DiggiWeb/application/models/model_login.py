@@ -1,5 +1,6 @@
 import web
 import config
+<<<<<<< HEAD
 import firebase_admin
 # from firebase import firebases
 # from firebase_admin import auth
@@ -29,6 +30,30 @@ def verificarUsuarios(correo, contrasena):
         return "Error RegistroPost Controller model" + str(e.args)
         return False
 
+=======
+import pyrebase
+
+
+config = {
+  "apiKey":"AIzaSyCRgTvKgLZVLLoeiL6J7lI4O5lwAwXqEVo",
+  "authDomain":"diggi-49418.firebaseapp.com",
+  "databaseURL":"https://diggi-49418.firebaseio.com",
+  "storageBucket":"diggi-49418.appspot.com",
+  "serviceAccount":"CuentaServicio.json"
+}
+
+
+def verificarUsuarios(correo, contrasena):
+    try:
+        firebase = pyrebase.initialize_app(config)
+        auth = firebase.auth()
+        login = auth.sign_in_with_email_and_password(correo, contrasena)
+        print("Succesful")
+        return True
+    except Exception as e:
+        print("Error login: " + str(e.args))
+        return False
+>>>>>>> 39708b1cbcf15a7a2de2ee72e208be4d0d2f6d8e
 
 
 

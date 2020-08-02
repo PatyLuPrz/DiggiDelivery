@@ -7,18 +7,23 @@ class Editar():
     def POST(self,uid):
         try:
             form = web.input()
-
-            edit = model_locales.update(uid,form['Nombre'],form['Descripcion'],form['Imagen'],form['Ingredientes_extra'],form['Tiempo_preparacion'])
-            if(edit):
-                return "todo bien"
+            descripcion = {'cantidad_disponible':form['Cant_disponible'] ,'precio': form['Precio'] ,'presentacion': form['Presentacion']}
+            imagen = form['Imagen']
+            marca = form['Marca']
+            nombre = form['Nombre']
+            insert = model_locales.update(nombre,marca,imagen,descripcion,uid)
+            if(insert):
+                return "Registro insertado"
             else:
-                return "algo sucedio y no se logro el update, intentalo de nuevo"
+                return "Algo salio mal"
         except Exception as e:
             return "Error editar locales POST Controller" + str(e.args)
 
     def GET(self,uid):
         try:
-            platillo = model_locales.getPlatilloByID(uid)
-            return render.editar(platillo)
+            
+            producto = model_locales.getProductoByID(uid)
+            
+            return render.editar(producto)
         except Exception as e:
             return "Error editar locales GET controller: " +str(e.args)
