@@ -19,6 +19,8 @@ class _RestaurantesPageState extends State<RestaurantesPage> {
         child: Column(
           children: <Widget>[
             _barraDeBusqueda(currentTheme),
+            _categoriasText(),
+            _popularesRestaurantes(currentTheme)
           ],
         ),
       ),
@@ -52,14 +54,14 @@ class _RestaurantesPageState extends State<RestaurantesPage> {
     );
   }
 
-  Widget _popularesEstablecimientos(ThemeProvider currentTheme) {
+  Widget _popularesRestaurantes(ThemeProvider currentTheme) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20.0),
       height: 150.0,
       width: double.infinity,
       child: Center(
         child: StreamBuilder(
-          stream: Firestore.instance.collection('platillos').snapshots(),
+          stream: Firestore.instance.collection('restaurantes').snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) return CircularProgressIndicator();
@@ -86,7 +88,7 @@ class _RestaurantesPageState extends State<RestaurantesPage> {
                         ),
                         Text(
                           snapshot
-                              .data.documents[index].data['tiempo_preparacion'],
+                              .data.documents[index].data['telefono'],
                         ),
                       ],
                     ),
@@ -98,11 +100,77 @@ class _RestaurantesPageState extends State<RestaurantesPage> {
     );
   }
 
-  Widget _popularesRestaurantes(ThemeProvider currentTheme) {
-    return Container();
-  }
-
   Widget _categorias(ThemeProvider currentTheme) {
     return Container();
   }
+
+  Widget _categoriasText() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      child: Column(
+        children: <Widget>[
+          Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Categorias",
+                style: TextStyle(fontSize: 20.0),
+              )),
+          SizedBox(
+            height: 2.0,
+          ),
+          Container(
+            width: double.infinity,
+            height: 1.0,
+            color: Colors.red,
+          )
+        ],
+      ),
+    );
+  }
 }
+
+// Widget _popularesRestaurantes(ThemeProvider currentTheme) {
+//     return Container(
+//       margin: EdgeInsets.symmetric(vertical: 20.0),
+//       height: 150.0,
+//       width: double.infinity,
+//       child: Center(
+//         child: StreamBuilder(
+//           stream: Firestore.instance.collection('platillos').snapshots(),
+//           builder:
+//               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+//             if (!snapshot.hasData) return CircularProgressIndicator();
+//             return ListView.builder(
+//                 scrollDirection: Axis.horizontal,
+//                 shrinkWrap: true,
+//                 physics: ClampingScrollPhysics(),
+//                 itemCount: snapshot.data.documents.length,
+//                 itemBuilder: (BuildContext context, int index) {
+//                   return Container(
+//                     margin:
+//                         EdgeInsets.only(right: 20.0, bottom: 10.0, top: 5.0),
+//                     padding: EdgeInsets.all(5.0),
+//                     width: 200.0,
+//                     height: double.infinity,
+//                     decoration: BoxDecoration(
+//                       borderRadius: BorderRadius.circular(8.0),
+//                       color: Colors.white,
+//                     ),
+//                     child: Column(
+//                       children: <Widget>[
+//                         Text(
+//                           snapshot.data.documents[index].data['nombre'],
+//                         ),
+//                         Text(
+//                           snapshot
+//                               .data.documents[index].data['tiempo_preparacion'],
+//                         ),
+//                       ],
+//                     ),
+//                   );
+//                 });
+//           },
+//         ),
+//       ),
+//     );
+//   }

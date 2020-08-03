@@ -34,7 +34,10 @@ class InicioClientes extends StatelessWidget {
                     unselectedLabelColor: Colors.grey,
                     unselectedLabelStyle: TextStyle(color: Colors.blue),
                     tabs: <Widget>[
-                      Tab(icon: Icon(Icons.fastfood), text: "Restaurante", ),
+                      Tab(
+                        icon: Icon(Icons.fastfood),
+                        text: "Restaurante",
+                      ),
                       Tab(
                           icon: Icon(Icons.shopping_cart),
                           text: "Establecimiento"),

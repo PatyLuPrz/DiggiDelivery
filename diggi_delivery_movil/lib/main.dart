@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:diggi_delivery_movil/pages/registro/bienvenida_page.dart';
-import 'package:diggi_delivery_movil/pages/registro/home_cliente_page.dart';
+import 'package:diggi_delivery_movil/pages/clientes/home_cliente_page.dart';
 import 'package:diggi_delivery_movil/pages/login_page.dart';
 import 'package:diggi_delivery_movil/pages/registro/cliente_page.dart';
 import 'package:diggi_delivery_movil/pages/registro/local_page.dart';
