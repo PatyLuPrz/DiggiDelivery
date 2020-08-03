@@ -148,7 +148,7 @@ class _ClienteRegisgtroState extends State<ClienteRegisgtro> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 50.0),
       child: RaisedButton(
-        onPressed: () {},
+        onPressed: () => Navigator.pushReplacementNamed(context, 'homepagecliente'),
         child: Container(
           alignment: Alignment.center,
           width: double.infinity,
