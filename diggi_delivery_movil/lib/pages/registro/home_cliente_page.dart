@@ -20,7 +20,6 @@ class _HomePageState extends State<HomePage> {
   //Lista de BottomNavBar
   static const List<Widget> _widgetOptions = <Widget>[
     InicioClientes(),
-    MapaClientes(),
     PedidosClientes(),
     PerfilUsuarioPage(),
   ];
@@ -67,8 +66,6 @@ class _HomePageState extends State<HomePage> {
       items: <BottomNavigationBarItem>[
         //Inicio
         bottomNavBarItem(Icon(Icons.home), 'Inicio'),
-        //Mapas
-        bottomNavBarItem(Icon(Icons.map), 'Mapa'),
         //Pedidos
         bottomNavBarItem(Icon(Icons.add_shopping_cart), 'Pedidos'),
         //Yo
