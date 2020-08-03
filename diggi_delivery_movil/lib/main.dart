@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:diggi_delivery_movil/pages/local/home_local_page.dart';
 import 'package:diggi_delivery_movil/pages/registro/bienvenida_page.dart';
 import 'package:diggi_delivery_movil/pages/clientes/home_cliente_page.dart';
 import 'package:diggi_delivery_movil/pages/login_page.dart';
@@ -42,7 +43,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Material App',
-        initialRoute: 'homepagecliente',
+        initialRoute: 'homepagelocal',
         routes: {
           'login': (BuildContext context) => LoginPage(),
           'registro': (BuildContext context) => RegistroPage(),
@@ -52,6 +53,7 @@ class _MyAppState extends State<MyApp> {
           'restaurante': (BuildContext context) => RestauranteRegistro(),
           'registroMapa': (BuildContext context) => MapaRegistro(),
           'homepagecliente': (BuildContext context) => HomePage(),
+          'homepagelocal': (BuildContext context) => HomePageLocal(),
         },
       ),
     );

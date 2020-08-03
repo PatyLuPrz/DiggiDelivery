@@ -165,7 +165,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 50.0),
       child: RaisedButton(
-        onPressed: () {},
+        onPressed: () => Navigator.pushReplacementNamed(context, 'homepagelocal'),
         child: Container(
           alignment: Alignment.center,
           width: double.infinity,
