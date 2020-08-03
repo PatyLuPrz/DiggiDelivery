@@ -3,6 +3,7 @@ import 'package:diggi_delivery_movil/models/theme_preferences.dart';
 import 'package:diggi_delivery_movil/pages/clientes/inicio_clientes.dart';
 import 'package:diggi_delivery_movil/pages/clientes/mapa_clientes.dart';
 import 'package:diggi_delivery_movil/pages/clientes/pedidos_clientes.dart';
+import 'package:diggi_delivery_movil/pages/local/inicio_local.dart';
 import 'package:diggi_delivery_movil/pages/perfil_usuario_page.dart';
 import 'package:diggi_delivery_movil/providers/theme.dart';
 import 'package:diggi_delivery_movil/widgets/custom_text.dart';
@@ -19,7 +20,7 @@ class _HomePageLocalState extends State<HomePageLocal> {
 
   //Lista de BottomNavBar
   static const List<Widget> _widgetOptions = <Widget>[
-    InicioClientes(),
+    InicioLocal(),
     PedidosClientes(),
     PerfilUsuarioPage(),
   ];
@@ -28,17 +29,6 @@ class _HomePageLocalState extends State<HomePageLocal> {
   Widget build(BuildContext context) {
     final currentTheme = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: currentTheme.currentThemeColorComponents(currentTheme),
-      //   elevation: 0.5,
-      //   title: Align(
-      //     alignment: Alignment.center,
-      //     child: CustomText(
-      //       text: 'Diggi Delivery',
-      //       color: currentTheme.currentThemeColorText(currentTheme),
-      //     ),
-      //   ),
-      // ),
       backgroundColor: currentTheme.currentThemeColorComponents(currentTheme),
       body: SafeArea(child: _widgetOptions.elementAt(_selectedIndex)),
       bottomNavigationBar: _bottomNavigationBarCliente(),

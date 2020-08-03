@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:diggi_delivery_movil/pages/local/home_local_page.dart';
+import 'package:diggi_delivery_movil/pages/local/producto_local.dart';
 import 'package:diggi_delivery_movil/pages/registro/bienvenida_page.dart';
 import 'package:diggi_delivery_movil/pages/clientes/home_cliente_page.dart';
 import 'package:diggi_delivery_movil/pages/login_page.dart';
@@ -54,6 +55,7 @@ class _MyAppState extends State<MyApp> {
           'registroMapa': (BuildContext context) => MapaRegistro(),
           'homepagecliente': (BuildContext context) => HomePage(),
           'homepagelocal': (BuildContext context) => HomePageLocal(),
+          'productoLocal': (BuildContext context) => ProductoLocal(),
         },
       ),
     );
