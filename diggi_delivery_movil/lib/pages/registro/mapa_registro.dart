@@ -14,11 +14,11 @@ class MapaRegistro extends StatefulWidget {
 }
 
 class _MapaRegistroState extends State<MapaRegistro> {
-  MapasApi mapasApi = MapasApi();
+  // MapasApi mapasApi = MapasApi();
   MapboxMapController mapController;
   @override
   Widget build(BuildContext context) {
-    mapasApi.ubicacion();
+    // mapasApi.ubicacion();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

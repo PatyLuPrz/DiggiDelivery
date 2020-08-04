@@ -14,11 +14,11 @@ class MapaClientes extends StatefulWidget {
 }
 
 class _MapaClientesState extends State<MapaClientes> {
-  MapasApi mapasApi = MapasApi();
+  // MapasApi mapasApi = MapasApi();
   MapboxMapController mapController;
   @override
   Widget build(BuildContext context) {
-    mapasApi.ubicacion();
+    // mapasApi.ubicacion();
     return Scaffold(
       appBar: AppBar(title: const Text('Location')),
       body: Container(
