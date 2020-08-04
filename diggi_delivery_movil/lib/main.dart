@@ -10,7 +10,7 @@ import 'package:diggi_delivery_movil/pages/registro/local_page.dart';
 import 'package:diggi_delivery_movil/pages/registro/mapa_registro.dart';
 import 'package:diggi_delivery_movil/pages/registro/registro_page.dart';
 import 'package:diggi_delivery_movil/pages/registro/restaurante_page.dart';
-import 'package:diggi_delivery_movil/providers/theme.dart';
+import 'package:diggi_delivery_movil/helpers/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

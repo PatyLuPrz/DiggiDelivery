@@ -1,4 +1,4 @@
-import 'package:diggi_delivery_movil/providers/theme.dart';
+import 'package:diggi_delivery_movil/helpers/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

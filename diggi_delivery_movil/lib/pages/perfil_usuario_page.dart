@@ -1,5 +1,5 @@
 import 'package:diggi_delivery_movil/models/theme_preferences.dart';
-import 'package:diggi_delivery_movil/providers/theme.dart';
+import 'package:diggi_delivery_movil/helpers/theme.dart';
 import 'package:diggi_delivery_movil/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
