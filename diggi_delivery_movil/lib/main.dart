@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Material App',
-        initialRoute: 'homepagelocal',
+        initialRoute: 'registroBienvenida',
         routes: {
           'login': (BuildContext context) => LoginPage(),
           'registro': (BuildContext context) => RegistroPage(),

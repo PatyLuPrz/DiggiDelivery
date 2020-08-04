@@ -1,7 +1,7 @@
 import 'package:diggi_delivery_movil/models/model_mapbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:location/location.dart';
+// import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 class MapaClientes extends StatefulWidget {
@@ -26,8 +26,8 @@ class _MapaClientesState extends State<MapaClientes> {
         width: double.infinity,
         child: MapboxMap(
           onMapCreated: _onMapCreated,
-          initialCameraPosition:
-              CameraPosition(target: _latlong(mapasApi), zoom: 15.0),
+          initialCameraPosition: CameraPosition(
+              target: LatLng(20.1139257, -98.4166494), zoom: 15.0),
         ),
       ),
     );
@@ -37,12 +37,12 @@ class _MapaClientesState extends State<MapaClientes> {
     mapController = controller;
   }
 
-  LatLng _latlong(MapasApi mapasApi) {
-    mapasApi.location.onLocationChanged.listen((LocationData currentLocation) {
-      // Use current location
-      mapasApi.getUserLocation();
-    });
-    print(mapasApi.center);
-    return mapasApi.center;
-  }
+  // LatLng _latlong(MapasApi mapasApi) {
+  //   mapasApi.location.onLocationChanged.listen((LocationData currentLocation) {
+  //     // Use current location
+  //     mapasApi.getUserLocation();
+  //   });
+  //   print(mapasApi.center);
+  //   return mapasApi.center;
+  // }
 }
