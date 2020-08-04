@@ -1,7 +1,7 @@
 import 'package:diggi_delivery_movil/models/model_mapbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:location/location.dart';
+// import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 class MapaRegistro extends StatefulWidget {
@@ -41,12 +41,12 @@ class _MapaRegistroState extends State<MapaRegistro> {
     mapController = controller;
   }
 
-  LatLng _latlong(MapasApi mapasApi) {
-    mapasApi.location.onLocationChanged.listen((LocationData currentLocation) {
-      // Use current location
-      mapasApi.getUserLocation();
-    });
-    print(mapasApi.center);
-    return mapasApi.center;
-  }
+  // LatLng _latlong(MapasApi mapasApi) {
+  //   mapasApi.location.onLocationChanged.listen((LocationData currentLocation) {
+  //     // Use current location
+  //     mapasApi.getUserLocation();
+  //   });
+  //   print(mapasApi.center);
+  //   return mapasApi.center;
+  // }
 }
