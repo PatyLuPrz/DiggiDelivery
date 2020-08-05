@@ -46,6 +46,8 @@ class _MapaRegistroState extends State<MapaRegistro>
     super.initState();
     //Agrega un observador cuando la app se activa
     WidgetsBinding.instance.addObserver(this);
+    print("SE ESTA EJECUTANDO XD");
+    this._check();
   }
 
   @override
