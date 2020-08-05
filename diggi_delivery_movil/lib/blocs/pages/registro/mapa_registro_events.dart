@@ -1,4 +1,4 @@
-import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:mapbox_gl/mapbox_gl.dart' show LatLng;
 
 abstract class MapaRegistroEvents {}
 
@@ -7,5 +7,5 @@ class OnMyLocationUpdate extends MapaRegistroEvents {
 
   OnMyLocationUpdate(this.location);
 
-  
+
 }
