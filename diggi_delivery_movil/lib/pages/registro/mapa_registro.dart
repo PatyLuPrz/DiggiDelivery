@@ -1,5 +1,6 @@
 import 'package:diggi_delivery_movil/models/model_location.dart';
 import 'package:diggi_delivery_movil/models/model_mapbox.dart';
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 // import 'package:location/location.dart';
@@ -32,13 +33,20 @@ class _MapaRegistroState extends State<MapaRegistro>
         this._goTpMap();
         break;
       case PermissionStatus.denied:
+        if (Platform.isIOS) {
+          this._openAppSettings();
+        }
         break;
       case PermissionStatus.restricted:
         break;
       case PermissionStatus.permanentlyDenied:
-        openAppSettings();
+        this._openAppSettings();
         break;
     }
+  }
+
+  _openAppSettings() async {
+    await openAppSettings();
   }
 
   @override
