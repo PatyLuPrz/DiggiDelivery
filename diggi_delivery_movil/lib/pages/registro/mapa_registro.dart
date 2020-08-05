@@ -1,3 +1,4 @@
+import 'package:diggi_delivery_movil/models/model_location.dart';
 import 'package:diggi_delivery_movil/models/model_mapbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -14,11 +15,12 @@ class MapaRegistro extends StatefulWidget {
 }
 
 class _MapaRegistroState extends State<MapaRegistro> {
-  // MapasApi mapasApi = MapasApi();
+  bool loc = true;
+  // MapasApi mapasAspi = MapasApi();
   MapboxMapController mapController;
   @override
   Widget build(BuildContext context) {
-    // mapasApi.ubicacion();
+    ModelLocationPermission modelLocationPermission = ModelLocationPermission();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -28,17 +30,41 @@ class _MapaRegistroState extends State<MapaRegistro> {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        child: MapboxMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-              target: LatLng(37.4219999, -122.0862462), zoom: 15.0),
-        ),
+        child: _mapReturn(),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your onPressed code here!
+          modelLocationPermission.request();
+          setState(() {
+            print("Location activated::::: $loc");
+            if (loc) {
+              loc = false;
+            } else {
+              loc = true;
+            }
+          });
+        },
+        child: Icon(Icons.my_location),
+        backgroundColor: Color(0xFFC93F42),
       ),
     );
   }
 
   void _onMapCreated(MapboxMapController controller) {
     mapController = controller;
+  }
+
+  Widget _mapReturn() {
+    if (loc) {
+      return MapboxMap(
+        onMapCreated: _onMapCreated,
+        initialCameraPosition: CameraPosition(
+            target: LatLng(37.4219999, -122.0862462), zoom: 15.0),
+      );
+    } else {
+      return Center(child: CircularProgressIndicator());
+    }
   }
 
   // LatLng _latlong(MapasApi mapasApi) {

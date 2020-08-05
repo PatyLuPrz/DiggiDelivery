@@ -1,9 +1,12 @@
 // import 'package:location/location.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class ModelLocation {
-  Future<void> _request() async {
+class ModelLocationPermission with WidgetsBindingObserver{
+
+  
+  Future<void> request() async {
     final PermissionStatus status =
         await Permission.locationWhenInUse.request();
 
@@ -23,7 +26,7 @@ class ModelLocation {
         
         break;
       case PermissionStatus.permanentlyDenied:
-        
+        openAppSettings();
         break;
     }
   }
