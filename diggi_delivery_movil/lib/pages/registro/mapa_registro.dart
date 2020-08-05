@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 // import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class MapaRegistro extends StatefulWidget {
   final String nombre;
@@ -14,13 +15,75 @@ class MapaRegistro extends StatefulWidget {
   _MapaRegistroState createState() => _MapaRegistroState();
 }
 
-class _MapaRegistroState extends State<MapaRegistro> {
-  bool loc = true;
+class _MapaRegistroState extends State<MapaRegistro>
+    with WidgetsBindingObserver {
+  Future<void> request() async {
+    //Permite hacer la consulta hacia los permisos de ubicación
+    final PermissionStatus status =
+        await Permission.locationWhenInUse.request();
+
+    print("STATUS :::::::::::::::::::::::: $status");
+
+    switch (status) {
+      case PermissionStatus.undetermined:
+        break;
+      case PermissionStatus.granted:
+        //Deja iniciar el mapa si los permisos de ubicacón han sido otorgados
+        this._goTpMap();
+        break;
+      case PermissionStatus.denied:
+        break;
+      case PermissionStatus.restricted:
+        break;
+      case PermissionStatus.permanentlyDenied:
+        openAppSettings();
+        break;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    //Agrega un observador cuando la app se activa
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    //Remueve el observador antes de cerrar la app o la pantalla
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print("ApplifecycleState :::::::::::::::: $state");
+    //Obtiene el estado de la app y genera una acción si la ubicación ha sido activdadaa y la app resumida
+    if (state == AppLifecycleState.resumed) {
+      this._check();
+    }
+  }
+
+  _check() async {
+    print("ApplifecycleState :::::::::::::::: CHECKING");
+    //Obtiene los permisos de ubicación y abre el mapa
+    final bool hasAccess = await Permission.locationWhenInUse.isGranted;
+    setState(() {
+      if (hasAccess) {
+        this._goTpMap();
+      }
+    });
+  }
+
+  _goTpMap() {
+    loc = true;
+  }
+
+  bool loc = false;
   // MapasApi mapasAspi = MapasApi();
   MapboxMapController mapController;
   @override
   Widget build(BuildContext context) {
-    ModelLocationPermission modelLocationPermission = ModelLocationPermission();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -35,14 +98,9 @@ class _MapaRegistroState extends State<MapaRegistro> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Add your onPressed code here!
-          modelLocationPermission.request();
           setState(() {
+            this.request();
             print("Location activated::::: $loc");
-            if (loc) {
-              loc = false;
-            } else {
-              loc = true;
-            }
           });
         },
         child: Icon(Icons.my_location),
