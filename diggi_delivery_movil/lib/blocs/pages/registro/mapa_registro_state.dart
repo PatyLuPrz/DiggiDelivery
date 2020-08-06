@@ -19,5 +19,7 @@ class MapaRegistroState extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object> get props => [myLocation];
+  List<Object> get props => [
+        myLocation,
+      ];
 }

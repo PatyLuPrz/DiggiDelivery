@@ -4,8 +4,5 @@ abstract class MapaRegistroEvents {}
 
 class OnMyLocationUpdate extends MapaRegistroEvents {
   final LatLng location;
-
   OnMyLocationUpdate(this.location);
-
-
 }
