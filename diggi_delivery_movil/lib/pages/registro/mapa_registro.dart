@@ -1,9 +1,9 @@
-import 'package:diggi_delivery_movil/models/model_location.dart';
-import 'package:diggi_delivery_movil/models/model_mapbox.dart';
 import 'dart:io' show Platform;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-// import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
+import '../../blocs/pages/registro/bloc.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -18,6 +18,13 @@ class MapaRegistro extends StatefulWidget {
 
 class _MapaRegistroState extends State<MapaRegistro>
     with WidgetsBindingObserver {
+  //Se importa la instancia de BLoC de los mapas de registro (blocs/pages/registro/bloc)
+  final MapaRegistroBloc _mapaRegistroBloc = MapaRegistroBloc();
+
+  bool loc = false;
+  bool hasAccessDenied;
+  var denied;
+
   Future<void> request() async {
     //Permite hacer la consulta hacia los permisos de ubicación
     final PermissionStatus status =
@@ -33,9 +40,8 @@ class _MapaRegistroState extends State<MapaRegistro>
         this._goTpMap();
         break;
       case PermissionStatus.denied:
-        if (Platform.isIOS) {
-          this._openAppSettings();
-        }
+        this._openAppSettings();
+
         break;
       case PermissionStatus.restricted:
         break;
@@ -54,7 +60,6 @@ class _MapaRegistroState extends State<MapaRegistro>
     super.initState();
     //Agrega un observador cuando la app se activa
     WidgetsBinding.instance.addObserver(this);
-    print("SE ESTA EJECUTANDO XD");
     this._check();
   }
 
@@ -62,6 +67,8 @@ class _MapaRegistroState extends State<MapaRegistro>
   void dispose() {
     //Remueve el observador antes de cerrar la app o la pantalla
     WidgetsBinding.instance.removeObserver(this);
+    //Deja de escuchar los cambios de ubicación
+    _mapaRegistroBloc.close();
     super.dispose();
   }
 
@@ -78,6 +85,10 @@ class _MapaRegistroState extends State<MapaRegistro>
     print("ApplifecycleState :::::::::::::::: CHECKING");
     //Obtiene los permisos de ubicación y abre el mapa
     final bool hasAccess = await Permission.locationWhenInUse.isGranted;
+    hasAccessDenied = await Permission.locationWhenInUse.isDenied;
+    denied = GeolocationStatus.denied;
+    print(denied);
+    print(hasAccessDenied);
     setState(() {
       if (hasAccess) {
         this._goTpMap();
@@ -89,58 +100,70 @@ class _MapaRegistroState extends State<MapaRegistro>
     loc = true;
   }
 
-  bool loc = false;
-  // MapasApi mapasAspi = MapasApi();
-  MapboxMapController mapController;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Ubicación'),
-        backgroundColor: Color(0xFFC93F42),
-      ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        child: _mapReturn(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your onPressed code here!
-          setState(() {
-            this.request();
-            print("Location activated::::: $loc");
-          });
-        },
-        child: Icon(Icons.my_location),
-        backgroundColor: Color(0xFFC93F42),
-      ),
+    //Todos los Widgets hijos del BLoC provider podran hacer uso de la información del BloC de ubicación
+    return _mapBuilder();
+  }
+
+  Widget _mapReturn(MapaRegistroState state) {
+    final CameraPosition initalPosition =
+        CameraPosition(target: state.myLocation, zoom: 15);
+
+    print("MAPBOX UBICACION::::::::::::::::::::");
+
+    return MapboxMap(
+      onMapCreated: (MapboxMapController controller) {
+        this._mapaRegistroBloc.setMapController(controller);
+      },
+      zoomGesturesEnabled: false,
+      compassEnabled: false,
+      myLocationEnabled: true,
+      initialCameraPosition: initalPosition,
     );
   }
 
-  void _onMapCreated(MapboxMapController controller) {
-    mapController = controller;
+  Widget _circularProgressIndi() {
+    return Center(
+        child: CircularProgressIndicator(
+      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFC93F42)),
+    ));
   }
 
-  Widget _mapReturn() {
-    if (loc) {
-      return MapboxMap(
-        onMapCreated: _onMapCreated,
-        initialCameraPosition: CameraPosition(
-            target: LatLng(37.4219999, -122.0862462), zoom: 15.0),
-      );
-    } else {
-      return Center(child: CircularProgressIndicator());
-    }
+  Widget _mapBuilder() {
+    return BlocProvider.value(
+      value: this._mapaRegistroBloc,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text('Ubicación'),
+          backgroundColor: Color(0xFFC93F42),
+        ),
+        body: Container(
+          height: double.infinity,
+          width: double.infinity,
+          child: BlocBuilder<MapaRegistroBloc, MapaRegistroState>(
+            builder: (_, MapaRegistroState state) {
+              if (state.loading || denied) {
+                print(denied);
+                return _circularProgressIndi();
+              }
+              return _mapReturn(state);
+            },
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // Add your onPressed code here!
+            setState(() {
+              this.request();
+              print("Location activated::::: $loc");
+            });
+          },
+          child: Icon(Icons.my_location),
+          backgroundColor: Color(0xFFC93F42),
+        ),
+      ),
+    );
   }
-
-  // LatLng _latlong(MapasApi mapasApi) {
-  //   mapasApi.location.onLocationChanged.listen((LocationData currentLocation) {
-  //     // Use current location
-  //     mapasApi.getUserLocation();
-  //   });
-  //   print(mapasApi.center);
-  //   return mapasApi.center;
-  // }
 }
