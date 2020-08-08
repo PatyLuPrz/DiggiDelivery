@@ -1,3 +1,4 @@
+import 'package:diggi_delivery_movil/widgets/custom_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -131,6 +132,18 @@ class _MapaRegistroState extends State<MapaRegistro>
           CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFC93F42)),
           ),
+          SizedBox(
+            height: 20.0,
+          ),
+          RaisedButton(
+            child: CustomText(text: "Permitir ubicación"),
+            onPressed: () {
+              // Add your onPressed code here!
+              setState(() {
+                this.request();
+              });
+            },
+          ),
         ],
       ),
     ));
@@ -157,16 +170,6 @@ class _MapaRegistroState extends State<MapaRegistro>
               return _mapReturn(state);
             },
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Add your onPressed code here!
-            setState(() {
-              this.request();
-            });
-          },
-          child: Icon(Icons.my_location),
-          backgroundColor: Color(0xFFC93F42),
         ),
       ),
     );
