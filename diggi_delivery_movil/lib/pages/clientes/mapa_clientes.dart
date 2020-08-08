@@ -1,8 +1,6 @@
-import 'package:diggi_delivery_movil/models/model_mapbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-// import 'package:location/location.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapaClientes extends StatefulWidget {
   final String nombre;
@@ -15,7 +13,7 @@ class MapaClientes extends StatefulWidget {
 
 class _MapaClientesState extends State<MapaClientes> {
   // MapasApi mapasApi = MapasApi();
-  MapboxMapController mapController;
+  GoogleMapController mapController;
   @override
   Widget build(BuildContext context) {
     // mapasApi.ubicacion();
@@ -24,7 +22,7 @@ class _MapaClientesState extends State<MapaClientes> {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        child: MapboxMap(
+        child: GoogleMap(
           onMapCreated: _onMapCreated,
           initialCameraPosition: CameraPosition(
               target: LatLng(20.1139257, -98.4166494), zoom: 15.0),
@@ -33,7 +31,7 @@ class _MapaClientesState extends State<MapaClientes> {
     );
   }
 
-  void _onMapCreated(MapboxMapController controller) {
+  void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
 

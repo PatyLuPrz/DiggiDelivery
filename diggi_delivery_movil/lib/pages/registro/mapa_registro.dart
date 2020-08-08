@@ -1,11 +1,9 @@
-import 'dart:io' show Platform;
-import 'package:diggi_delivery_movil/widgets/custom_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../blocs/pages/registro/bloc.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class MapaRegistro extends StatefulWidget {
@@ -110,16 +108,16 @@ class _MapaRegistroState extends State<MapaRegistro>
   Widget _mapReturn(MapaRegistroState state) {
     final CameraPosition initalPosition =
         CameraPosition(target: state.myLocation, zoom: 15);
-
-    print("MAPBOX UBICACION::::::::::::::::::::");
-
-    return MapboxMap(
-      onMapCreated: (MapboxMapController controller) {
+    return GoogleMap(
+      onMapCreated: (GoogleMapController controller) {
         this._mapaRegistroBloc.setMapController(controller);
       },
       zoomGesturesEnabled: false,
-      compassEnabled: false,
-      myLocationEnabled: true,
+      compassEnabled: true,
+      tiltGesturesEnabled: true,
+      onTap: (LatLng coordinates) {
+        print("AddMarker:::: $coordinates");
+      },
       initialCameraPosition: initalPosition,
     );
   }
@@ -133,10 +131,6 @@ class _MapaRegistroState extends State<MapaRegistro>
           CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFC93F42)),
           ),
-          SizedBox(
-            height: 50.0,
-          ),
-          CustomText(text: "Se necesitan permisos de ubicación"),
         ],
       ),
     ));
@@ -156,7 +150,7 @@ class _MapaRegistroState extends State<MapaRegistro>
           width: double.infinity,
           child: BlocBuilder<MapaRegistroBloc, MapaRegistroState>(
             builder: (_, MapaRegistroState state) {
-              if (state.loading || loc == false) {
+              if (state.loading) {
                 print(denied);
                 return _circularProgressIndi();
               }
@@ -169,7 +163,6 @@ class _MapaRegistroState extends State<MapaRegistro>
             // Add your onPressed code here!
             setState(() {
               this.request();
-              print("Location activated::::: $loc");
             });
           },
           child: Icon(Icons.my_location),

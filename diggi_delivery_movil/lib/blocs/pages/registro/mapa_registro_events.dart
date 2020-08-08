@@ -1,4 +1,6 @@
-import 'package:mapbox_gl/mapbox_gl.dart' show LatLng;
+
+
+import 'package:google_maps_flutter/google_maps_flutter.dart' show LatLng;
 
 abstract class MapaRegistroEvents {}
 

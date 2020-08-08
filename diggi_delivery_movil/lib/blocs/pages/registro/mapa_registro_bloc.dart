@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'mapa_registro_events.dart';
 import 'mapa_registro_state.dart';
 
@@ -10,12 +10,7 @@ class MapaRegistroBloc extends Bloc<MapaRegistroEvents, MapaRegistroState> {
   //Instancia de ubicacion
   Geolocator _geolocator = Geolocator();
   // MapasApi mapasAspi = MapasApi();
-  final Completer<MapboxMapController> _completer = Completer();
-
-  //ControllerMap
-  // void onMapCreated(MapboxMapController controller) {
-  //   _completer = controller;
-  // }
+  final Completer<GoogleMapController> _completer = Completer();
 
   //Propiedade locationoptions, para recibir por distancia la ubicación
   final LocationOptions _locationOptions =
@@ -49,11 +44,13 @@ class MapaRegistroBloc extends Bloc<MapaRegistroEvents, MapaRegistroState> {
     });
   }
 
-  setMapController(MapboxMapController mapController) {
+  //Controller del mapa
+  setMapController(GoogleMapController mapController) {
     _completer.complete(mapController);
   }
 
-  Future<MapboxMapController> get _mapBoxController async {
+  //Controller del estado del mapa
+  Future<GoogleMapController> get _googleMapController async {
     return await _completer.future;
   }
 
