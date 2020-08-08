@@ -1,4 +1,5 @@
 import 'dart:io' show Platform;
+import 'package:diggi_delivery_movil/widgets/custom_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -125,8 +126,19 @@ class _MapaRegistroState extends State<MapaRegistro>
 
   Widget _circularProgressIndi() {
     return Center(
-        child: CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFC93F42)),
+        child: Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFC93F42)),
+          ),
+          SizedBox(
+            height: 50.0,
+          ),
+          CustomText(text: "Se necesitan permisos de ubicación"),
+        ],
+      ),
     ));
   }
 
@@ -144,7 +156,7 @@ class _MapaRegistroState extends State<MapaRegistro>
           width: double.infinity,
           child: BlocBuilder<MapaRegistroBloc, MapaRegistroState>(
             builder: (_, MapaRegistroState state) {
-              if (state.loading || denied) {
+              if (state.loading || loc == false) {
                 print(denied);
                 return _circularProgressIndi();
               }
