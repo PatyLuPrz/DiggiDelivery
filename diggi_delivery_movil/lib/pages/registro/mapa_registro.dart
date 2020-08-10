@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../../blocs/pages/registro/bloc.dart';
+import '../../blocs/pages/registro/registro_mapa/bloc_mapa_r.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class MapaRegistro extends StatefulWidget {
@@ -115,6 +115,8 @@ class _MapaRegistroState extends State<MapaRegistro>
       },
       zoomGesturesEnabled: false,
       compassEnabled: true,
+      myLocationButtonEnabled: true,
+      myLocationEnabled: true,
       tiltGesturesEnabled: true,
       onTap: (LatLng coordinates) {
         print("AddMarker:::: $coordinates");

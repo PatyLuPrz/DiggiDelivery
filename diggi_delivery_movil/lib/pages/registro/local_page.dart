@@ -1,4 +1,3 @@
-import 'package:diggi_delivery_movil/models/model_location.dart';
 import 'package:diggi_delivery_movil/widgets/input_decoration.dart';
 import 'package:flutter/material.dart';
 
