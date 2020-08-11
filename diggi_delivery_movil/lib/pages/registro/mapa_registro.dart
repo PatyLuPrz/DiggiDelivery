@@ -120,8 +120,13 @@ class _MapaRegistroState extends State<MapaRegistro>
       tiltGesturesEnabled: true,
       onTap: (LatLng coordinates) {
         print("AddMarker:::: $coordinates");
+        this._mapaRegistroBloc.add(OnMapTap(coordinates));
       },
+      markers: state.marker.values.toSet(),
       initialCameraPosition: initalPosition,
+      rotateGesturesEnabled: true,
+      scrollGesturesEnabled: true,
+      
     );
   }
 

@@ -46,6 +46,12 @@ class MapaRegistroBloc extends Bloc<MapaRegistroEvents, MapaRegistroState> {
 
   //Controller del mapa
   setMapController(GoogleMapController mapController) {
+    // mapController.animateCamera(
+    //   CameraUpdate.zoomIn(),
+    // );
+    // mapController.animateCamera(
+    //   CameraUpdate.zoomOut(),
+    // );
     _completer.complete(mapController);
   }
 
@@ -61,10 +67,25 @@ class MapaRegistroBloc extends Bloc<MapaRegistroEvents, MapaRegistroState> {
             loading: false,
             myLocation: event.location,
           );
+    } else if (event is OnMapTap) {
+      final markerId = MarkerId("place");
+      final marker = Marker(
+          markerId: markerId,
+          position: event.location,
+          onTap: () {
+            print('Tapped');
+          },
+          draggable: true,
+          onDragEnd: ((value) {
+            print(value);
+          }));
+      final markers = Map<MarkerId, Marker>.from(this.state.marker);
+      markers[markerId] = marker;
+      yield this.state.copyWith(marker: markers);
     }
   }
 
   @override
   // TODO: implement initialState
-  MapaRegistroState get initialState => MapaRegistroState();
+  MapaRegistroState get initialState => MapaRegistroState.initialState;
 }

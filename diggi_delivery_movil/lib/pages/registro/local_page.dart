@@ -55,7 +55,6 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
           _crearDireccion(),
           SizedBox(height: size.height * 0.03),
           _crearFoto(size),
-          SizedBox(height: size.height * 0.03),
           _crearNombre(),
           SizedBox(height: size.height * 0.03),
           _crearTelefono(),
@@ -143,7 +142,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
 
   Widget _ingresarUbicacion() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 50.0),
+      width: double.infinity,
       child: RaisedButton(
         onPressed: () => Navigator.pushNamed(context, "registroMapa"),
         child: Container(
@@ -168,7 +167,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
 
   Widget _crearFoto(Size size) {
     return Container(
-      height: size.width * 1,
+      height: size.width * 0.72,
       width: double.infinity,
       child: Column(
         children: <Widget>[
@@ -187,7 +186,9 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
                   icon: Icon(Icons.photo_size_select_actual),
                   label: Text("Elegir imagen"),
                   onPressed: _seleccionarFoto),
-              SizedBox(width: size.width * 0.05,),
+              SizedBox(
+                width: size.width * 0.05,
+              ),
               RaisedButton.icon(
                 icon: Icon(Icons.camera_alt),
                 onPressed: _tomarFoto,
@@ -210,9 +211,11 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
 
   _procesarImagen(ImageSource source) async {
     final pickedFile = await picker.getImage(source: source);
-
-    setState(() {
-      foto = File(pickedFile.path);
-    });
+    print(pickedFile);
+    if (pickedFile != null) {
+      setState(() {
+        foto = File(pickedFile.path);
+      });
+    }
   }
 }
