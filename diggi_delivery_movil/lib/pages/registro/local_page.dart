@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/widgets/input_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,6 +14,7 @@ class LocalRegisgtro extends StatefulWidget {
 
 class _LocalRegisgtroState extends State<LocalRegisgtro> {
   final picker = ImagePicker();
+  final prefs = new PreferenciasUsuario();
   File foto;
   Path path;
 
@@ -125,7 +127,8 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
       padding: EdgeInsets.symmetric(horizontal: 50.0),
       child: RaisedButton(
         onPressed: () =>
-            Navigator.pushReplacementNamed(context, 'homepagelocal'),
+            // Navigator.pushReplacementNamed(context, 'homepagelocal'),
+            print("PREFERENCIAS DE USUARIO :::: ${prefs.latitud} - ${prefs.logitud}"),
         child: Container(
           alignment: Alignment.center,
           width: double.infinity,

@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'mapa_registro_events.dart';
 import 'mapa_registro_state.dart';
 
 class MapaRegistroBloc extends Bloc<MapaRegistroEvents, MapaRegistroState> {
+  final prefs = new PreferenciasUsuario();
   //Instancia de ubicacion
   Geolocator _geolocator = Geolocator();
   // MapasApi mapasAspi = MapasApi();
@@ -46,12 +48,6 @@ class MapaRegistroBloc extends Bloc<MapaRegistroEvents, MapaRegistroState> {
 
   //Controller del mapa
   setMapController(GoogleMapController mapController) {
-    // mapController.animateCamera(
-    //   CameraUpdate.zoomIn(),
-    // );
-    // mapController.animateCamera(
-    //   CameraUpdate.zoomOut(),
-    // );
     _completer.complete(mapController);
   }
 
@@ -77,7 +73,10 @@ class MapaRegistroBloc extends Bloc<MapaRegistroEvents, MapaRegistroState> {
           },
           draggable: true,
           onDragEnd: ((value) {
-            print(value);
+            print("VALUEEEEEE ::::::::: $value");
+            prefs.latitud = value.latitude.toString();
+            prefs.logitud = value.longitude.toString();
+            print("${prefs.latitud} - ${prefs.logitud}");
           }));
       final markers = Map<MarkerId, Marker>.from(this.state.marker);
       markers[markerId] = marker;

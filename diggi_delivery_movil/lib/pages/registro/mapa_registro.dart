@@ -1,3 +1,4 @@
+import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/widgets/custom_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,8 @@ class _MapaRegistroState extends State<MapaRegistro>
     with WidgetsBindingObserver {
   //Se importa la instancia de BLoC de los mapas de registro (blocs/pages/registro/bloc)
   final MapaRegistroBloc _mapaRegistroBloc = MapaRegistroBloc();
+  
+  final prefs = new PreferenciasUsuario();
 
   bool loc = false;
   bool hasAccessDenied;
@@ -108,19 +111,21 @@ class _MapaRegistroState extends State<MapaRegistro>
 
   Widget _mapReturn(MapaRegistroState state) {
     final CameraPosition initalPosition =
-        CameraPosition(target: state.myLocation, zoom: 15);
+        CameraPosition(target: state.myLocation, zoom: 17);
     return GoogleMap(
       onMapCreated: (GoogleMapController controller) {
         this._mapaRegistroBloc.setMapController(controller);
       },
-      zoomGesturesEnabled: false,
+      zoomGesturesEnabled: true,
       compassEnabled: true,
       myLocationButtonEnabled: true,
-      myLocationEnabled: true,
       tiltGesturesEnabled: true,
       onTap: (LatLng coordinates) {
         print("AddMarker:::: $coordinates");
         this._mapaRegistroBloc.add(OnMapTap(coordinates));
+        prefs.latitud = coordinates.latitude.toString();
+        prefs.logitud = coordinates.longitude.toString();
+        print("${prefs.latitud} - ${prefs.logitud}");
       },
       markers: state.marker.values.toSet(),
       initialCameraPosition: initalPosition,

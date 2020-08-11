@@ -11,10 +11,14 @@ import 'package:diggi_delivery_movil/pages/registro/mapa_registro.dart';
 import 'package:diggi_delivery_movil/pages/registro/registro_page.dart';
 import 'package:diggi_delivery_movil/pages/registro/restaurante_page.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
+import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = new PreferenciasUsuario();
+  await prefs.initPrefs();
   runApp(MyApp());
 }
 
@@ -24,6 +28,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final prefs = new PreferenciasUsuario();
   ThemeProvider themeChangeProvider = new ThemeProvider();
 
   @override
