@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:diggi_delivery_movil/widgets/input_decoration.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class LocalRegisgtro extends StatefulWidget {
   LocalRegisgtro({Key key}) : super(key: key);
@@ -9,6 +12,10 @@ class LocalRegisgtro extends StatefulWidget {
 }
 
 class _LocalRegisgtroState extends State<LocalRegisgtro> {
+  final picker = ImagePicker();
+  File foto;
+  Path path;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -86,53 +93,6 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
     );
   }
 
-  Widget _crearFoto(Size size) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 60.0),
-      height: 200.0,
-      width: double.infinity,
-      child: Row(
-        children: <Widget>[
-          Container(
-            width: 100.0,
-            height: 100.0,
-            child: CircleAvatar(
-                radius: 25.0,
-                backgroundImage: NetworkImage(
-                    'https://img.favpng.com/6/24/19/user-profile-avatar-computer-icons-png-favpng-3r2RjSZGPQVAWPw2hFcQqTv1t.jpg')),
-          ),
-          SizedBox(width: 20.0),
-          RaisedButton(
-            onPressed: () {},
-            child: Container(
-              width: size.width * 0.10,
-              height: size.width * 0.10,
-              child: RichText(
-                text: TextSpan(children: [
-                  WidgetSpan(
-                      child: SizedBox(
-                    height: 0.4,
-                  )),
-                  WidgetSpan(
-                      child: Center(
-                    child: Text("Foto"),
-                  )),
-                  WidgetSpan(
-                      child: Center(child: Icon(Icons.file_upload, size: 15.0)))
-                ]),
-              ),
-            ),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0)),
-            elevation: 0.0,
-            color: Color(0xFFC93F42),
-            textColor: Colors.white,
-          )
-        ],
-      ),
-    );
-  }
-
   Widget _crearNombre() {
     final dec = DecorationInputForm(
         textLabel: "Nombre del Local",
@@ -165,7 +125,8 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 50.0),
       child: RaisedButton(
-        onPressed: () => Navigator.pushReplacementNamed(context, 'homepagelocal'),
+        onPressed: () =>
+            Navigator.pushReplacementNamed(context, 'homepagelocal'),
         child: Container(
           alignment: Alignment.center,
           width: double.infinity,
@@ -203,5 +164,55 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
         textColor: Colors.white,
       ),
     );
+  }
+
+  Widget _crearFoto(Size size) {
+    return Container(
+      height: size.width * 1,
+      width: double.infinity,
+      child: Column(
+        children: <Widget>[
+          Container(
+            width: size.width * 0.5,
+            height: size.height * 0.25,
+            child: CircleAvatar(
+                radius: 25.0,
+                backgroundImage:
+                    AssetImage(foto?.path ?? 'assets/img/no-image.png')),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton.icon(
+                  icon: Icon(Icons.photo_size_select_actual),
+                  label: Text("Elegir imagen"),
+                  onPressed: _seleccionarFoto),
+              SizedBox(width: size.width * 0.05,),
+              RaisedButton.icon(
+                icon: Icon(Icons.camera_alt),
+                onPressed: _tomarFoto,
+                label: Text("Tomar foto"),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _seleccionarFoto() async {
+    _procesarImagen(ImageSource.gallery);
+  }
+
+  void _tomarFoto() async {
+    _procesarImagen(ImageSource.camera);
+  }
+
+  _procesarImagen(ImageSource source) async {
+    final pickedFile = await picker.getImage(source: source);
+
+    setState(() {
+      foto = File(pickedFile.path);
+    });
   }
 }
