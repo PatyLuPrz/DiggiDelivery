@@ -1,44 +1,14 @@
-// To parse this JSON data, do
-//
-//     final RegistroLocalModel = RegistroLocalModelFromJson(jsonString);
+// class Product {
+//   final String name;
+//   final double price;
 
-import 'dart:convert';
+//   Product({this.price, this.name});
 
-//Recibe un Json en forma de String
-RegistroLocalModel RegistroLocalModelFromJson(String str) =>
-    RegistroLocalModel.fromJson(json.decode(str));
+//   Map<String, dynamic> toMap() {
+//     return {'productId': productId, 'name': name, 'price': price};
+//   }
 
-//Toma el modelo y lo genera a un JSon
-String RegistroLocalModelToJson(RegistroLocalModel data) => json.encode(data.toJson());
-
-class RegistroLocalModel {
-  RegistroLocalModel({
-    this.id,
-    this.titulo = '',
-    this.valor = 0.0,
-    this.disponible = true,
-    this.fotoUrl,
-  });
-
-  String id;
-  String titulo;
-  double valor;
-  bool disponible;
-  String fotoUrl;
-
-  factory RegistroLocalModel.fromJson(Map<String, dynamic> json) => RegistroLocalModel(
-        id: json["id"],
-        titulo: json["titulo"],
-        valor: json["valor"],
-        disponible: json["disponible"],
-        fotoUrl: json["fotoUrl"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        // "id": id,
-        "titulo": titulo,
-        "valor": valor,
-        "disponible": disponible,
-        "fotoUrl": fotoUrl,
-      };
-}
+//   Product.fromFirestore(Map<String, dynamic> firestore)
+//       : name = firestore['name'],
+//         price = firestore['price'];
+// }

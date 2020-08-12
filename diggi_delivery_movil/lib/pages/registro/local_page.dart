@@ -134,14 +134,14 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
         icon: Icons.phone);
     return Container(
       child: TextFormField(
-        keyboardType: TextInputType.numberWithOptions(signed: true),
+        keyboardType: TextInputType.phone,
         maxLength: 10,
         enableInteractiveSelection: false,
         validator: (value) {
-          if (utils.isNumeric(value)) {
-            return null;
-          } else {
+          if (!utils.isNumeric(value) && value.contains(".")) {
             return 'Solo números';
+          } else {
+            return null;
           }
         },
         enabled: true,

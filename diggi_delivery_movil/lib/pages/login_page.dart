@@ -1,3 +1,4 @@
+import 'package:diggi_delivery_movil/blocs/pages/Login/provider.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Stack(
         children: <Widget>[
           _crearFondo(context),
-          _registerForm(context, size),
+          _loginForm(context, size),
           //_loginForm(),
         ],
       ),
@@ -31,8 +32,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _registerForm(BuildContext context, Size size) {
+  Widget _loginForm(BuildContext context, Size size) {
     //Formulario de inicio de sesión
+    final bloc = Provider.of(context);
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -56,11 +58,11 @@ class _LoginPageState extends State<LoginPage> {
                 ]),
             child: Column(
               children: <Widget>[
-                _crearEmail(),
+                _crearEmail(bloc),
                 SizedBox(height: 30.0),
-                _crearPassword(),
+                _crearPassword(bloc),
                 SizedBox(height: 30.0),
-                _crearBoton(),
+                _crearBoton(bloc),
               ],
             ),
           ),
@@ -71,22 +73,29 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   //Campo para ingresar email
-  _crearEmail() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: TextField(
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-          icon: Icon(Icons.email, color: Colors.black, size: 20),
-          hintText: 'correo@email.com',
-          labelStyle: TextStyle(color: Colors.black),
-          labelText: 'Correo electrónico',
-        ),
-      ),
+  _crearEmail(RegistroBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.emailStreamlog,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: TextField(
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+                icon: Icon(Icons.email, color: Colors.black, size: 20),
+                hintText: 'correo@email.com',
+                labelStyle: TextStyle(color: Colors.black),
+                labelText: 'Correo electrónico',
+                counterText: snapshot.data,
+                errorText: snapshot.error),
+            onChanged: bloc.changeEmail,
+          ),
+        );
+      },
     );
   }
 
-  _crearPassword() {
+  _crearPassword(RegistroBloc bloc) {
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         child: TextField(
@@ -99,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
         ));
   }
 
-  _crearBoton() {
+  _crearBoton(RegistroBloc bloc) {
     return RaisedButton(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
