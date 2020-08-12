@@ -64,11 +64,11 @@ class PreferenciasUsuario {
   }
 
   //Get And Set Correo
-  get nombre {
-    return _prefs.getString('correo') ?? '';
+  get email {
+    return _prefs.getString('email') ?? '';
   }
 
-  set nombre(String value) {
-    _prefs.setString('correo', value);
+  set email(String value) {
+    _prefs.setString('email', value);
   }
 }

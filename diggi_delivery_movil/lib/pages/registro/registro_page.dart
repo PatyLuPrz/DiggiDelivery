@@ -1,3 +1,5 @@
+import 'package:diggi_delivery_movil/blocs/pages/Login/provider.dart';
+import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 
 class RegistroPage extends StatefulWidget {
@@ -8,6 +10,7 @@ class RegistroPage extends StatefulWidget {
 }
 
 class _RegistroPageState extends State<RegistroPage> {
+  final prefs = new PreferenciasUsuario();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,6 +34,7 @@ class _RegistroPageState extends State<RegistroPage> {
 
   Widget _registerForm(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final bloc = Provider.of(context);
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -54,11 +58,10 @@ class _RegistroPageState extends State<RegistroPage> {
                 ]),
             child: Column(
               children: <Widget>[
-                _crearEmail(),
+                _crearEmail(bloc),
                 SizedBox(height: 30.0),
-                _crearPassword(),
                 SizedBox(height: 30.0),
-                _crearBoton(),
+                _crearBoton(bloc),
               ],
             ),
           ),
@@ -68,45 +71,56 @@ class _RegistroPageState extends State<RegistroPage> {
     );
   }
 
-  Widget _crearEmail() {
-    return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: TextField(
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            icon: Icon(Icons.email, color: Colors.black, size: 20),
-            hintText: 'correo@email.com',
-            labelStyle: TextStyle(color: Colors.black),
-            labelText: 'Correo electrónico',
+  Widget _crearEmail(RegistroBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.emailStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: TextField(
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+                icon: Icon(Icons.email, color: Colors.black, size: 20),
+                hintText: 'correo@email.com',
+                labelText: 'Correo electrónico',
+                counterText: snapshot.data,
+                errorText: snapshot.error),
+            onChanged: (value) {
+              bloc.changeEmail(value);
+              prefs.email = value;
+            },
           ),
-        ));
-  }
-
-  Widget _crearPassword() {
-    return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: TextField(
-          obscureText: true,
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            icon: Icon(Icons.lock_outline, color: Colors.black),
-            labelText: 'Contraseña',
-          ),
-        ));
-  }
-
-  Widget _crearBoton() {
-    return RaisedButton(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
-        child: Text('Registrar'),
-      ),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-      elevation: 0.0,
-      color: Color(0xFFC93F42),
-      textColor: Colors.white,
-      onPressed: () => Navigator.pushReplacementNamed(context, 'registroBienvenida'),
+        );
+      },
     );
+  }
+
+  Widget _crearBoton(RegistroBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.emailStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return RaisedButton(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
+            child: Text('Registrar'),
+          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+          elevation: 0.0,
+          color: Color(0xFFC93F42),
+          textColor: Colors.white,
+          onPressed: snapshot.hasData ? () => _registrar(bloc, context) : null,
+        );
+      },
+    );
+  }
+
+  _registrar(RegistroBloc bloc, BuildContext context) {
+    print('=============================================');
+    print('Email: ${bloc.emailStream}');
+    print('Email 2: ${prefs.email}');
+    print('=============================================');
+    Navigator.pushReplacementNamed(context, 'registroBienvenida');
   }
 
   logo(Size size) {

@@ -70,9 +70,9 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
 
   Widget _crearEmail() {
     final dec = DecorationInputForm(
-        textLabel: "Correo electronico", textHint: "Correo", icon: Icons.email);
+        textLabel: prefs.email, textHint: "Correo", icon: Icons.email);
     return Container(
-      child: TextFormField(
+      child: TextField(
         keyboardType: TextInputType.emailAddress,
         enabled: false,
         decoration: dec.decoration(),
@@ -128,7 +128,8 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
       child: RaisedButton(
         onPressed: () =>
             // Navigator.pushReplacementNamed(context, 'homepagelocal'),
-            print("PREFERENCIAS DE USUARIO :::: ${prefs.latitud} - ${prefs.logitud}"),
+            print(
+                "PREFERENCIAS DE USUARIO :::: ${prefs.latitud} - ${prefs.logitud}"),
         child: Container(
           alignment: Alignment.center,
           width: double.infinity,

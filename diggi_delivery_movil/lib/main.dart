@@ -1,19 +1,10 @@
-import 'dart:developer';
-
-import 'package:diggi_delivery_movil/pages/local/home_local_page.dart';
-import 'package:diggi_delivery_movil/pages/local/producto_local.dart';
-import 'package:diggi_delivery_movil/pages/registro/bienvenida_page.dart';
-import 'package:diggi_delivery_movil/pages/clientes/home_cliente_page.dart';
-import 'package:diggi_delivery_movil/pages/login_page.dart';
-import 'package:diggi_delivery_movil/pages/registro/cliente_page.dart';
-import 'package:diggi_delivery_movil/pages/registro/local_page.dart';
-import 'package:diggi_delivery_movil/pages/registro/mapa_registro.dart';
-import 'package:diggi_delivery_movil/pages/registro/registro_page.dart';
-import 'package:diggi_delivery_movil/pages/registro/restaurante_page.dart';
+import 'package:diggi_delivery_movil/blocs/pages/Login/provider.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
+import 'package:diggi_delivery_movil/routes.dart';
+import 'package:provider/provider.dart' as prov;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,24 +35,26 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: themeChangeProvider,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Material App',
-        initialRoute: 'local',
-        routes: {
-          'login': (BuildContext context) => LoginPage(),
-          'registro': (BuildContext context) => RegistroPage(),
-          'registroBienvenida': (BuildContext context) => BienvenidaPage(),
-          'cliente': (BuildContext context) => ClienteRegisgtro(),
-          'local': (BuildContext context) => LocalRegisgtro(),
-          'restaurante': (BuildContext context) => RestauranteRegistro(),
-          'registroMapa': (BuildContext context) => MapaRegistro(),
-          'homepagecliente': (BuildContext context) => HomePage(),
-          'homepagelocal': (BuildContext context) => HomePageLocal(),
-          'productoLocal': (BuildContext context) => ProductoLocal(),
-        },
+    return Provider(
+      child: prov.ChangeNotifierProvider.value(
+        value: themeChangeProvider,
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Material App',
+          initialRoute: 'registro',
+          routes: {
+            'login': (BuildContext context) => LoginPage(),
+            'registro': (BuildContext context) => RegistroPage(),
+            'registroBienvenida': (BuildContext context) => BienvenidaPage(),
+            'cliente': (BuildContext context) => ClienteRegisgtro(),
+            'local': (BuildContext context) => LocalRegisgtro(),
+            'restaurante': (BuildContext context) => RestauranteRegistro(),
+            'registroMapa': (BuildContext context) => MapaRegistro(),
+            'homepagecliente': (BuildContext context) => HomePage(),
+            'homepagelocal': (BuildContext context) => HomePageLocal(),
+            'productoLocal': (BuildContext context) => ProductoLocal(),
+          },
+        ),
       ),
     );
   }
