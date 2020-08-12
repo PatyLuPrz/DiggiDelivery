@@ -122,28 +122,6 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
     );
   }
 
-  Widget _crearUsuario() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 50.0),
-      child: RaisedButton(
-        onPressed: () =>
-            // Navigator.pushReplacementNamed(context, 'homepagelocal'),
-            print(
-                "PREFERENCIAS DE USUARIO :::: ${prefs.latitud} - ${prefs.logitud}"),
-        child: Container(
-          alignment: Alignment.center,
-          width: double.infinity,
-          height: 50.0,
-          child: Text('Finalizar registro'),
-        ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-        elevation: 0.0,
-        color: Color(0xFFC93F42),
-        textColor: Colors.white,
-      ),
-    );
-  }
-
   Widget _ingresarUbicacion() {
     return Container(
       width: double.infinity,
@@ -221,5 +199,29 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
         foto = File(pickedFile.path);
       });
     }
+  }
+
+  Widget _crearUsuario() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 50.0),
+      child: RaisedButton(
+        onPressed: () {
+          // Navigator.pushReplacementNamed(context, 'homepagelocal'),
+          print(
+              "PREFERENCIAS DE USUARIO :::: ${prefs.latitud} - ${prefs.logitud}");
+          print(prefs.email);
+        },
+        child: Container(
+          alignment: Alignment.center,
+          width: double.infinity,
+          height: 50.0,
+          child: Text('Finalizar registro'),
+        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+        elevation: 0.0,
+        color: Color(0xFFC93F42),
+        textColor: Colors.white,
+      ),
+    );
   }
 }
