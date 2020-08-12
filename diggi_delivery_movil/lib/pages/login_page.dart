@@ -96,16 +96,25 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _crearPassword(RegistroBloc bloc) {
-    return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: TextField(
-          obscureText: true,
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            icon: Icon(Icons.lock_outline, color: Colors.black),
-            labelText: 'Contraseña',
+    return StreamBuilder(
+      stream: bloc.passwordStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: TextField(
+            obscureText: true,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              icon: Icon(Icons.lock_outline, color: Colors.black),
+              labelText: 'Contraseña',
+              counterText: snapshot.data,
+              errorText: snapshot.error,
+            ),
+            onChanged: bloc.changePassword,
           ),
-        ));
+        );
+      },
+    );
   }
 
   _crearBoton(RegistroBloc bloc) {
