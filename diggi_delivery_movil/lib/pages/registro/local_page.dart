@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/widgets/input_decoration.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:diggi_delivery_movil/utils/utils.dart' as utils;
 
 class LocalRegisgtro extends StatefulWidget {
   LocalRegisgtro({Key key}) : super(key: key);
@@ -12,11 +14,28 @@ class LocalRegisgtro extends StatefulWidget {
   _LocalRegisgtroState createState() => _LocalRegisgtroState();
 }
 
-class _LocalRegisgtroState extends State<LocalRegisgtro> {
+class _LocalRegisgtroState extends State<LocalRegisgtro>
+    with WidgetsBindingObserver {
   final picker = ImagePicker();
   final prefs = new PreferenciasUsuario();
   File foto;
   Path path;
+  @override
+  void initState() {
+    super.initState();
+    //Agrega un observador cuando la app se activa
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    //Remueve el observador antes de cerrar la app o la pantalla
+    WidgetsBinding.instance.removeObserver(this);
+    //Deja de escuchar los cambios de ubicación
+    prefs.latitud = '';
+    prefs.logitud = '';
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +134,16 @@ class _LocalRegisgtroState extends State<LocalRegisgtro> {
         icon: Icons.phone);
     return Container(
       child: TextFormField(
-        keyboardType: TextInputType.number,
+        keyboardType: TextInputType.numberWithOptions(signed: true),
+        maxLength: 10,
+        enableInteractiveSelection: false,
+        validator: (value) {
+          if (utils.isNumeric(value)) {
+            return null;
+          } else {
+            return 'Solo números';
+          }
+        },
         enabled: true,
         decoration: dec.decoration(),
       ),
