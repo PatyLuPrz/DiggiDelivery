@@ -14,21 +14,25 @@ class _RestaurantesPageState extends State<RestaurantesPage> {
   @override
   Widget build(BuildContext context) {
     final currentTheme = Provider.of<ThemeProvider>(context);
-    return Container(
+    final size = MediaQuery.of(context).size;
+    return Flexible(
       child: Container(
+        width: double.infinity,
+        height: double.infinity,
         child: Column(
           children: <Widget>[
-            _barraDeBusqueda(currentTheme),
-            _categoriasText(),
-            _popularesRestaurantes(currentTheme)
+            _barraDeBusqueda(currentTheme, size),
+            _popularesRestaurantes(currentTheme, size),
           ],
         ),
       ),
     );
   }
 
-  Widget _barraDeBusqueda(ThemeProvider currentTheme) {
+  Widget _barraDeBusqueda(ThemeProvider currentTheme, Size size) {
     return Container(
+      width: double.infinity,
+      height: size.height * 0.09,
       decoration: BoxDecoration(
         color: currentTheme.currentThemeColorComponents(currentTheme),
         borderRadius: BorderRadius.circular(20),
@@ -54,78 +58,94 @@ class _RestaurantesPageState extends State<RestaurantesPage> {
     );
   }
 
-  Widget _popularesRestaurantes(ThemeProvider currentTheme) {
+  Widget _popularesRestaurantes(ThemeProvider currentTheme, Size size) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 20.0),
-      height: 150.0,
+      margin: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 1.0),
+      height: size.height * 0.65,
       width: double.infinity,
-      child: Center(
-        child: StreamBuilder(
-          stream: Firestore.instance.collection('restaurantes').snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) return CircularProgressIndicator();
-            return ListView.builder(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                itemCount: snapshot.data.documents.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    margin:
-                        EdgeInsets.only(right: 20.0, bottom: 10.0, top: 5.0),
-                    padding: EdgeInsets.all(5.0),
-                    width: 200.0,
-                    height: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.white,
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          snapshot.data.documents[index].data['nombre'],
-                        ),
-                        Text(
-                          snapshot
-                              .data.documents[index].data['telefono'],
-                        ),
-                      ],
-                    ),
-                  );
-                });
-          },
-        ),
+      child: StreamBuilder(
+        stream: Firestore.instance.collection('restaurantes').snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) return CircularProgressIndicator();
+          return ListView.builder(
+            shrinkWrap: true,
+            physics: ClampingScrollPhysics(),
+            itemCount: snapshot.data.documents.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                margin: EdgeInsets.only(top: 10.0),
+                child: _cardTipo2(snapshot, size, index),
+              );
+            },
+          );
+        },
       ),
     );
   }
 
-  Widget _categorias(ThemeProvider currentTheme) {
-    return Container();
+  _cardTipo2(AsyncSnapshot snapshot, Size size, int index) {
+    return Container(
+      height: 150,
+      width: double.infinity,
+      decoration: BoxDecoration(boxShadow: <BoxShadow>[
+        BoxShadow(
+          color: Colors.black26,
+          blurRadius: 10.0,
+          spreadRadius: 2.0,
+          offset: Offset(2.0, 10.0),
+        )
+      ], borderRadius: BorderRadius.circular(10.0), color: Colors.white),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10.0),
+        child: _cardRestaurante(snapshot, size, index),
+      ),
+    );
   }
 
-  Widget _categoriasText() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-      child: Column(
-        children: <Widget>[
-          Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                "Categorias",
-                style: TextStyle(fontSize: 20.0),
-              )),
-          SizedBox(
-            height: 2.0,
+  Widget _cardRestaurante(AsyncSnapshot snapshot, Size size, int index) {
+    return Stack(
+      children: <Widget>[
+        _imagenRestaurante(snapshot, size, index),
+        Align(
+          alignment: Alignment.centerRight,
+          child: Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(10.0),
+            decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0.5)),
+            width: size.width * 0.505,
+            height: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  snapshot.data.documents[index].data['nombre'],
+                  style: TextStyle(color: Colors.white),
+                ),
+                Text(
+                  snapshot.data.documents[index].data['telefono'],
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
           ),
-          Container(
-            width: double.infinity,
-            height: 1.0,
-            color: Colors.red,
-          )
-        ],
+        ),
+      ],
+    );
+  }
+
+  Widget _imagenRestaurante(AsyncSnapshot snapshot, Size size, int index) {
+    return Container(
+      // clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(color: Colors.red),
+      child: FadeInImage(
+        placeholder: AssetImage('assets/img/original.gif'),
+        image: NetworkImage(
+            "https://media-cdn.tripadvisor.com/media/photo-s/18/1a/96/54/main-restaurant.jpg"),
+        fadeInDuration: Duration(milliseconds: 200),
+        height: size.height * 0.274,
+        width: double.infinity,
+        fit: BoxFit.cover,
       ),
     );
   }
 }
-

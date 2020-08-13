@@ -1,4 +1,7 @@
 import 'package:diggi_delivery_movil/blocs/pages/Login/provider.dart';
+import 'package:diggi_delivery_movil/providers/usuario_provider.dart';
+import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
+import 'package:diggi_delivery_movil/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -9,6 +12,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final usuarioProvider = new UsuarioProvider();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -88,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                 labelText: 'Correo electrónico',
                 counterText: snapshot.data,
                 errorText: snapshot.error),
-            onChanged: bloc.changeEmail,
+            onChanged: bloc.changeEmaillog,
           ),
         );
       },
@@ -118,16 +122,22 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _crearBoton(RegistroBloc bloc) {
-    return RaisedButton(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
-        child: Text('Iniciar sesión'),
-      ),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-      elevation: 0.0,
-      color: Color(0xFFC93F42),
-      textColor: Colors.white,
-      onPressed: () {},
+    return StreamBuilder(
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return RaisedButton(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
+            child: Text('Iniciar sesión'),
+          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+          elevation: 0.0,
+          color: Color(0xFFC93F42),
+          textColor: Colors.white,
+          onPressed: snapshot.hasData ? () => _login(bloc, context, snapshot) : null,
+        );
+      },
+      stream: bloc.formValidStream,
     );
   }
 
@@ -153,6 +163,15 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
+  }
+
+  _login(RegistroBloc bloc, BuildContext context, AsyncSnapshot snapshot) async {
+    Map info = await usuarioProvider.login(bloc.emaillog, bloc.password);
+    if (info['ok']) {
+      Navigator.pushReplacementNamed(context, 'homepagecliente');
+    } else {
+      mostrarAlerta(context, info['mensaje']);
+    }
   }
 
   _registro(Size size, BuildContext context) {

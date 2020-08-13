@@ -14,19 +14,28 @@ class _LocalesPageState extends State<LocalesPage> {
   @override
   Widget build(BuildContext context) {
     final currentTheme = Provider.of<ThemeProvider>(context);
-    return Container(
+    final size = MediaQuery.of(context).size;
+    return Flexible(
       child: Container(
+        width: double.infinity,
+        height: double.infinity,
         child: Column(
           children: <Widget>[
-            _barraDeBusqueda(currentTheme),
+            _barraDeBusqueda(currentTheme, size),
+            SizedBox(
+              height: size.height * 0.015,
+            ),
+            _popularesEstablecimientos(currentTheme, size),
           ],
         ),
       ),
     );
   }
 
-  Widget _barraDeBusqueda(ThemeProvider currentTheme) {
+  Widget _barraDeBusqueda(ThemeProvider currentTheme, Size size) {
     return Container(
+      width: double.infinity,
+      height: size.height * 0.09,
       decoration: BoxDecoration(
         color: currentTheme.currentThemeColorComponents(currentTheme),
         borderRadius: BorderRadius.circular(20),
@@ -52,57 +61,45 @@ class _LocalesPageState extends State<LocalesPage> {
     );
   }
 
-  Widget _popularesEstablecimientos(ThemeProvider currentTheme) {
+  Widget _popularesEstablecimientos(ThemeProvider currentTheme, Size size) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 20.0),
-      height: 150.0,
+      margin: EdgeInsets.only(left: 10.0, right: 10.0),
+      height: size.height * 0.65,
       width: double.infinity,
-      child: Center(
-        child: StreamBuilder(
-          stream: Firestore.instance.collection('platillos').snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) return CircularProgressIndicator();
-            return ListView.builder(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                itemCount: snapshot.data.documents.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    margin:
-                        EdgeInsets.only(right: 20.0, bottom: 10.0, top: 5.0),
-                    padding: EdgeInsets.all(5.0),
-                    width: 200.0,
-                    height: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.white,
+      child: StreamBuilder(
+        stream: Firestore.instance.collection('locales').snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) return CircularProgressIndicator();
+          return ListView.builder(
+            shrinkWrap: true,
+            physics: ClampingScrollPhysics(),
+            itemCount: snapshot.data.documents.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                margin: EdgeInsets.only(right: 10.0, bottom: 10.0, top: 5.0, left: 10.0),
+                padding: EdgeInsets.all(5.0),
+                width: 200.0,
+                height: 200.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  color: Colors.white,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      snapshot.data.documents[index].data['nombre'],
                     ),
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          snapshot.data.documents[index].data['nombre'],
-                        ),
-                        Text(
-                          snapshot
-                              .data.documents[index].data['tiempo_preparacion'],
-                        ),
-                      ],
+                    Text(
+                      snapshot.data.documents[index].data['telefono'],
                     ),
-                  );
-                });
-          },
-        ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
       ),
     );
-  }
-
-  Widget _popularesRestaurantes(ThemeProvider currentTheme) {
-    return Container();
-  }
-
-  Widget _categorias(ThemeProvider currentTheme) {
-    return Container();
   }
 }

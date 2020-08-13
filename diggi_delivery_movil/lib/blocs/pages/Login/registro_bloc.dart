@@ -13,18 +13,18 @@ class RegistroBloc with Validators {
       _emailController.stream.transform(validarEmail);
 
   Stream<String> get emailStreamlog =>
-      _emailController.stream.transform(validarEmail);
+      _emailControllerlog.stream.transform(validarEmail);
   Stream<String> get passwordStream =>
       _passwordControllerlog.stream.transform(validarPassword);
 
   //Insertar valores al String
   Function(String) get changeEmail => _emailController.sink.add;
 
-  Function(String) get changeEmaillog => _emailController.sink.add;
+  Function(String) get changeEmaillog => _emailControllerlog.sink.add;
   Function(String) get changePassword => _passwordControllerlog.sink.add;
 
   //Ultimo valor emitido
-  String get email => _emailControllerlog.value;
+  String get emaillog => _emailControllerlog.value;
   String get password => _passwordControllerlog.value;
 
   // cerrar
@@ -35,5 +35,5 @@ class RegistroBloc with Validators {
   }
 
   Stream<bool> get formValidStream =>
-      CombineLatestStream.combine2(emailStream, passwordStream, (a, b) => true);
+      CombineLatestStream.combine2(emailStreamlog, passwordStream, (a, b) => true);
 }

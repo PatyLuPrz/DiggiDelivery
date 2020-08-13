@@ -1,5 +1,6 @@
 import 'package:diggi_delivery_movil/models/theme_preferences.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
+import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,8 @@ class PerfilUsuarioPage extends StatefulWidget {
 }
 
 class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
+  
+  final prefs = new PreferenciasUsuario();
   @override
   Widget build(BuildContext context) {
     final currentTheme = Provider.of<ThemeProvider>(context);
@@ -89,7 +92,7 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
           SizedBox(height: 30.0),
           //Nombre del usuario
           CustomText(
-            text: 'Luis Norberto Paloma Rodriguez',
+            text: prefs.email,
             color: Colors.white,
           ),
           SizedBox(height: 10.0),

@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diggi_delivery_movil/pages/clientes/locales_page.dart';
 import 'package:diggi_delivery_movil/pages/clientes/restaurantes_page.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
-import 'package:diggi_delivery_movil/widgets/text_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,13 +11,13 @@ class InicioClientes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String lugar = "Restaurante";
     final currentTheme = Provider.of<ThemeProvider>(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        resizeToAvoidBottomPadding: false,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80.0),
+          preferredSize: Size.fromHeight(50.0),
           child: Container(
             height: double.infinity,
             width: double.infinity,
@@ -35,11 +33,11 @@ class InicioClientes extends StatelessWidget {
                     unselectedLabelStyle: TextStyle(color: Colors.blue),
                     tabs: <Widget>[
                       Tab(
-                        icon: Icon(Icons.fastfood),
+                        // icon: Icon(Icons.fastfood),
                         text: "Restaurante",
                       ),
                       Tab(
-                          icon: Icon(Icons.shopping_cart),
+                          // icon: Icon(Icons.shopping_cart),
                           text: "Establecimiento"),
                     ],
                   ),

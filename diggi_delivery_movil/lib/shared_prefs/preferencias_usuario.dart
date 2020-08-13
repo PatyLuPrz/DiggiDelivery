@@ -36,7 +36,6 @@ class PreferenciasUsuario {
     _prefs.setBool('colorSecundario', value);
   }
 
-
   //Get And Set de la ultima pagina
   get ultimaPagina {
     return _prefs.getString('ultimaPagina') ?? 'home';
@@ -70,5 +69,23 @@ class PreferenciasUsuario {
 
   set email(String value) {
     _prefs.setString('email', value);
+  }
+
+  //Geta and Set Token
+  get token {
+    return _prefs.getString('token') ?? '';
+  }
+
+  set token(String value) {
+    _prefs.setString('token', value);
+  }
+
+  //Geta and Set Token
+  get idLocal {
+    return _prefs.getString('idLocal') ?? '';
+  }
+
+  set idLocal(String value) {
+    _prefs.setString('idLocal', value);
   }
 }
