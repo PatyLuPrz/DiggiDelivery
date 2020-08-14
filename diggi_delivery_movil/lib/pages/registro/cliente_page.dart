@@ -1,5 +1,11 @@
+import 'package:diggi_delivery_movil/blocs/archivos_bloc.dart';
+import 'package:diggi_delivery_movil/blocs/pages/Login/provider.dart';
+import 'package:diggi_delivery_movil/models/cliente_model.dart';
+import 'package:diggi_delivery_movil/models/model_usuarios.dart';
+import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/widgets/input_decoration.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ClienteRegisgtro extends StatefulWidget {
   ClienteRegisgtro({Key key}) : super(key: key);
@@ -8,9 +14,41 @@ class ClienteRegisgtro extends StatefulWidget {
   _ClienteRegisgtroState createState() => _ClienteRegisgtroState();
 }
 
-class _ClienteRegisgtroState extends State<ClienteRegisgtro> {
+class _ClienteRegisgtroState extends State<ClienteRegisgtro>
+    with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
+    RegistroBloc registroBloc = RegistroBloc();
+    ClienteModel registroLocalModel = new ClienteModel();
+    ArchivosBloc archivosModel = new ArchivosBloc();
+    ModelUsuarios modelUsuarios = new ModelUsuarios();
+    UsuarioProvider usuarioProvider = new UsuarioProvider();
+
+    final picker = ImagePicker();
+    final prefs = new PreferenciasUsuario();
+    File foto;
+    Path path;
+    final formKey = GlobalKey<FormState>();
+    final scaffoldKey = GlobalKey<ScaffoldState>();
+    bool _guardando = false;
+
+    @override
+    void initState() {
+      super.initState();
+      //Agrega un observador cuando la app se activa
+      WidgetsBinding.instance.addObserver(this);
+    }
+
+    @override
+    void dispose() {
+      //Remueve el observador antes de cerrar la app o la pantalla
+      WidgetsBinding.instance.removeObserver(this);
+      //Deja de escuchar los cambios de ubicación
+      prefs.latitud = '';
+      prefs.logitud = '';
+      super.dispose();
+    }
+
     final size = MediaQuery.of(context).size;
     return Container(
       child: Scaffold(
@@ -148,7 +186,8 @@ class _ClienteRegisgtroState extends State<ClienteRegisgtro> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 50.0),
       child: RaisedButton(
-        onPressed: () => Navigator.pushReplacementNamed(context, 'homepagecliente'),
+        onPressed: () =>
+            Navigator.pushReplacementNamed(context, 'homepagecliente'),
         child: Container(
           alignment: Alignment.center,
           width: double.infinity,

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:diggi_delivery_movil/blocs/archivos_bloc.dart';
 import 'package:diggi_delivery_movil/blocs/pages/Login/provider.dart';
-import 'package:diggi_delivery_movil/models/archivos_model.dart';
 import 'package:diggi_delivery_movil/models/locales_model.dart';
 import 'package:diggi_delivery_movil/models/model_usuarios.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
