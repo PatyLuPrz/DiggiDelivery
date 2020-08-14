@@ -134,7 +134,8 @@ class _LoginPageState extends State<LoginPage> {
           elevation: 0.0,
           color: Color(0xFFC93F42),
           textColor: Colors.white,
-          onPressed: snapshot.hasData ? () => _login(bloc, context, snapshot) : null,
+          onPressed:
+              snapshot.hasData ? () => _login(bloc, context, snapshot) : null,
         );
       },
       stream: bloc.formValidStream,
@@ -165,10 +166,24 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  _login(RegistroBloc bloc, BuildContext context, AsyncSnapshot snapshot) async {
+  _login(
+      RegistroBloc bloc, BuildContext context, AsyncSnapshot snapshot) async {
     Map info = await usuarioProvider.login(bloc.emaillog, bloc.password);
     if (info['ok']) {
-      Navigator.pushReplacementNamed(context, 'homepagecliente');
+      var infoEmail = await usuarioProvider.getEmail(bloc.emaillog);
+      print(bloc.emaillog);
+      if (infoEmail['ok']) {
+        if (infoEmail['nivel'] == '0') {
+          Navigator.pushReplacementNamed(context, 'homePageRestaurante');
+        } else if (infoEmail['nivel'] == 1) {
+          Navigator.pushReplacementNamed(context, 'homepagelocal');
+        } else {
+          Navigator.pushReplacementNamed(context, 'homepagecliente');
+        }
+      } else {
+        mostrarAlerta(context, infoEmail['mensaje']);
+      }
+      // Navigator.pushReplacementNamed(context, 'homepagecliente');
     } else {
       mostrarAlerta(context, info['mensaje']);
     }

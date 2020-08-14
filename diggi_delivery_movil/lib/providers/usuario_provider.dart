@@ -84,7 +84,7 @@ class UsuarioProvider {
     if (decodeResp != null) {
       return {'ok': true, 'mensaje': 'Este correo ya esta registrado'};
     } else {
-      return {'ok': false};
+      return {'ok': false, 'email': decodeResp['email'], 'nivel': decodeResp['nivel']};
     }
   }
 
