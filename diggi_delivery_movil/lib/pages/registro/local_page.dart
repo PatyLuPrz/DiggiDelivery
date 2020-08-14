@@ -25,6 +25,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
   RegistroLocalModel registroLocalModel = new RegistroLocalModel();
   ArchivosBloc archivosModel = new ArchivosBloc();
   ModelUsuarios modelUsuarios = new ModelUsuarios();
+  UsuarioProvider usuarioProvider = new UsuarioProvider();
   final picker = ImagePicker();
   final prefs = new PreferenciasUsuario();
   File foto;
@@ -54,7 +55,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
     final size = MediaQuery.of(context).size;
     return Container(
       child: Scaffold(
-      key: scaffoldKey,
+          key: scaffoldKey,
           appBar: AppBar(
             centerTitle: true,
             title: Text("Local"),
@@ -85,6 +86,8 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
             ),
             SizedBox(height: size.height * 0.03),
             _crearEmail(),
+            SizedBox(height: size.height * 0.03),
+            _crearPassword(),
             SizedBox(height: size.height * 0.03),
             _ingresarUbicacion(),
             SizedBox(height: size.height * 0.03),
@@ -123,6 +126,28 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
           }
         },
       ),
+    );
+  }
+
+  Widget _crearPassword() {
+    final dec = DecorationInputForm(
+      textLabel: 'Escribe una contraseña',
+      textHint: "Contraseña",
+      icon: Icons.lock_outline,
+    );
+    return Container(
+      child: TextFormField(
+          obscureText: true,
+          keyboardType: TextInputType.emailAddress,
+          decoration: dec.decoration(),
+          onSaved: (value) => registroLocalModel.pass = value,
+          validator: (value) {
+            if (value.length >= 6) {
+              return 'Ingresar más de 6 caracteres';
+            } else {
+              return null;
+            }
+          }),
     );
   }
 
@@ -295,37 +320,34 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
   }
 
   void _submit() async {
-    if (!formKey.currentState.validate() ||
-        prefs.latitud == '' ||
-        prefs.logitud == '' ||
-        foto == null) return;
+    //Valiar si el usuario ya existe
+    final info = await usuarioProvider.nuevoUsuario(
+        registroLocalModel.email, registroLocalModel.pass);
+    if (info['ok']) {
+      if (!formKey.currentState.validate() ||
+          prefs.latitud == '' ||
+          prefs.logitud == '' ||
+          foto == null) return;
 
-    formKey.currentState.save();
+      formKey.currentState.save();
 
-    registroLocalModel.foto = await archivosModel.subirFoto(foto);
-    setState(() {
-      _guardando = true;
-      registroLocalModel.latitud = prefs.latitud;
-      registroLocalModel.longitud = prefs.logitud;
-      modelUsuarios.email = registroLocalModel.email;
-      modelUsuarios.nivel = '1xss';
-      print("::::::::::::::LOCALES:::::::::::::");
-      print(registroLocalModel.email);
-      print(registroLocalModel.latitud);
-      print(registroLocalModel.longitud);
-      print(registroLocalModel.direccion);
-      print(registroLocalModel.foto);
-      print(registroLocalModel.nombre);
-      print(registroLocalModel.telefono);
-      print("::::::::::::::USUARIOS:::::::::::::");
-      print(modelUsuarios.email);
-      print(modelUsuarios.nivel);
+      registroLocalModel.foto = await archivosModel.subirFoto(foto);
+      setState(() {
+        _guardando = true;
+        registroLocalModel.latitud = prefs.latitud;
+        registroLocalModel.longitud = prefs.logitud;
+        modelUsuarios.email = registroLocalModel.email;
+        modelUsuarios.nivel = '1';
 
-      // registroBloc.agregarNuevoLocal(registroLocalModel);
-      registroBloc.agregarNuevoUsuario(modelUsuarios);
-    });
-    _guardando = false;
-    mostrarSnackbar('Registro guardado');
+        //Agrega los registros a la tabla de usuario y locales
+        registroBloc.agregarNuevoLocal(registroLocalModel);
+        registroBloc.agregarNuevoUsuario(modelUsuarios);
+      });
+      _guardando = false;
+      mostrarSnackbar('Registro guardado');
+    } else {
+      utils.mostrarAlerta(context, info['mensaje']);
+    }
   }
 
   void mostrarSnackbar(String mensaje) {
@@ -336,3 +358,15 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
     scaffoldKey.currentState.showSnackBar(snackbar);
   }
 }
+
+//  print("::::::::::::::LOCALES:::::::::::::");
+//         print(registroLocalModel.email);
+//         print(registroLocalModel.latitud);
+//         print(registroLocalModel.longitud);
+//         print(registroLocalModel.direccion);
+//         print(registroLocalModel.foto);
+//         print(registroLocalModel.nombre);
+//         print(registroLocalModel.telefono);
+//         print("::::::::::::::USUARIOS:::::::::::::");
+//         print(modelUsuarios.email);
+//         print(modelUsuarios.nivel);

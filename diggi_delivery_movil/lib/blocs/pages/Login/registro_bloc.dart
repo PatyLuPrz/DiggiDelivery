@@ -6,6 +6,8 @@ import 'package:diggi_delivery_movil/providers/usuario_provider.dart';
 import 'package:diggi_delivery_movil/validators/validators.dart';
 import 'package:rxdart/rxdart.dart';
 
+export 'package:diggi_delivery_movil/providers/usuario_provider.dart';
+
 class RegistroBloc with Validators {
   final _usuarioProvider = UsuarioProvider();
 
