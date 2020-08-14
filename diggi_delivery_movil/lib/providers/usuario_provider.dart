@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diggi_delivery_movil/models/cliente_model.dart';
 import 'package:diggi_delivery_movil/models/locales_model.dart';
 import 'package:diggi_delivery_movil/models/model_usuarios.dart';
+import 'package:diggi_delivery_movil/models/restaurante_model.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -64,6 +65,7 @@ class UsuarioProvider {
       return {'ok': false, 'mensaje': decodeResp['error']['message']};
     }
   }
+
   //Consultar correo
   Firestore _db = Firestore();
 
@@ -92,6 +94,15 @@ class UsuarioProvider {
         .collection('locales')
         .document()
         .setData(registroLocalModel.toMap());
+    return true;
+  }
+
+  //Nuevo establecimiento
+  Future<bool> crearNuevoRestaurante(RestauranteModel restauranteModel) async {
+    await _db
+        .collection('locales')
+        .document()
+        .setData(restauranteModel.toMap());
     return true;
   }
 

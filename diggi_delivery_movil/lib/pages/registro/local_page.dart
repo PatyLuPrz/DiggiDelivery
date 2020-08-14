@@ -359,15 +359,3 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
     scaffoldKey.currentState.showSnackBar(snackbar);
   }
 }
-
-//  print("::::::::::::::LOCALES:::::::::::::");
-//         print(registroLocalModel.email);
-//         print(registroLocalModel.latitud);
-//         print(registroLocalModel.longitud);
-//         print(registroLocalModel.direccion);
-//         print(registroLocalModel.foto);
-//         print(registroLocalModel.nombre);
-//         print(registroLocalModel.telefono);
-//         print("::::::::::::::USUARIOS:::::::::::::");
-//         print(modelUsuarios.email);
-//         print(modelUsuarios.nivel);
