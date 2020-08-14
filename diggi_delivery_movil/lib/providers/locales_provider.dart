@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diggi_delivery_movil/models/locales_model.dart';
-import 'package:rxdart/subjects.dart';
-import 'dart:convert';
 
 class LocalesProvider {
   Firestore _db = Firestore();

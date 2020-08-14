@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diggi_delivery_movil/models/locales_model.dart';
+import 'package:diggi_delivery_movil/models/model_usuarios.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -40,7 +43,7 @@ class UsuarioProvider {
       String email, String password) async {
     final authData = {
       'email': email,
-      'password': password,
+      'password': 'password',
       'returnSecureToken': true,
     };
 
@@ -59,5 +62,34 @@ class UsuarioProvider {
     } else {
       return {'ok': false, 'mensaje': decodeResp['error']['message']};
     }
+  }
+
+  //Consultar correo
+  Firestore _db = Firestore();
+
+  Future<Map<String, dynamic>> getEmail(String email) async {
+    QuerySnapshot result = await _db
+        .collection("usuarios")
+        .where("email", isEqualTo: email)
+        .getDocuments();
+
+    Map<String, dynamic> decodeResp;
+
+    result.documents.forEach((DocumentSnapshot res) {
+      return decodeResp = res.data;
+    });
+
+    if (decodeResp != null) {
+      return {'ok': true, 'mensaje': 'Este correo ya esta registrado'};
+    } else {
+      return {'ok': false};
+    }
+  }
+
+  //Nuevo establecimiento
+  //Insertar productos en la BD
+  Future<bool> crearNuevoLocal(RegistroLocalModel producto) async {
+    await _db.collection('restaurantes').document().setData(producto.toMap());
+    return true;
   }
 }

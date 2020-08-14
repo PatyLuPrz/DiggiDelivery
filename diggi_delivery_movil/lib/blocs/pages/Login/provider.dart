@@ -27,6 +27,7 @@ class Provider extends InheritedWidget {
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
+  //Login y registro de usuarios, clientes, restaurantes y locales
   static RegistroBloc of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<Provider>().registroBloc;
   }

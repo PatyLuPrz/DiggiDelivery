@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diggi_delivery_movil/blocs/pages/Login/provider.dart';
+import 'package:diggi_delivery_movil/providers/usuario_provider.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
+import 'package:diggi_delivery_movil/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class RegistroPage extends StatefulWidget {
@@ -11,6 +14,8 @@ class RegistroPage extends StatefulWidget {
 
 class _RegistroPageState extends State<RegistroPage> {
   final prefs = new PreferenciasUsuario();
+  final usuarioProvider = new UsuarioProvider();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +38,7 @@ class _RegistroPageState extends State<RegistroPage> {
   }
 
   Widget _registerForm(BuildContext context) {
+    final usuarioProvider = new UsuarioProvider();
     final size = MediaQuery.of(context).size;
     final bloc = Provider.of(context);
     return SingleChildScrollView(
@@ -115,12 +121,17 @@ class _RegistroPageState extends State<RegistroPage> {
     );
   }
 
-  _registrar(RegistroBloc bloc, BuildContext context) {
+  _registrar(RegistroBloc bloc, BuildContext context) async {
     print('=============================================');
     print('Email: ${bloc.emailStream}');
     print('Email 2: ${prefs.email}');
     print('=============================================');
-    Navigator.pushReplacementNamed(context, 'registroBienvenida');
+    var info = await usuarioProvider.getEmail(prefs.email);
+    if (info['ok']) {
+      mostrarAlerta(context, info['mensaje']);
+    } else {
+      Navigator.pushReplacementNamed(context, 'registroBienvenida');
+    }
   }
 
   logo(Size size) {
