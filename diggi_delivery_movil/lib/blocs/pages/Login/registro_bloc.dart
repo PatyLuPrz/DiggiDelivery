@@ -43,6 +43,13 @@ class RegistroBloc with Validators {
     _cargandoController.sink.add(false);
   }
 
+  //AGREGAR NUEVO USUARIO
+  void agregarNuevoUsuario(ModelUsuarios modelUsuarios) async {
+    _cargandoController.sink.add(true);
+    await _usuarioProvider.crearNuevoUsuario(modelUsuarios);
+    _cargandoController.sink.add(false);
+  }
+
   // cerrar
   dispose() {
     _emailController?.close();

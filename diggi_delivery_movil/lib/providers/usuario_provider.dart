@@ -87,9 +87,14 @@ class UsuarioProvider {
   }
 
   //Nuevo establecimiento
-  //Insertar productos en la BD
   Future<bool> crearNuevoLocal(RegistroLocalModel producto) async {
-    await _db.collection('restaurantes').document().setData(producto.toMap());
+    await _db.collection('locales').document().setData(producto.toMap());
+    return true;
+  }
+
+  //Nuevo usuario
+  Future<bool> crearNuevoUsuario(ModelUsuarios modelUsuarios) async {
+    await _db.collection('usuarios').document().setData(modelUsuarios.toMap());
     return true;
   }
 }

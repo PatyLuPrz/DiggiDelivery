@@ -48,7 +48,7 @@ class RegistroLocalModel {
         "telefono": telefono,
         "email": email,
         "foto": foto,
-        "direccion": foto,
+        "direccion": direccion,
         "latitud": latitud,
         "longitud": longitud,
       };

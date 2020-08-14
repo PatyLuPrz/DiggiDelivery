@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:diggi_delivery_movil/blocs/archivos_bloc.dart';
+import 'package:diggi_delivery_movil/blocs/pages/Login/provider.dart';
 import 'package:diggi_delivery_movil/models/archivos_model.dart';
 import 'package:diggi_delivery_movil/models/locales_model.dart';
+import 'package:diggi_delivery_movil/models/model_usuarios.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/widgets/input_decoration.dart';
 import 'package:flutter/material.dart';
@@ -19,13 +21,16 @@ class LocalRegisgtro extends StatefulWidget {
 
 class _LocalRegisgtroState extends State<LocalRegisgtro>
     with WidgetsBindingObserver {
+  RegistroBloc registroBloc = RegistroBloc();
   RegistroLocalModel registroLocalModel = new RegistroLocalModel();
   ArchivosBloc archivosModel = new ArchivosBloc();
+  ModelUsuarios modelUsuarios = new ModelUsuarios();
   final picker = ImagePicker();
   final prefs = new PreferenciasUsuario();
   File foto;
   Path path;
   final formKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   bool _guardando = false;
   @override
   void initState() {
@@ -49,6 +54,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
     final size = MediaQuery.of(context).size;
     return Container(
       child: Scaffold(
+      key: scaffoldKey,
           appBar: AppBar(
             centerTitle: true,
             title: Text("Local"),
@@ -273,7 +279,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 50.0),
       child: RaisedButton(
-        onPressed: _submit,
+        onPressed: (_guardando) ? null : _submit,
         child: Container(
           alignment: Alignment.center,
           width: double.infinity,
@@ -297,11 +303,13 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
     formKey.currentState.save();
 
     registroLocalModel.foto = await archivosModel.subirFoto(foto);
-
     setState(() {
       _guardando = true;
       registroLocalModel.latitud = prefs.latitud;
       registroLocalModel.longitud = prefs.logitud;
+      modelUsuarios.email = registroLocalModel.email;
+      modelUsuarios.nivel = '1xss';
+      print("::::::::::::::LOCALES:::::::::::::");
       print(registroLocalModel.email);
       print(registroLocalModel.latitud);
       print(registroLocalModel.longitud);
@@ -309,6 +317,22 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
       print(registroLocalModel.foto);
       print(registroLocalModel.nombre);
       print(registroLocalModel.telefono);
+      print("::::::::::::::USUARIOS:::::::::::::");
+      print(modelUsuarios.email);
+      print(modelUsuarios.nivel);
+
+      // registroBloc.agregarNuevoLocal(registroLocalModel);
+      registroBloc.agregarNuevoUsuario(modelUsuarios);
     });
+    _guardando = false;
+    mostrarSnackbar('Registro guardado');
+  }
+
+  void mostrarSnackbar(String mensaje) {
+    final snackbar = SnackBar(
+      content: Text(mensaje),
+      duration: Duration(milliseconds: 1500),
+    );
+    scaffoldKey.currentState.showSnackBar(snackbar);
   }
 }
