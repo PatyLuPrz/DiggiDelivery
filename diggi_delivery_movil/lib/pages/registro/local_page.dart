@@ -1,6 +1,8 @@
 import 'dart:io';
 
-import 'package:diggi_delivery_movil/models/registro_local_model.dart';
+import 'package:diggi_delivery_movil/blocs/archivos_bloc.dart';
+import 'package:diggi_delivery_movil/models/archivos_model.dart';
+import 'package:diggi_delivery_movil/models/locales_model.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/widgets/input_decoration.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,7 @@ class LocalRegisgtro extends StatefulWidget {
 class _LocalRegisgtroState extends State<LocalRegisgtro>
     with WidgetsBindingObserver {
   RegistroLocalModel registroLocalModel = new RegistroLocalModel();
+  ArchivosBloc archivosModel = new ArchivosBloc();
   final picker = ImagePicker();
   final prefs = new PreferenciasUsuario();
   File foto;
@@ -285,12 +288,15 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
     );
   }
 
-  void _submit() {
+  void _submit() async {
     if (!formKey.currentState.validate() ||
         prefs.latitud == '' ||
-        prefs.logitud == '' || foto != null) return;
+        prefs.logitud == '' ||
+        foto == null) return;
 
     formKey.currentState.save();
+
+    registroLocalModel.foto = await archivosModel.subirFoto(foto);
 
     setState(() {
       _guardando = true;
@@ -300,9 +306,9 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
       print(registroLocalModel.latitud);
       print(registroLocalModel.longitud);
       print(registroLocalModel.direccion);
+      print(registroLocalModel.foto);
       print(registroLocalModel.nombre);
       print(registroLocalModel.telefono);
-      
     });
   }
 }

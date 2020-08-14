@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diggi_delivery_movil/blocs/pages/Login/provider.dart';
 import 'package:diggi_delivery_movil/blocs/pages/locales/locales_bloc.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
-import 'package:diggi_delivery_movil/models/registro_local_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' as prov;
 

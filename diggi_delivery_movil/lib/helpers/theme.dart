@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:diggi_delivery_movil/models/theme_preferences.dart';
+import 'package:diggi_delivery_movil/utils/theme_preferences.dart';
 
 class ThemeProvider with ChangeNotifier {
   ThemePreference themePreference = ThemePreference();

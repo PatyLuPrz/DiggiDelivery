@@ -1,8 +1,6 @@
 import 'package:diggi_delivery_movil/pages/clientes/locales_page.dart';
 import 'package:diggi_delivery_movil/pages/clientes/restaurantes_page.dart';
-import 'package:diggi_delivery_movil/helpers/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class InicioClientes extends StatelessWidget {
   final String nombre;
@@ -11,7 +9,6 @@ class InicioClientes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentTheme = Provider.of<ThemeProvider>(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(

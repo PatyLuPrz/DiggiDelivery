@@ -1,3 +1,4 @@
+import 'package:diggi_delivery_movil/blocs/archivos_bloc.dart';
 import 'package:diggi_delivery_movil/blocs/pages/Login/registro_bloc.dart';
 import 'package:diggi_delivery_movil/blocs/pages/locales/locales_bloc.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,8 @@ class Provider extends InheritedWidget {
   static Provider _instancia;
 
   final _localesBloc = new LocalesBloc();
+  final registroBloc = RegistroBloc();
+  final _archivosBloc = ArchivosBloc();
 
   // Determinar si necesita una nueva instancia
   factory Provider({Key key, Widget child}) {
@@ -18,8 +21,6 @@ class Provider extends InheritedWidget {
   }
 
   Provider._internal({Key key, Widget child}) : super(key: key, child: child);
-
-  final registroBloc = RegistroBloc();
 
   // Provider({Key key, Widget child}) : super(key: key, child: child);
 
@@ -33,5 +34,10 @@ class Provider extends InheritedWidget {
   //LocalesBloc
   static LocalesBloc localesBloc(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<Provider>()._localesBloc;
+  }
+
+  //Archivos_BLoC para subir archivos al servidor
+  static ArchivosBloc archivosBloc(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<Provider>()._archivosBloc;
   }
 }

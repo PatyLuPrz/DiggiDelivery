@@ -1,11 +1,7 @@
-import 'package:diggi_delivery_movil/helpers/style.dart';
-import 'package:diggi_delivery_movil/models/theme_preferences.dart';
 import 'package:diggi_delivery_movil/pages/clientes/inicio_clientes.dart';
-import 'package:diggi_delivery_movil/pages/clientes/mapa_clientes.dart';
 import 'package:diggi_delivery_movil/pages/clientes/pedidos_clientes.dart';
 import 'package:diggi_delivery_movil/pages/perfil_usuario_page.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
-import 'package:diggi_delivery_movil/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

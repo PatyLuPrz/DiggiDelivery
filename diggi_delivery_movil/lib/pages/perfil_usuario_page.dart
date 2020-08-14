@@ -1,4 +1,4 @@
-import 'package:diggi_delivery_movil/models/theme_preferences.dart';
+import 'package:diggi_delivery_movil/utils/theme_preferences.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/widgets/custom_text.dart';

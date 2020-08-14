@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diggi_delivery_movil/models/registro_local_model.dart';
+import 'package:diggi_delivery_movil/models/locales_model.dart';
 import 'package:rxdart/subjects.dart';
 import 'dart:convert';
 
