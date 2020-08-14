@@ -1,5 +1,13 @@
+import 'dart:io';
+
+import 'package:diggi_delivery_movil/blocs/archivos_bloc.dart';
+import 'package:diggi_delivery_movil/blocs/pages/Login/provider.dart';
+import 'package:diggi_delivery_movil/models/model_usuarios.dart';
+import 'package:diggi_delivery_movil/models/restaurante_model.dart';
+import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/widgets/input_decoration.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RestauranteRegistro extends StatefulWidget {
   RestauranteRegistro({Key key}) : super(key: key);
@@ -8,7 +16,37 @@ class RestauranteRegistro extends StatefulWidget {
   _RestauranteRegistroState createState() => _RestauranteRegistroState();
 }
 
-class _RestauranteRegistroState extends State<RestauranteRegistro> {
+class _RestauranteRegistroState extends State<RestauranteRegistro>
+    with WidgetsBindingObserver {
+  RegistroBloc _registroBloc = RegistroBloc();
+  RestauranteModel _restauranteModel = new RestauranteModel();
+  ArchivosBloc _archivosModel = new ArchivosBloc();
+  ModelUsuarios _modelUsuarios = new ModelUsuarios();
+  UsuarioProvider _usuarioProvider = new UsuarioProvider();
+  final _picker = ImagePicker();
+  final _prefs = new PreferenciasUsuario();
+  File _foto;
+  Path _path;
+  final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool _guardando = false;
+  @override
+  void initState() {
+    super.initState();
+    //Agrega un observador cuando la app se activa
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    //Remueve el observador antes de cerrar la app o la pantalla
+    WidgetsBinding.instance.removeObserver(this);
+    //Deja de escuchar los cambios de ubicación
+    _prefs.latitud = '';
+    _prefs.logitud = '';
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
