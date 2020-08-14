@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:diggi_delivery_movil/models/registro_local_model.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/widgets/input_decoration.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +17,13 @@ class LocalRegisgtro extends StatefulWidget {
 
 class _LocalRegisgtroState extends State<LocalRegisgtro>
     with WidgetsBindingObserver {
+  RegistroLocalModel registroLocalModel = new RegistroLocalModel();
   final picker = ImagePicker();
   final prefs = new PreferenciasUsuario();
   File foto;
   Path path;
+  final formKey = GlobalKey<FormState>();
+  bool _guardando = false;
   @override
   void initState() {
     super.initState();
@@ -62,39 +66,53 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
   _formLocal(BuildContext context, Size size) {
     return Container(
       padding: EdgeInsets.all(15.0),
-      child: Column(
-        children: <Widget>[
-          Text(
-            "Para formar parte de Diggi Delivery como Local, ingresa la información de tu establecimiento:",
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: size.height * 0.03),
-          _crearEmail(),
-          SizedBox(height: size.height * 0.03),
-          _ingresarUbicacion(),
-          SizedBox(height: size.height * 0.03),
-          _crearDireccion(),
-          SizedBox(height: size.height * 0.03),
-          _crearFoto(size),
-          _crearNombre(),
-          SizedBox(height: size.height * 0.03),
-          _crearTelefono(),
-          SizedBox(height: size.height * 0.03),
-          _crearUsuario(),
-          SizedBox(height: size.height * 0.03),
-        ],
+      child: Form(
+        key: formKey,
+        child: Column(
+          children: <Widget>[
+            Text(
+              "Para formar parte de Diggi Delivery como Local, ingresa la información de tu establecimiento:",
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: size.height * 0.03),
+            _crearEmail(),
+            SizedBox(height: size.height * 0.03),
+            _ingresarUbicacion(),
+            SizedBox(height: size.height * 0.03),
+            _crearDireccion(),
+            SizedBox(height: size.height * 0.03),
+            _crearFoto(size),
+            _crearNombre(),
+            SizedBox(height: size.height * 0.03),
+            _crearTelefono(),
+            SizedBox(height: size.height * 0.03),
+            _crearUsuario(),
+            SizedBox(height: size.height * 0.03),
+          ],
+        ),
       ),
     );
   }
 
   Widget _crearEmail() {
     final dec = DecorationInputForm(
-        textLabel: prefs.email, textHint: "Correo", icon: Icons.email);
+        textLabel: "Corrreo electronico",
+        textHint: "Correo",
+        icon: Icons.email);
     return Container(
-      child: TextField(
+      child: TextFormField(
+        initialValue: prefs.email,
         keyboardType: TextInputType.emailAddress,
         enabled: false,
         decoration: dec.decoration(),
+        onSaved: (value) => registroLocalModel.email = value,
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Ingrese el correo valido';
+          } else {
+            return null;
+          }
+        },
       ),
     );
   }
@@ -109,6 +127,14 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
         keyboardType: TextInputType.text,
         enabled: true,
         decoration: dec.decoration(),
+        onSaved: (value) => registroLocalModel.direccion = value,
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Ingrese su dirección';
+          } else {
+            return null;
+          }
+        },
       ),
     );
   }
@@ -123,6 +149,15 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
         keyboardType: TextInputType.text,
         enabled: true,
         decoration: dec.decoration(),
+        onSaved: (value) => registroLocalModel.nombre = value,
+        validator: (value) {
+          print("NOMBRE :::: $value");
+          if (value.isEmpty) {
+            return 'Ingrese el nombre del establecimiento';
+          } else {
+            return null;
+          }
+        },
       ),
     );
   }
@@ -137,9 +172,11 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
         keyboardType: TextInputType.phone,
         maxLength: 10,
         enableInteractiveSelection: false,
+        onSaved: (value) => registroLocalModel.telefono = int.parse(value),
         validator: (value) {
-          if (!utils.isNumeric(value) && value.contains(".")) {
-            return 'Solo números';
+          print("Telefono :::: $value");
+          if (!utils.isNumeric(value) || value.contains(".") || value.isEmpty) {
+            return 'Ingrese un número de 10 digitos';
           } else {
             return null;
           }
@@ -233,12 +270,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 50.0),
       child: RaisedButton(
-        onPressed: () {
-          // Navigator.pushReplacementNamed(context, 'homepagelocal'),
-          print(
-              "PREFERENCIAS DE USUARIO :::: ${prefs.latitud} - ${prefs.logitud}");
-          print(prefs.email);
-        },
+        onPressed: _submit,
         child: Container(
           alignment: Alignment.center,
           width: double.infinity,
@@ -251,5 +283,26 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
         textColor: Colors.white,
       ),
     );
+  }
+
+  void _submit() {
+    if (!formKey.currentState.validate() ||
+        prefs.latitud == '' ||
+        prefs.logitud == '' || foto != null) return;
+
+    formKey.currentState.save();
+
+    setState(() {
+      _guardando = true;
+      registroLocalModel.latitud = prefs.latitud;
+      registroLocalModel.longitud = prefs.logitud;
+      print(registroLocalModel.email);
+      print(registroLocalModel.latitud);
+      print(registroLocalModel.longitud);
+      print(registroLocalModel.direccion);
+      print(registroLocalModel.nombre);
+      print(registroLocalModel.telefono);
+      
+    });
   }
 }

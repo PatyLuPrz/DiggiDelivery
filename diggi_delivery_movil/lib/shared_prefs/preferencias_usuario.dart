@@ -88,4 +88,13 @@ class PreferenciasUsuario {
   set idLocal(String value) {
     _prefs.setString('idLocal', value);
   }
+
+  //Geta and Set Token
+  get foto {
+    return _prefs.getString('foto') ?? '';
+  }
+
+  set foto(String value) {
+    _prefs.setString('foto', value);
+  }
 }

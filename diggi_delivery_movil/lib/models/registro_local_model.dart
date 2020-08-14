@@ -13,21 +13,23 @@ String registroLocalModelToJson(RegistroLocalModel data) => json.encode(data.toM
 class RegistroLocalModel {
   RegistroLocalModel({
     this.id,
-    this.nombre = '',
-    this.telefono = 0.0,
-    this.email = true,
+    this.nombre,
+    this.telefono,
+    this.email,
     this.foto,
-    this.direccion = '',
-    this.coordenas,
+    this.direccion,
+    this.latitud,
+    this.longitud,
   });
 
   String id;
   String nombre;
-  double telefono;
-  bool email;
+  int telefono;
+  String email;
   String foto;
   String direccion;
-  LatLng coordenas;
+  String latitud;
+  String longitud;
 
   factory RegistroLocalModel.fromFirestore(Map<String, dynamic> json) => RegistroLocalModel(
         id: json["id"],
@@ -36,7 +38,8 @@ class RegistroLocalModel {
         email: json["email"],
         foto: json["foto"],
         direccion: json["direccion"],
-        coordenas: json["coordenas"],
+        latitud: json["latitud"],
+        longitud: json["longitud"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -46,6 +49,7 @@ class RegistroLocalModel {
         "email": email,
         "foto": foto,
         "direccion": foto,
-        "coordenas": foto,
+        "latitud": latitud,
+        "longitud": longitud,
       };
 }
