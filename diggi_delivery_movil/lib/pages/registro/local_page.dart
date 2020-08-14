@@ -141,7 +141,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
           decoration: dec.decoration(),
           onSaved: (value) => registroLocalModel.pass = value,
           validator: (value) {
-            if (value.length >= 6) {
+            if (value.length <= 6) {
               return 'Ingresar más de 6 caracteres';
             } else {
               return null;
@@ -320,16 +320,17 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
 
   void _submit() async {
     //Valiar si el usuario ya existe
+
+    if (!formKey.currentState.validate() ||
+        prefs.latitud == '' ||
+        prefs.logitud == '' ||
+        foto == null) return;
+
+    formKey.currentState.save();
+
     final info = await usuarioProvider.nuevoUsuario(
         registroLocalModel.email, registroLocalModel.pass);
     if (info['ok']) {
-      if (!formKey.currentState.validate() ||
-          prefs.latitud == '' ||
-          prefs.logitud == '' ||
-          foto == null) return;
-
-      formKey.currentState.save();
-
       registroLocalModel.foto = await archivosModel.subirFoto(foto);
       setState(() {
         _guardando = true;
@@ -341,6 +342,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
         //Agrega los registros a la tabla de usuario y locales
         registroBloc.agregarNuevoLocal(registroLocalModel);
         registroBloc.agregarNuevoUsuario(modelUsuarios);
+        Navigator.pushReplacementNamed(context, 'homepagelocal');
       });
       _guardando = false;
       mostrarSnackbar('Registro guardado');

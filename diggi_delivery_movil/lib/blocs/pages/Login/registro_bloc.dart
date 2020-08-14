@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:diggi_delivery_movil/models/cliente_model.dart';
 import 'package:diggi_delivery_movil/models/locales_model.dart';
 import 'package:diggi_delivery_movil/models/model_usuarios.dart';
 import 'package:diggi_delivery_movil/providers/usuario_provider.dart';
@@ -42,6 +43,13 @@ class RegistroBloc with Validators {
   void agregarNuevoLocal(RegistroLocalModel registroLocalModel) async {
     _cargandoController.sink.add(true);
     await _usuarioProvider.crearNuevoLocal(registroLocalModel);
+    _cargandoController.sink.add(false);
+  }
+
+  //AGREGAR NUEVO CLIENTE
+  void agregarNuevoCliente(ClienteModel clienteModel) async {
+    _cargandoController.sink.add(true);
+    await _usuarioProvider.crearNuevoCliente(clienteModel);
     _cargandoController.sink.add(false);
   }
 

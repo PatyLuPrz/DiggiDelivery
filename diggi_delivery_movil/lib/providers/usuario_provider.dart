@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diggi_delivery_movil/models/cliente_model.dart';
 import 'package:diggi_delivery_movil/models/locales_model.dart';
 import 'package:diggi_delivery_movil/models/model_usuarios.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
@@ -43,7 +44,7 @@ class UsuarioProvider {
       String email, String password) async {
     final authData = {
       'email': email,
-      'password': 'password',
+      'password': password,
       'returnSecureToken': true,
     };
 
@@ -63,7 +64,6 @@ class UsuarioProvider {
       return {'ok': false, 'mensaje': decodeResp['error']['message']};
     }
   }
-
   //Consultar correo
   Firestore _db = Firestore();
 
@@ -87,8 +87,17 @@ class UsuarioProvider {
   }
 
   //Nuevo establecimiento
-  Future<bool> crearNuevoLocal(RegistroLocalModel producto) async {
-    await _db.collection('locales').document().setData(producto.toMap());
+  Future<bool> crearNuevoLocal(RegistroLocalModel registroLocalModel) async {
+    await _db
+        .collection('locales')
+        .document()
+        .setData(registroLocalModel.toMap());
+    return true;
+  }
+
+  //Nuevo cliente
+  Future<bool> crearNuevoCliente(ClienteModel clienteModel) async {
+    await _db.collection('clientes').document().setData(clienteModel.toMap());
     return true;
   }
 
