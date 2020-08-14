@@ -1,10 +1,13 @@
 import 'package:diggi_delivery_movil/blocs/pages/Login/registro_bloc.dart';
+import 'package:diggi_delivery_movil/blocs/pages/locales/locales_bloc.dart';
 import 'package:flutter/material.dart';
 
 export 'registro_bloc.dart';
 
 class Provider extends InheritedWidget {
   static Provider _instancia;
+
+  final _localesBloc = new LocalesBloc();
 
   // Determinar si necesita una nueva instancia
   factory Provider({Key key, Widget child}) {
@@ -25,5 +28,10 @@ class Provider extends InheritedWidget {
 
   static RegistroBloc of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<Provider>().registroBloc;
+  }
+
+  //LocalesBloc
+  static LocalesBloc localesBloc(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<Provider>()._localesBloc;
   }
 }

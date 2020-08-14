@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
+import 'package:diggi_delivery_movil/providers/locales_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +12,7 @@ class RestaurantesPage extends StatefulWidget {
 }
 
 class _RestaurantesPageState extends State<RestaurantesPage> {
+  LocalesProvider localesProvider = LocalesProvider();
   @override
   Widget build(BuildContext context) {
     final currentTheme = Provider.of<ThemeProvider>(context);
@@ -64,7 +66,7 @@ class _RestaurantesPageState extends State<RestaurantesPage> {
       height: size.height * 0.65,
       width: double.infinity,
       child: StreamBuilder(
-        stream: Firestore.instance.collection('restaurantes').snapshots(),
+        stream: localesProvider.getDocuments('restaurantes'),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) return CircularProgressIndicator();
           return ListView.builder(
@@ -103,6 +105,7 @@ class _RestaurantesPageState extends State<RestaurantesPage> {
   }
 
   Widget _cardRestaurante(AsyncSnapshot snapshot, Size size, int index) {
+    
     return Stack(
       children: <Widget>[
         _imagenRestaurante(snapshot, size, index),
@@ -122,7 +125,7 @@ class _RestaurantesPageState extends State<RestaurantesPage> {
                   style: TextStyle(color: Colors.white),
                 ),
                 Text(
-                  snapshot.data.documents[index].data['telefono'],
+                  snapshot.data.documents[index].data["direccion"],
                   style: TextStyle(color: Colors.white),
                 ),
               ],

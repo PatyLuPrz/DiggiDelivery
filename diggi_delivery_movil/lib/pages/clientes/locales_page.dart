@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diggi_delivery_movil/blocs/pages/Login/provider.dart';
+import 'package:diggi_delivery_movil/blocs/pages/locales/locales_bloc.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
+import 'package:diggi_delivery_movil/models/registro_local_model.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as prov;
 
 class LocalesPage extends StatefulWidget {
   LocalesPage({Key key}) : super(key: key);
@@ -13,7 +16,9 @@ class LocalesPage extends StatefulWidget {
 class _LocalesPageState extends State<LocalesPage> {
   @override
   Widget build(BuildContext context) {
-    final currentTheme = Provider.of<ThemeProvider>(context);
+    final localesBloc = Provider.localesBloc(context);
+    localesBloc.cargarLocales();
+    final currentTheme = prov.Provider.of<ThemeProvider>(context);
     final size = MediaQuery.of(context).size;
     return Flexible(
       child: Container(
@@ -25,7 +30,7 @@ class _LocalesPageState extends State<LocalesPage> {
             SizedBox(
               height: size.height * 0.015,
             ),
-            _popularesEstablecimientos(currentTheme, size),
+            _localesRegistros(currentTheme, size, localesBloc),
           ],
         ),
       ),
@@ -61,13 +66,14 @@ class _LocalesPageState extends State<LocalesPage> {
     );
   }
 
-  Widget _popularesEstablecimientos(ThemeProvider currentTheme, Size size) {
+  Widget _localesRegistros(
+      ThemeProvider currentTheme, Size size, LocalesBloc localesBloc) {
     return Container(
       margin: EdgeInsets.only(left: 10.0, right: 10.0),
       height: size.height * 0.65,
       width: double.infinity,
-      child: StreamBuilder(
-        stream: Firestore.instance.collection('locales').snapshots(),
+      child: StreamBuilder<QuerySnapshot>(
+        stream: localesBloc.localesStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) return CircularProgressIndicator();
           return ListView.builder(
@@ -75,8 +81,10 @@ class _LocalesPageState extends State<LocalesPage> {
             physics: ClampingScrollPhysics(),
             itemCount: snapshot.data.documents.length,
             itemBuilder: (BuildContext context, int index) {
+              final DocumentSnapshot document = snapshot.data.documents[index];
               return Container(
-                margin: EdgeInsets.only(right: 10.0, bottom: 10.0, top: 5.0, left: 10.0),
+                margin: EdgeInsets.only(
+                    right: 10.0, bottom: 10.0, top: 5.0, left: 10.0),
                 padding: EdgeInsets.all(5.0),
                 width: 200.0,
                 height: 200.0,
@@ -88,10 +96,10 @@ class _LocalesPageState extends State<LocalesPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      snapshot.data.documents[index].data['nombre'],
+                      document["nombre"],
                     ),
                     Text(
-                      snapshot.data.documents[index].data['telefono'],
+                      document["telefono"],
                     ),
                   ],
                 ),
