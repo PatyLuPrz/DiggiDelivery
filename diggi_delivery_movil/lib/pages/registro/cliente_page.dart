@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:diggi_delivery_movil/blocs/archivos_bloc.dart';
-import 'package:diggi_delivery_movil/blocs/pages/Login/provider.dart';
+import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/models/cliente_model.dart';
 import 'package:diggi_delivery_movil/models/model_usuarios.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
@@ -9,6 +9,7 @@ import 'package:diggi_delivery_movil/widgets/input_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:diggi_delivery_movil/utils/utils.dart' as utils;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ClienteRegisgtro extends StatefulWidget {
   ClienteRegisgtro({Key key}) : super(key: key);
@@ -32,6 +33,7 @@ class _ClienteRegisgtroState extends State<ClienteRegisgtro>
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   bool _guardando = false;
+
 
   @override
   void initState() {
@@ -300,7 +302,7 @@ class _ClienteRegisgtroState extends State<ClienteRegisgtro>
     final info = await _usuarioProvider.nuevoUsuario(
         _clienteModel.email, _clienteModel.pass);
     if (info['ok']) {
-      //   _clienteModel.foto = await _archivosModel.subirFoto(foto);
+      _clienteModel.foto = await _archivosModel.subirFoto(foto);
       setState(() {
         _guardando = true;
         _clienteModel.latitud = prefs.latitud;
@@ -310,20 +312,22 @@ class _ClienteRegisgtroState extends State<ClienteRegisgtro>
         //Agrega los registros a la tabla de usuario y locales
         _registroBloc.agregarNuevoCliente(_clienteModel);
         _registroBloc.agregarNuevoUsuario(_modelUsuarios);
+        
+        prefs.clear();
+        prefs.email = _clienteModel.email;
       });
-      _guardando = false;
-      mostrarSnackbar('Registro guardado');
       Navigator.pushReplacementNamed(context, 'homepagecliente');
+      _guardando = false;
     } else {
       utils.mostrarAlerta(context, info['mensaje']);
     }
   }
 
-  void mostrarSnackbar(String mensaje) {
-    final snackbar = SnackBar(
-      content: Text(mensaje),
-      duration: Duration(milliseconds: 1500),
-    );
-    scaffoldKey.currentState.showSnackBar(snackbar);
-  }
+  // void mostrarSnackbar(String mensaje) {
+  //   final snackbar = SnackBar(
+  //     content: Text(mensaje),
+  //     duration: Duration(milliseconds: 1500),
+  //   );
+  //   scaffoldKey.currentState.showSnackBar(snackbar);
+  // }
 }

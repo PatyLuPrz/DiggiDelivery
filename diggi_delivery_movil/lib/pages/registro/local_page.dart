@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:diggi_delivery_movil/blocs/archivos_bloc.dart';
-import 'package:diggi_delivery_movil/blocs/pages/Login/provider.dart';
+import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/models/locales_model.dart';
 import 'package:diggi_delivery_movil/models/model_usuarios.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
@@ -175,7 +175,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
   Widget _crearNombre() {
     final dec = DecorationInputForm(
         textLabel: "Nombre del Local",
-        textHint: "Pizzas Perez",
+        textHint: "Papelería Perez",
         icon: Icons.person);
     return Container(
       child: TextFormField(
@@ -342,20 +342,22 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
         //Agrega los registros a la tabla de usuario y locales
         registroBloc.agregarNuevoLocal(registroLocalModel);
         registroBloc.agregarNuevoUsuario(modelUsuarios);
-        Navigator.pushReplacementNamed(context, 'homepagelocal');
+
+        prefs.clear();
+        prefs.email = registroLocalModel.email;
       });
+        Navigator.pushReplacementNamed(context, 'homepagelocal');
       _guardando = false;
-      mostrarSnackbar('Registro guardado');
     } else {
       utils.mostrarAlerta(context, info['mensaje']);
     }
   }
 
-  void mostrarSnackbar(String mensaje) {
-    final snackbar = SnackBar(
-      content: Text(mensaje),
-      duration: Duration(milliseconds: 1500),
-    );
-    scaffoldKey.currentState.showSnackBar(snackbar);
-  }
+  // void mostrarSnackbar(String mensaje) {
+  //   final snackbar = SnackBar(
+  //     content: Text(mensaje),
+  //     duration: Duration(milliseconds: 1500),
+  //   );
+  //   scaffoldKey.currentState.showSnackBar(snackbar);
+  // }
 }

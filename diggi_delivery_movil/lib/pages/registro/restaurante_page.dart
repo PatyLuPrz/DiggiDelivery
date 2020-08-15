@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:diggi_delivery_movil/blocs/archivos_bloc.dart';
-import 'package:diggi_delivery_movil/blocs/pages/Login/provider.dart';
+import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/models/model_usuarios.dart';
 import 'package:diggi_delivery_movil/models/restaurante_model.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
@@ -176,7 +176,7 @@ class _RestauranteRegistroState extends State<RestauranteRegistro>
 
   Widget _crearDireccion() {
     final dec = DecorationInputForm(
-        textLabel: "Dirección del local",
+        textLabel: "Dirección del restaurante",
         textHint: "Camelia #256, 43600, Tulancingo",
         icon: Icons.map);
     return Container(
@@ -252,7 +252,7 @@ class _RestauranteRegistroState extends State<RestauranteRegistro>
 
   Widget _crearNombre() {
     final dec = DecorationInputForm(
-        textLabel: "Nombre del Local",
+        textLabel: "Nombre del Restaurante",
         textHint: "Pizzas Perez",
         icon: Icons.person);
     return Container(
@@ -264,7 +264,7 @@ class _RestauranteRegistroState extends State<RestauranteRegistro>
         validator: (value) {
           print("NOMBRE :::: $value");
           if (value.isEmpty) {
-            return 'Ingrese el nombre del establecimiento';
+            return 'Ingrese el nombre del restaurante';
           } else {
             return null;
           }
@@ -341,20 +341,21 @@ class _RestauranteRegistroState extends State<RestauranteRegistro>
         //Agrega los registros a la tabla de usuario y locales
         _registroBloc.agregarNuevoRestaurante(_restauranteModel);
         _registroBloc.agregarNuevoUsuario(_modelUsuarios);
-        Navigator.pushReplacementNamed(context, 'homepagelocal');
+        _prefs.clear();
+        _prefs.email = _restauranteModel.email;
       });
+        Navigator.pushReplacementNamed(context, 'homePageRestaurante');
       _guardando = false;
-      mostrarSnackbar('Registro guardado');
     } else {
       utils.mostrarAlerta(context, info['mensaje']);
     }
   }
 
-  void mostrarSnackbar(String mensaje) {
-    final snackbar = SnackBar(
-      content: Text(mensaje),
-      duration: Duration(milliseconds: 1500),
-    );
-    _scaffoldKey.currentState.showSnackBar(snackbar);
-  }
+  // void mostrarSnackbar(String mensaje) {
+  //   final snackbar = SnackBar(
+  //     content: Text(mensaje),
+  //     duration: Duration(milliseconds: 1500),
+  //   );
+  //   _scaffoldKey.currentState.showSnackBar(snackbar);
+  // }
 }

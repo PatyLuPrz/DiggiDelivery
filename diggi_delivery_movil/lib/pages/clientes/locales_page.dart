@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diggi_delivery_movil/blocs/pages/Login/provider.dart';
+import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/blocs/pages/locales/locales_bloc.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
 import 'package:flutter/material.dart';
@@ -98,7 +98,8 @@ class _LocalesPageState extends State<LocalesPage> {
                       document["nombre"],
                     ),
                     Text(
-                      document["telefono"],
+                      document["telefono"].toString()
+                      ,
                     ),
                   ],
                 ),

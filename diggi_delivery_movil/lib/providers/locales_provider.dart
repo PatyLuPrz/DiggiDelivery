@@ -10,7 +10,7 @@ class LocalesProvider {
 
   //Obtener registros
   Stream<QuerySnapshot> getLocales() {
-    return Firestore.instance.collection('restaurantes').snapshots();
+    return Firestore.instance.collection('locales').snapshots();
   }
 
   //Insertar productos en la BD

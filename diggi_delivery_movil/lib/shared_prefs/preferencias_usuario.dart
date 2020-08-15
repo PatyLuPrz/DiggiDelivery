@@ -18,6 +18,10 @@ class PreferenciasUsuario {
     this._prefs = await SharedPreferences.getInstance();
   }
 
+  clear() async {
+    this._prefs.clear();
+  }
+
   //Get And Set Genero
   get genero {
     return _prefs.getInt('genero') ?? 1;

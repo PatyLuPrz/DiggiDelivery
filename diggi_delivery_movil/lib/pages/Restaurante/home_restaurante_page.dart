@@ -1,4 +1,5 @@
 import 'package:diggi_delivery_movil/helpers/style.dart';
+import 'package:diggi_delivery_movil/pages/Restaurante/inicio_local.dart';
 import 'package:diggi_delivery_movil/utils/theme_preferences.dart';
 import 'package:diggi_delivery_movil/pages/clientes/inicio_clientes.dart';
 import 'package:diggi_delivery_movil/pages/clientes/mapa_clientes.dart';
@@ -19,7 +20,7 @@ class _HomePageRestauranteState extends State<HomePageRestaurante> {
 
   //Lista de BottomNavBar
   static const List<Widget> _widgetOptions = <Widget>[
-    InicioLocal(),
+    InicioRestaurante(),
     PedidosClientes(),
     PerfilUsuarioPage(),
   ];

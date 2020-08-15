@@ -3,7 +3,7 @@ import 'package:diggi_delivery_movil/blocs/pages/Login/registro_bloc.dart';
 import 'package:diggi_delivery_movil/blocs/pages/locales/locales_bloc.dart';
 import 'package:flutter/material.dart';
 
-export 'registro_bloc.dart';
+export 'Login/registro_bloc.dart';
 
 class Provider extends InheritedWidget {
   static Provider _instancia;

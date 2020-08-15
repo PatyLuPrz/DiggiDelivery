@@ -84,7 +84,55 @@ class UsuarioProvider {
     if (decodeResp != null) {
       return {'ok': true, 'mensaje': 'Este correo ya esta registrado'};
     } else {
-      return {'ok': false, 'email': decodeResp['email'], 'nivel': decodeResp['nivel']};
+      return {
+        'ok': false,
+        'email': decodeResp['email'],
+        'nivel': decodeResp['nivel']
+      };
+    }
+  }
+
+  Future<Map<String, dynamic>> getEmailRegistro(String email) async {
+    QuerySnapshot result = await _db
+        .collection("usuarios")
+        .where("email", isEqualTo: email)
+        .getDocuments();
+
+    Map<String, dynamic> decodeResp;
+
+    result.documents.forEach((DocumentSnapshot res) {
+      return decodeResp = res.data;
+    });
+
+    if (decodeResp != null) {
+      return {'ok': true, 'mensaje': 'Este correo ya esta registrado'};
+    } else {
+      return {
+        'ok': false,
+      };
+    }
+  }
+
+  Future<Map<String, dynamic>> getEmailLogin(String email) async {
+    QuerySnapshot result = await _db
+        .collection("usuarios")
+        .where("email", isEqualTo: email)
+        .getDocuments();
+
+    Map<String, dynamic> decodeResp;
+
+    result.documents.forEach((DocumentSnapshot res) {
+      return decodeResp = res.data;
+    });
+
+    if (decodeResp != null) {
+      return {
+        'ok': false,
+        'email': decodeResp['email'],
+        'nivel': decodeResp['nivel']
+      };
+    } else {
+      return {'ok': true, 'mensaje': 'Este correo ya esta registrado'};
     }
   }
 

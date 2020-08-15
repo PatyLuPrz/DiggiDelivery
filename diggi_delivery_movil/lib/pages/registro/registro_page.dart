@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diggi_delivery_movil/blocs/pages/Login/provider.dart';
+import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/providers/usuario_provider.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/utils/utils.dart';
@@ -126,7 +126,7 @@ class _RegistroPageState extends State<RegistroPage> {
     print('Email: ${bloc.emailStream}');
     print('Email 2: ${prefs.email}');
     print('=============================================');
-    var info = await usuarioProvider.getEmail(prefs.email);
+    var info = await usuarioProvider.getEmailRegistro(prefs.email);
     if (info['ok']) {
       mostrarAlerta(context, info['mensaje']);
     } else {

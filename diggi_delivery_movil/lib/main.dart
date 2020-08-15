@@ -1,4 +1,4 @@
-import 'package:diggi_delivery_movil/blocs/pages/Login/provider.dart';
+import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
 import 'package:diggi_delivery_movil/pages/Restaurante/home_restaurante_page.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';

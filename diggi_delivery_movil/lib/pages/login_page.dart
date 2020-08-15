@@ -1,4 +1,4 @@
-import 'package:diggi_delivery_movil/blocs/pages/Login/provider.dart';
+import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/providers/usuario_provider.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/utils/utils.dart';
@@ -170,14 +170,14 @@ class _LoginPageState extends State<LoginPage> {
       RegistroBloc bloc, BuildContext context, AsyncSnapshot snapshot) async {
     Map info = await usuarioProvider.login(bloc.emaillog, bloc.password);
     if (info['ok']) {
-      var infoEmail = await usuarioProvider.getEmail(bloc.emaillog);
-      print(bloc.emaillog);
-      if (infoEmail['ok']) {
+      var infoEmail = await usuarioProvider.getEmailLogin(bloc.emaillog);
+      if (infoEmail['email'] != null) {
+        print({"NULLLLLLLLLLLLLLL ___ ${infoEmail['email']}"});
         if (infoEmail['nivel'] == '0') {
           Navigator.pushReplacementNamed(context, 'homePageRestaurante');
-        } else if (infoEmail['nivel'] == 1) {
+        } else if (infoEmail['nivel'] == '1') {
           Navigator.pushReplacementNamed(context, 'homepagelocal');
-        } else {
+        } else if (infoEmail['nivel'] == '2') {
           Navigator.pushReplacementNamed(context, 'homepagecliente');
         }
       } else {
