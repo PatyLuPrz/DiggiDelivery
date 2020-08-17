@@ -12,6 +12,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:diggi_delivery_movil/utils/utils.dart' as utils;
 
 class LocalRegisgtro extends StatefulWidget {
+  static final String routeName = 'local';
+
   LocalRegisgtro({Key key}) : super(key: key);
 
   @override
@@ -346,7 +348,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
         prefs.clear();
         prefs.email = registroLocalModel.email;
       });
-        Navigator.pushReplacementNamed(context, 'homepagelocal');
+      Navigator.pushReplacementNamed(context, 'homepagelocal');
       _guardando = false;
     } else {
       utils.mostrarAlerta(context, info['mensaje']);

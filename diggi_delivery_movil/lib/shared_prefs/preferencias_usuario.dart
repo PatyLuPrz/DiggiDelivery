@@ -75,6 +75,15 @@ class PreferenciasUsuario {
     _prefs.setString('email', value);
   }
 
+  //Get And Set Nombre de usuario
+  get nombre {
+    return _prefs.getString('nombre') ?? '';
+  }
+
+  set nombre(String value) {
+    _prefs.setString('nombre', value);
+  }
+
   //Geta and Set Token
   get token {
     return _prefs.getString('token') ?? '';
@@ -84,7 +93,7 @@ class PreferenciasUsuario {
     _prefs.setString('token', value);
   }
 
-  //Geta and Set Token
+  //Geta and Set idLocal de firebase
   get idLocal {
     return _prefs.getString('idLocal') ?? '';
   }
@@ -93,12 +102,21 @@ class PreferenciasUsuario {
     _prefs.setString('idLocal', value);
   }
 
-  //Geta and Set Token
+  //Geta and Set FotoPathRegistro
   get foto {
     return _prefs.getString('foto') ?? '';
   }
 
   set foto(String value) {
     _prefs.setString('foto', value);
+  }
+
+  //Geta and Set FotoURL
+  get fotoURL {
+    return _prefs.getString('fotoURL') ?? '';
+  }
+
+  set fotoURL(String value) {
+    _prefs.setString('fotoURL', value);
   }
 }

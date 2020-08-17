@@ -4,6 +4,7 @@ import 'package:diggi_delivery_movil/widgets/input_decoration.dart';
 import 'package:flutter/material.dart';
 
 class PlatilloRestaurante extends StatefulWidget {
+  static final routeName = "platilloRestaurante";
   @override
   _PlatilloRestauranteState createState() => _PlatilloRestauranteState();
 }

@@ -9,6 +9,7 @@ import '../../blocs/pages/registro/registro_mapa/bloc_mapa_registro.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class MapaRegistro extends StatefulWidget {
+  static final String routeName = "mapaRegistroUsuario";
   final String nombre;
 
   const MapaRegistro({Key key, this.nombre}) : super(key: key);

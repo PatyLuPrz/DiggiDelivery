@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:diggi_delivery_movil/widgets/custom_text.dart';
 import 'package:diggi_delivery_movil/widgets/input_decoration.dart';
 import 'package:flutter/material.dart';
 
 class ProductoLocal extends StatefulWidget {
+  static final routeName = "productoLocal";
   @override
   _ProductoLocalState createState() => _ProductoLocalState();
 }

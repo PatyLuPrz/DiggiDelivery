@@ -44,19 +44,23 @@ class _MyAppState extends State<MyApp> {
           title: 'Material App',
           initialRoute: 'homePageRestaurante',
           routes: {
-            'login': (BuildContext context) => LoginPage(),
-            'registro': (BuildContext context) => RegistroPage(),
-            'registroBienvenida': (BuildContext context) => BienvenidaPage(),
-            'cliente': (BuildContext context) => ClienteRegisgtro(),
-            'local': (BuildContext context) => LocalRegisgtro(),
-            'restaurante': (BuildContext context) => RestauranteRegistro(),
-            'registroMapa': (BuildContext context) => MapaRegistro(),
-            'homepagecliente': (BuildContext context) => HomePage(),
-            'homepagelocal': (BuildContext context) => HomePageLocal(),
-            'homePageRestaurante': (BuildContext context) =>
+            LoginPage.routeName: (BuildContext context) => LoginPage(),
+            RegistroPage.routeName: (BuildContext context) => RegistroPage(),
+            BienvenidaPage.routeName: (BuildContext context) =>
+                BienvenidaPage(),
+            ClienteRegisgtro.routeName: (BuildContext context) =>
+                ClienteRegisgtro(),
+            LocalRegisgtro.routeName: (BuildContext context) =>
+                LocalRegisgtro(),
+            RestauranteRegistro.routeName: (BuildContext context) =>
+                RestauranteRegistro(),
+            MapaRegistro.routeName: (BuildContext context) => MapaRegistro(),
+            HomePage.routeName: (BuildContext context) => HomePage(),
+            HomePageLocal.routeName: (BuildContext context) => HomePageLocal(),
+            HomePageRestaurante.routeName: (BuildContext context) =>
                 HomePageRestaurante(),
-            'productoLocal': (BuildContext context) => ProductoLocal(),
-            'platilloRestaurante': (BuildContext context) =>
+            ProductoLocal.routeName: (BuildContext context) => ProductoLocal(),
+            PlatilloRestaurante.routeName: (BuildContext context) =>
                 PlatilloRestaurante(),
           },
         ),

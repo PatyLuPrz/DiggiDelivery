@@ -2,10 +2,13 @@ import 'package:diggi_delivery_movil/pages/clientes/inicio_clientes.dart';
 import 'package:diggi_delivery_movil/pages/clientes/pedidos_clientes.dart';
 import 'package:diggi_delivery_movil/pages/perfil_usuario_page.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
+import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
+  static final String routeName = 'homePageCliente';
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -22,6 +25,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final prefs = new PreferenciasUsuario();
+
+    prefs.ultimaPagina = HomePage.routeName;
+
     final currentTheme = Provider.of<ThemeProvider>(context);
     return Scaffold(
       // appBar: AppBar(

@@ -6,6 +6,8 @@ import 'package:diggi_delivery_movil/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class RegistroPage extends StatefulWidget {
+  static final String routeName = 'registro';
+
   RegistroPage({Key key}) : super(key: key);
 
   @override
@@ -18,6 +20,7 @@ class _RegistroPageState extends State<RegistroPage> {
 
   @override
   Widget build(BuildContext context) {
+    prefs.ultimaPagina = RegistroPage.routeName;
     return Scaffold(
       body: Stack(
         children: <Widget>[

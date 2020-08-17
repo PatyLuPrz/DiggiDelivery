@@ -5,6 +5,8 @@ import 'package:diggi_delivery_movil/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
+  static final String routeName = 'login';
+
   LoginPage({Key key}) : super(key: key);
 
   @override
@@ -12,9 +14,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final prefs = new PreferenciasUsuario();
+
   final usuarioProvider = new UsuarioProvider();
   @override
   Widget build(BuildContext context) {
+    prefs.ultimaPagina = LoginPage.routeName;
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
@@ -176,17 +181,23 @@ class _LoginPageState extends State<LoginPage> {
         String nombre;
 
         if (infoEmail['nivel'] == '0') {
-          // Navigator.pushReplacementNamed(context, 'homePageRestaurante');
+          Navigator.pushReplacementNamed(context, 'homePageRestaurante');
           nombre = 'restaurantes';
         } else if (infoEmail['nivel'] == '1') {
-          // Navigator.pushReplacementNamed(context, 'homepagelocal');
+          Navigator.pushReplacementNamed(context, 'homepagelocal');
           nombre = 'locales';
         } else if (infoEmail['nivel'] == '2') {
-          // Navigator.pushReplacementNamed(context, 'homepagecliente');
+          Navigator.pushReplacementNamed(context, 'homepagecliente');
           nombre = 'clientes';
         }
-        var nombreUsuario =
+        var nombreFotoUsuario =
             await usuarioProvider.getNombreUsuario(bloc.emaillog, nombre);
+
+        prefs.nombre = nombreFotoUsuario['nombre'];
+        prefs.fotoURL = nombreFotoUsuario['foto'];
+
+        print('${prefs.nombre}');
+        print('${prefs.fotoURL}');
       } else {
         mostrarAlerta(context, infoEmail['mensaje']);
       }

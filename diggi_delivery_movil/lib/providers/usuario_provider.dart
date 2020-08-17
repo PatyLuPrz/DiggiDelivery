@@ -92,7 +92,7 @@ class UsuarioProvider {
     }
   }
 
-  //Valida cuando un correo ya se encuentra registrado 
+  //Valida cuando un correo ya se encuentra registrado en la pantalla de registro
   Future<Map<String, dynamic>> getEmailRegistro(String email) async {
     QuerySnapshot result = await _db
         .collection("usuarios")
@@ -114,6 +114,7 @@ class UsuarioProvider {
     }
   }
 
+  //Valida el correo regitrado en la pantalla de login
   Future<Map<String, dynamic>> getEmailLogin(String email) async {
     QuerySnapshot result = await _db
         .collection("usuarios")
@@ -137,9 +138,10 @@ class UsuarioProvider {
     }
   }
 
+  //Obtiene el nombre de usuario de su respectiva tabla
   Future<Map<String, dynamic>> getNombreUsuario(String email, String collection) async {
     QuerySnapshot result = await _db
-        .collection("restaurantes")
+        .collection(collection)
         .where("email", isEqualTo: email)
         .getDocuments();
 
@@ -152,7 +154,7 @@ class UsuarioProvider {
     if (decodeResp != null) {
       return {
         'ok': false,
-        'email': decodeResp['nombre'],
+        'nombre': decodeResp['nombre'],
         'foto': decodeResp['foto']
       };
     } else {

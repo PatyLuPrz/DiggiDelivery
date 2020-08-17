@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PerfilUsuarioPage extends StatefulWidget {
+  static final String routeName = 'home';
   final String nombre;
 
   const PerfilUsuarioPage({Key key, this.nombre}) : super(key: key);
@@ -21,48 +22,50 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
     size = MediaQuery.of(context).size;
     final currentTheme = Provider.of<ThemeProvider>(context);
     return Container(
+      width: size.width,
+      height: size.height,
       decoration: BoxDecoration(),
       child: Column(
         children: <Widget>[
           _userData(currentTheme),
-          _modoOscuro(currentTheme),
+          // _modoOscuro(currentTheme),
         ],
       ),
     );
   }
 
-  //Switch para encender o apagar el modo oscuro de la app
-  _modoOscuro(ThemeProvider currentTheme) {
-    return Column(
-      children: <Widget>[
-        Text(
-          'Toca para cambiar el tema',
-          style: TextStyle(
-              color: currentTheme.currentThemeColorText(currentTheme)),
-        ),
-        SizedBox(
-          height: size.height * 0.02,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Icon(Icons.wb_sunny,
-                color: currentTheme.currentThemeColorText(currentTheme)),
-            Switch(
-                value: currentTheme.isDarkTheme(),
-                onChanged: (value) {
-                  //Se cambia el tema de la app con u switch
-                  String newTheme =
-                      value ? ThemePreference.DARK : ThemePreference.LIGHT;
-                  currentTheme.setTheme = newTheme;
-                }),
-            Icon(Icons.brightness_2,
-                color: currentTheme.currentThemeColorText(currentTheme))
-          ],
-        )
-      ],
-    );
-  }
+  // //Switch para encender o apagar el modo oscuro de la app
+  // _modoOscuro(ThemeProvider currentTheme) {
+  //   return Column(
+  //     children: <Widget>[
+  //       Text(
+  //         'Toca para cambiar el tema',
+  //         style: TextStyle(
+  //             color: currentTheme.currentThemeColorText(currentTheme)),
+  //       ),
+  //       SizedBox(
+  //         height: size.height * 0.02,
+  //       ),
+  //       Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //         children: <Widget>[
+  //           Icon(Icons.wb_sunny,
+  //               color: currentTheme.currentThemeColorText(currentTheme)),
+  //           Switch(
+  //               value: currentTheme.isDarkTheme(),
+  //               onChanged: (value) {
+  //                 //Se cambia el tema de la app con u switch
+  //                 String newTheme =
+  //                     value ? ThemePreference.DARK : ThemePreference.LIGHT;
+  //                 currentTheme.setTheme = newTheme;
+  //               }),
+  //           Icon(Icons.brightness_2,
+  //               color: currentTheme.currentThemeColorText(currentTheme))
+  //         ],
+  //       )
+  //     ],
+  //   );
+  // }
 
   //Container que contiene información del usuario como su foto, nombre
   _userData(ThemeProvider currentTheme) {
@@ -75,22 +78,24 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
         borderRadius: BorderRadius.circular(20.0),
         color: currentTheme.currentThemeColorContainer(currentTheme),
       ),
-      child: Column(
-        children: <Widget>[
-          //Imagen del usuario
-          _imagenAvatar(),
-          SizedBox(height: size.height * 0.04),
-          //Nombre del usuario
-          CustomText(
-            text: prefs.email,
-            color: Colors.white,
-          ),
-          SizedBox(height: size.height * 0.02),
-          //Boton para llevar al usuario a editar sus datos
-          _configuracionBoton(),
-          //Boton para cerrar sesión
-          _cerrarSesion(),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            //Imagen del usuario
+            _imagenAvatar(),
+            SizedBox(height: size.height * 0.04),
+            //Nombre del usuario
+            CustomText(
+              text: prefs.email,
+              color: Colors.white,
+            ),
+            SizedBox(height: size.height * 0.02),
+            //Boton para llevar al usuario a editar sus datos
+            _configuracionBoton(),
+            //Boton para cerrar sesión
+            _cerrarSesion(),
+          ],
+        ),
       ),
     );
   }
@@ -116,13 +121,16 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
     return Align(
       alignment: Alignment.topCenter,
       child: Container(
-        height: size.height * 0.200,
-        width: size.width * 0.400,
+        height: size.height * 0.300,
+        width: size.width * 0.600,
         padding: EdgeInsets.all(5.0),
         child: CircleAvatar(
-            radius: 25.0,
-            backgroundImage: NetworkImage(
-                'https://img.favpng.com/6/24/19/user-profile-avatar-computer-icons-png-favpng-3r2RjSZGPQVAWPw2hFcQqTv1t.jpg')),
+          radius: 25.0,
+          backgroundImage: NetworkImage(prefs.fotoURL),
+          onBackgroundImageError: (exception, stackTrace) {
+            AssetImage('assets/img/original.gif');
+          },
+        ),
       ),
     );
   }

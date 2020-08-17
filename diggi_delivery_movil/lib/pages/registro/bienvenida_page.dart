@@ -1,12 +1,17 @@
+import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/widgets/custom_text.dart';
 import 'package:diggi_delivery_movil/widgets/text_title.dart';
 import 'package:flutter/material.dart';
 
 class BienvenidaPage extends StatelessWidget {
+  static final String routeName = 'registroBienvenida';
+
   const BienvenidaPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final prefs = new PreferenciasUsuario();
+
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Container(

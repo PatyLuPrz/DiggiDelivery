@@ -11,6 +11,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:diggi_delivery_movil/utils/utils.dart' as utils;
 
 class RestauranteRegistro extends StatefulWidget {
+    static final String routeName = 'restaurante';
+
   RestauranteRegistro({Key key}) : super(key: key);
 
   @override

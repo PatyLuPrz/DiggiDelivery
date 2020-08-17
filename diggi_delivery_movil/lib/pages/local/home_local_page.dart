@@ -2,10 +2,13 @@ import 'package:diggi_delivery_movil/pages/clientes/pedidos_clientes.dart';
 import 'package:diggi_delivery_movil/pages/local/inicio_local.dart';
 import 'package:diggi_delivery_movil/pages/perfil_usuario_page.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
+import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePageLocal extends StatefulWidget {
+  static final String routeName = 'homePageLocal';
+
   @override
   _HomePageLocalState createState() => _HomePageLocalState();
 }
@@ -22,6 +25,9 @@ class _HomePageLocalState extends State<HomePageLocal> {
 
   @override
   Widget build(BuildContext context) {
+    final prefs = new PreferenciasUsuario();
+    prefs.ultimaPagina = HomePageLocal.routeName;
+
     final currentTheme = Provider.of<ThemeProvider>(context);
     return Scaffold(
       backgroundColor: currentTheme.currentThemeColorComponents(currentTheme),
