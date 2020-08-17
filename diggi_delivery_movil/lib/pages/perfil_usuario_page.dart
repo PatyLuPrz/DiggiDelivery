@@ -14,10 +14,11 @@ class PerfilUsuarioPage extends StatefulWidget {
 }
 
 class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
-  
+  Size size;
   final prefs = new PreferenciasUsuario();
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     final currentTheme = Provider.of<ThemeProvider>(context);
     return Container(
       decoration: BoxDecoration(),
@@ -40,7 +41,7 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
               color: currentTheme.currentThemeColorText(currentTheme)),
         ),
         SizedBox(
-          height: 20,
+          height: size.height * 0.02,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -68,7 +69,7 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
     return Container(
       margin: EdgeInsets.all(20.0),
       padding: EdgeInsets.all(20.0),
-      height: 300.0,
+      height: size.height * 0.5,
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.0),
@@ -77,41 +78,71 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
       child: Column(
         children: <Widget>[
           //Imagen del usuario
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              height: 150.0,
-              width: 150.0,
-              padding: EdgeInsets.all(5.0),
-              child: CircleAvatar(
-                  radius: 25.0,
-                  backgroundImage: NetworkImage(
-                      'https://img.favpng.com/6/24/19/user-profile-avatar-computer-icons-png-favpng-3r2RjSZGPQVAWPw2hFcQqTv1t.jpg')),
-            ),
-          ),
-          SizedBox(height: 30.0),
+          _imagenAvatar(),
+          SizedBox(height: size.height * 0.04),
           //Nombre del usuario
           CustomText(
             text: prefs.email,
             color: Colors.white,
           ),
-          SizedBox(height: 10.0),
+          SizedBox(height: size.height * 0.02),
           //Boton para llevar al usuario a editar sus datos
-          Container(
-            width: 170.0,
-            child: RaisedButton(
-              onPressed: () {},
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CustomText(text: 'Configuración', color: Colors.black),
-                  SizedBox(width: 10.0),
-                  Icon(Icons.settings, size: 20.0, color: Colors.black)
-                ],
-              ),
-            ),
-          )
+          _configuracionBoton(),
+          //Boton para cerrar sesión
+          _cerrarSesion(),
         ],
+      ),
+    );
+  }
+
+  Widget _configuracionBoton() {
+    return Container(
+      width: size.width * 0.5,
+      child: RaisedButton(
+        onPressed: () {},
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CustomText(text: 'Configuración', color: Colors.black),
+            SizedBox(width: size.width * 0.03),
+            Icon(Icons.settings, size: 20.0, color: Colors.black)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _imagenAvatar() {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Container(
+        height: size.height * 0.200,
+        width: size.width * 0.400,
+        padding: EdgeInsets.all(5.0),
+        child: CircleAvatar(
+            radius: 25.0,
+            backgroundImage: NetworkImage(
+                'https://img.favpng.com/6/24/19/user-profile-avatar-computer-icons-png-favpng-3r2RjSZGPQVAWPw2hFcQqTv1t.jpg')),
+      ),
+    );
+  }
+
+  Widget _cerrarSesion() {
+    return Container(
+      width: size.width * 0.5,
+      child: RaisedButton(
+        onPressed: () {
+          prefs.clear();
+          Navigator.pushReplacementNamed(context, 'login');
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            CustomText(text: 'Cerrar sesión', color: Colors.black),
+            SizedBox(width: size.width * 0.03),
+            Icon(Icons.exit_to_app, size: 20.0, color: Colors.black)
+          ],
+        ),
       ),
     );
   }

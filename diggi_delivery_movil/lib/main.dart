@@ -1,6 +1,6 @@
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
-import 'package:diggi_delivery_movil/pages/Restaurante/home_restaurante_page.dart';
+
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Material App',
-          initialRoute: 'login',
+          initialRoute: 'homePageRestaurante',
           routes: {
             'login': (BuildContext context) => LoginPage(),
             'registro': (BuildContext context) => RegistroPage(),
@@ -53,8 +53,11 @@ class _MyAppState extends State<MyApp> {
             'registroMapa': (BuildContext context) => MapaRegistro(),
             'homepagecliente': (BuildContext context) => HomePage(),
             'homepagelocal': (BuildContext context) => HomePageLocal(),
-            'homePageRestaurante': (BuildContext context) => HomePageRestaurante(),
+            'homePageRestaurante': (BuildContext context) =>
+                HomePageRestaurante(),
             'productoLocal': (BuildContext context) => ProductoLocal(),
+            'platilloRestaurante': (BuildContext context) =>
+                PlatilloRestaurante(),
           },
         ),
       ),

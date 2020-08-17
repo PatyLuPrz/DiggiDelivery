@@ -139,7 +139,7 @@ class _RestaurantesPageState extends State<RestaurantesPage> {
   Widget _imagenRestaurante(AsyncSnapshot snapshot, Size size, int index) {
     return Container(
       // clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(color: Colors.red),
+      decoration: BoxDecoration(color: Colors.white),
       child: FadeInImage(
         placeholder: AssetImage('assets/img/original.gif'),
         image: NetworkImage(

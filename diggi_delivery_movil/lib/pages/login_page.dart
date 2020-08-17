@@ -1,6 +1,5 @@
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/providers/usuario_provider.dart';
-import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/utils/utils.dart';
 import 'package:flutter/material.dart';
 

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diggi_delivery_movil/providers/locales_provider.dart';
 import 'package:rxdart/rxdart.dart';

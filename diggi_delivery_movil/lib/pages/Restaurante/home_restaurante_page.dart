@@ -1,5 +1,5 @@
 import 'package:diggi_delivery_movil/helpers/style.dart';
-import 'package:diggi_delivery_movil/pages/Restaurante/inicio_local.dart';
+import 'package:diggi_delivery_movil/pages/Restaurante/inicio_restaurante.dart';
 import 'package:diggi_delivery_movil/utils/theme_preferences.dart';
 import 'package:diggi_delivery_movil/pages/clientes/inicio_clientes.dart';
 import 'package:diggi_delivery_movil/pages/clientes/mapa_clientes.dart';
