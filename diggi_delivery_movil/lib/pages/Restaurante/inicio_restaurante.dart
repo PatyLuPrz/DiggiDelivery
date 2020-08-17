@@ -53,21 +53,22 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
                 child: CircularProgressIndicator(
               valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFC93F42)),
             ));
-          final productos = snapshot.data;
+          final platillos = snapshot.data;
           return GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 0.7,
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 20),
-            itemCount: productos.documents.length,
+            itemCount: platillos.documents.length,
             itemBuilder: (context, index) {
+              DocumentSnapshot xd = platillos.documents[index];
               return Transform.translate(
                 offset: Offset(0.0, index.isOdd ? 20 : 0),
                 child: InkWell(
                   onTap: () => Navigator.pushNamed(
                           context, 'platilloRestaurante',
-                          arguments: productos)
+                          arguments: xd)
                       .then((value) => setState(() {})),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
@@ -75,16 +76,16 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
                       color: Colors.primaries[index % Colors.primaries.length],
                       child: CircleAvatar(
                         backgroundColor: Colors.white,
-                        // child: Text(productos.documents[index].data['nombre']),
-                        // child: Text(productos.documents[index].documentID),
+                        // child: Text(platillos.documents[index].data['nombre']),
+                        // child: Text(platillos.documents[index].documentID),
                         child: Stack(
                           children: <Widget>[
-                            _imagenAvatar(size, productos, index),
+                            _imagenAvatar(size, platillos, index),
                             containerBlack(),
                             Center(
                               child: ListTile(
                                 title: Text(
-                                  '${productos.documents[index].data['nombre']}',
+                                  '${platillos.documents[index].data['nombre']}',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.white,
@@ -92,7 +93,7 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
                                   ),
                                 ),
                                 // title:
-                                //     Text(productos.documents[index].documentID),
+                                //     Text(platillos.documents[index].documentID),
                               ),
                             ),
                           ],
@@ -109,7 +110,7 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
     );
   }
 
-  Widget _imagenAvatar(Size size, QuerySnapshot productos, int index) {
+  Widget _imagenAvatar(Size size, QuerySnapshot platillos, int index) {
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -120,7 +121,7 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
           width: size.width,
           fit: BoxFit.cover,
           placeholder: AssetImage('assets/img/original.gif'),
-          image: NetworkImage(productos.documents[index].data['foto'])),
+          image: NetworkImage(platillos.documents[index].data['foto'])),
     );
   }
 
