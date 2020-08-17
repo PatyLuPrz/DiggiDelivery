@@ -1,5 +1,6 @@
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/providers/usuario_provider.dart';
+import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -172,13 +173,20 @@ class _LoginPageState extends State<LoginPage> {
       var infoEmail = await usuarioProvider.getEmailLogin(bloc.emaillog);
       if (infoEmail['email'] != null) {
         print({"NULLLLLLLLLLLLLLL ___ ${infoEmail['email']}"});
+        String nombre;
+
         if (infoEmail['nivel'] == '0') {
-          Navigator.pushReplacementNamed(context, 'homePageRestaurante');
+          // Navigator.pushReplacementNamed(context, 'homePageRestaurante');
+          nombre = 'restaurantes';
         } else if (infoEmail['nivel'] == '1') {
-          Navigator.pushReplacementNamed(context, 'homepagelocal');
+          // Navigator.pushReplacementNamed(context, 'homepagelocal');
+          nombre = 'locales';
         } else if (infoEmail['nivel'] == '2') {
-          Navigator.pushReplacementNamed(context, 'homepagecliente');
+          // Navigator.pushReplacementNamed(context, 'homepagecliente');
+          nombre = 'clientes';
         }
+        var nombreUsuario =
+            await usuarioProvider.getNombreUsuario(bloc.emaillog, nombre);
       } else {
         mostrarAlerta(context, infoEmail['mensaje']);
       }

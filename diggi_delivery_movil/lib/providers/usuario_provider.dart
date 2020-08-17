@@ -66,7 +66,7 @@ class UsuarioProvider {
     }
   }
 
-  //Consultar correo
+  //Consultar correo si esta registrado para obener los datos de la tabla de usuarios con su nivel para el inicio de sesión
   Firestore _db = Firestore();
 
   Future<Map<String, dynamic>> getEmail(String email) async {
@@ -92,6 +92,7 @@ class UsuarioProvider {
     }
   }
 
+  //Valida cuando un correo ya se encuentra registrado 
   Future<Map<String, dynamic>> getEmailRegistro(String email) async {
     QuerySnapshot result = await _db
         .collection("usuarios")
@@ -130,6 +131,29 @@ class UsuarioProvider {
         'ok': false,
         'email': decodeResp['email'],
         'nivel': decodeResp['nivel']
+      };
+    } else {
+      return {'ok': true, 'mensaje': 'Este correo ya esta registrado'};
+    }
+  }
+
+  Future<Map<String, dynamic>> getNombreUsuario(String email, String collection) async {
+    QuerySnapshot result = await _db
+        .collection("restaurantes")
+        .where("email", isEqualTo: email)
+        .getDocuments();
+
+    Map<String, dynamic> decodeResp;
+
+    result.documents.forEach((DocumentSnapshot res) {
+      return decodeResp = res.data;
+    });
+
+    if (decodeResp != null) {
+      return {
+        'ok': false,
+        'email': decodeResp['nombre'],
+        'foto': decodeResp['foto']
       };
     } else {
       return {'ok': true, 'mensaje': 'Este correo ya esta registrado'};
