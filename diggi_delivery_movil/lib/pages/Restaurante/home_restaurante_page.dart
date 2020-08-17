@@ -1,9 +1,5 @@
-import 'package:diggi_delivery_movil/helpers/style.dart';
 import 'package:diggi_delivery_movil/pages/Restaurante/inicio_restaurante.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
-import 'package:diggi_delivery_movil/utils/theme_preferences.dart';
-import 'package:diggi_delivery_movil/pages/clientes/inicio_clientes.dart';
-import 'package:diggi_delivery_movil/pages/clientes/mapa_clientes.dart';
 import 'package:diggi_delivery_movil/pages/clientes/pedidos_clientes.dart';
 import 'package:diggi_delivery_movil/pages/perfil_usuario_page.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
@@ -19,6 +15,7 @@ class HomePageRestaurante extends StatefulWidget {
 
 class _HomePageRestauranteState extends State<HomePageRestaurante> {
   int _selectedIndex = 0;
+  final prefs = new PreferenciasUsuario();
 
   //Lista de BottomNavBar
   static const List<Widget> _widgetOptions = <Widget>[
@@ -29,7 +26,6 @@ class _HomePageRestauranteState extends State<HomePageRestaurante> {
 
   @override
   Widget build(BuildContext context) {
-    final prefs = new PreferenciasUsuario();
     prefs.ultimaPagina = HomePageRestaurante.routeName;
 
     final currentTheme = Provider.of<ThemeProvider>(context);
@@ -54,13 +50,14 @@ class _HomePageRestauranteState extends State<HomePageRestaurante> {
       onTap: _onItemTapped,
       iconSize: 30.0,
       elevation: 20.0,
-      backgroundColor: Color.fromRGBO(49, 49, 49, 1.0),
+      // backgroundColor: Color.fromRGBO(49, 49, 49, 1.0),
+      backgroundColor: Color.fromRGBO(240, 240, 240, 1.0),
       selectedItemColor: Color.fromRGBO(202, 63, 67, 1.0),
       unselectedItemColor: Color.fromRGBO(202, 63, 67, 0.6),
       type: BottomNavigationBarType.fixed,
       items: <BottomNavigationBarItem>[
         //Inicio
-        bottomNavBarItem(Icon(Icons.home), 'Inicio'),
+        bottomNavBarItem(Icon(Icons.home), prefs.nombre),
         //Pedidos
         bottomNavBarItem(Icon(Icons.add_shopping_cart), 'Pedidos'),
         //Yo

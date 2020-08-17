@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diggi_delivery_movil/blocs/pages/restaurantes/restaurantes_bloc.dart';
-import 'package:diggi_delivery_movil/models/platillo_model.dart';
 import 'package:diggi_delivery_movil/providers/locales_provider.dart';
 import 'package:diggi_delivery_movil/providers/restaurantes_provider.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
@@ -21,8 +19,6 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
     final size = MediaQuery.of(context).size;
 
     LocalesProvider localesProvider = LocalesProvider();
-    // final productosBloc = Provider.productosBloc(context);
-    // productosBloc.cargarProductos();
     return Container(
       child: Scaffold(
         appBar: AppBar(
@@ -30,7 +26,6 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
           title: Center(child: Text('Restaurante')),
         ),
         body: _crearGrid(context, localesProvider, size),
-        // body: _crearListado(),
         floatingActionButton: _crearBoton(context),
       ),
     );
@@ -45,55 +40,6 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
     );
   }
 
-  Widget _crearListado(Size size) {
-    return StreamBuilder(
-      stream: restaurantesProvider.getPlatilloRestaurante(prefs.email),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasData) {
-          final productos = snapshot.data;
-          return ListView.builder(
-            itemCount: productos.documents.length,
-            itemBuilder: (context, i) =>
-                _crearItem(context, productos, i, size),
-          );
-        } else {
-          return Center(child: CircularProgressIndicator());
-        }
-      },
-    );
-  }
-
-  Widget _crearItem(
-      BuildContext context, QuerySnapshot productos, int i, Size size) {
-    return Dismissible(
-      key: UniqueKey(),
-      background: Container(
-        color: Colors.red,
-      ),
-      onDismissed: (direction) => null,
-      child: Card(
-        child: Column(
-          children: <Widget>[
-            // (producto.foto == null)
-            //     ? Image(
-            //         image: AssetImage('assets/no-image.png'),
-            //       )
-            //     : FadeInImage(
-            //         placeholder: AssetImage('assets/jar-loading.gif'),
-            //         image: NetworkImage(producto.id),
-            //         height: 300.0,
-            //         width: double.infinity,
-            //         fit: BoxFit.cover,
-            //       ),
-            ListTile(
-                title: Text('${productos.documents[i].data['nombre']}'),
-                onTap: () => null),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _crearGrid(
       BuildContext context, LocalesProvider localesProvider, Size size) {
     return Container(
@@ -102,7 +48,11 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
       child: StreamBuilder(
         stream: restaurantesProvider.getPlatilloRestaurante(prefs.email),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) return CircularProgressIndicator();
+          if (!snapshot.hasData)
+            return Center(
+                child: CircularProgressIndicator(
+              valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFC93F42)),
+            ));
           final productos = snapshot.data;
           return GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

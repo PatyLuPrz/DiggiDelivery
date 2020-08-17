@@ -42,13 +42,13 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
                   SizedBox(height: 10.0),
                   _crearNombre(),
                   SizedBox(height: 15.0),
-                  _crearMarca(),
+                  _crearDescripcion(),
                   SizedBox(height: 15.0),
-                  _crearPresentacion(),
-                  SizedBox(height: 15.0),
-                  _crearCantidad(),
+                  _ingredientesExtra(),
                   SizedBox(height: 15.0),
                   _crearPrecio(),
+                  SizedBox(height: 15.0),
+                  _tiempoDePreparacion(),
                   SizedBox(height: 15.0),
                   _crearBoton(),
                   SizedBox(height: 15.0),
@@ -61,9 +61,9 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
 
   Widget _crearNombre() {
     final dec = DecorationInputForm(
-        textLabel: "Nombre de producto",
-        textHint: "Lapicero",
-        icon: Icons.shop);
+        textLabel: "Nombre del platillo",
+        textHint: "Pizza hawuaiana",
+        icon: Icons.fastfood);
     return Container(
       child: TextFormField(
         keyboardType: TextInputType.text,
@@ -73,9 +73,11 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
     );
   }
 
-  Widget _crearMarca() {
+  Widget _crearDescripcion() {
     final dec = DecorationInputForm(
-        textLabel: "Marca de producto", textHint: "Bic", icon: Icons.copyright);
+        textLabel: "Descripción",
+        textHint: "Pizza hawuaiana con queso...",
+        icon: Icons.copyright);
     return Container(
       child: TextFormField(
         keyboardType: TextInputType.text,
@@ -85,9 +87,11 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
     );
   }
 
-  Widget _crearPresentacion() {
+  Widget _ingredientesExtra() {
     final dec = DecorationInputForm(
-        textLabel: "Presentación", textHint: "10g", icon: Icons.view_list);
+        textLabel: "Ingredientes extra",
+        textHint: "Extra queso, extra piña...",
+        icon: Icons.view_list);
     return Container(
       child: TextFormField(
         keyboardType: TextInputType.text,
@@ -97,20 +101,20 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
     );
   }
 
-  Widget _crearCantidad() {
+  Widget _crearPrecio() {
     final dec = DecorationInputForm(
-        textLabel: "Cantidad disponible", textHint: "10", icon: Icons.storage);
+        textLabel: "Precio de platillo",
+        textHint: "100.0",
+        icon: Icons.attach_money);
     return TextFormField(
       keyboardType: TextInputType.numberWithOptions(decimal: true),
       decoration: dec.decoration(),
     );
   }
 
-  Widget _crearPrecio() {
+  Widget _tiempoDePreparacion() {
     final dec = DecorationInputForm(
-        textLabel: "Precio de producto",
-        textHint: "100.0",
-        icon: Icons.attach_money);
+        textLabel: "Tiempo de preparación", textHint: "30 minutos", icon: Icons.storage);
     return TextFormField(
       keyboardType: TextInputType.numberWithOptions(decimal: true),
       decoration: dec.decoration(),
@@ -122,7 +126,7 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       color: Color(0xFFC93F42),
       textColor: Colors.white,
-      label: Text('Guardar producto'),
+      label: Text('Guardar platillo'),
       icon: Icon(Icons.save),
       onPressed: () {},
     );
