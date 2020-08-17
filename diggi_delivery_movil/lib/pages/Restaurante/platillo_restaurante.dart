@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
+import 'package:diggi_delivery_movil/blocs/pages/restaurantes/restaurantes_bloc.dart';
 import 'package:diggi_delivery_movil/models/platillo_model.dart';
 import 'package:diggi_delivery_movil/widgets/input_decoration.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +16,21 @@ class PlatilloRestaurante extends StatefulWidget {
 class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
   //Key de los widget para evaluar las acciones a realizar
   final formKey = GlobalKey<FormState>();
+
+  RestaurantesBloc platilloRestaurante;
+  PlatillosModel platillosModel = new PlatillosModel();
   // final scaffoldKey = GlobalKey<ScaffoldState>();
   File foto;
 
   @override
   Widget build(BuildContext context) {
-    final DocumentSnapshot platillosData =
+    platilloRestaurante = Provider.restaurantesBloc(context);
+    final PlatillosModel platillosData =
         ModalRoute.of(context).settings.arguments;
-    print(platillosData.documentID);
+    // print(platillosData.documentID);
+    if (platillosData != null) {
+      platillosModel = platillosData;
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFFC93F42),
@@ -44,17 +53,17 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 10.0),
-                  _crearNombre(platillosData),
+                  _crearNombre(platillosModel),
                   SizedBox(height: 15.0),
-                  _crearDescripcion(platillosData),
+                  _crearDescripcion(platillosModel),
                   SizedBox(height: 15.0),
-                  _ingredientesExtra(platillosData),
+                  _ingredientesExtra(platillosModel),
                   SizedBox(height: 15.0),
-                  _crearPrecio(platillosData),
+                  _crearPrecio(platillosModel),
                   SizedBox(height: 15.0),
-                  _tiempoDePreparacion(platillosData),
+                  _tiempoDePreparacion(platillosModel),
                   SizedBox(height: 15.0),
-                  _crearBoton(platillosData),
+                  _crearBoton(platillosModel),
                   SizedBox(height: 15.0),
                 ],
               )),
@@ -63,7 +72,7 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
     );
   }
 
-  Widget _crearNombre(DocumentSnapshot platillosData) {
+  Widget _crearNombre(PlatillosModel platillosData) {
     final dec = DecorationInputForm(
         textLabel: "Nombre del platillo",
         textHint: "Pizza hawuaiana",
@@ -71,14 +80,14 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
     return Container(
       child: TextFormField(
         keyboardType: TextInputType.text,
-        initialValue: platillosData.data['nombre'],
+        initialValue: platillosData.nombre,
         enabled: true,
         decoration: dec.decoration(),
       ),
     );
   }
 
-  Widget _crearDescripcion(DocumentSnapshot platillosData) {
+  Widget _crearDescripcion(PlatillosModel platillosData) {
     final dec = DecorationInputForm(
         textLabel: "Descripción",
         textHint: "Pizza hawuaiana con queso...",
@@ -87,24 +96,24 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
       child: TextFormField(
         maxLines: null,
         keyboardType: TextInputType.multiline,
-        initialValue: platillosData.data['descripcion'],
+        initialValue: platillosData.descripcion,
         enabled: true,
         decoration: dec.decoration(),
       ),
     );
   }
 
-  Widget _ingredientesExtra(DocumentSnapshot platillosData) {
-    platillosData.data['ingredientes_extra'].toString();
-    List<dynamic> split = platillosData.data['ingredientes_extra'];
-    List<PlatillosModel> p = new List();
+  Widget _ingredientesExtra(PlatillosModel platillosData) {
+    // platillosData.data['ingredientes_extra'].toString();
+    // List<dynamic> split = platillosData.data['ingredientes_extra'];
+    // List<PlatillosModel> p = new List();
 
-    final prodTemp = PlatillosModel.fromFirestore(platillosData.data);
+    // final prodTemp = PlatillosModel.fromFirestore(platillosData.data);
 
-    p.add(prodTemp);
-    p.forEach((element) {
-      print(element.ingredientes);
-    });
+    // p.add(prodTemp);
+    // p.forEach((element) {
+    //   print(element.ingredientes);
+    // });
 
     final dec = DecorationInputForm(
         textLabel: "Ingredientes extra",
@@ -113,38 +122,39 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
     return Container(
       child: TextFormField(
         keyboardType: TextInputType.text,
-        initialValue: platillosData.data['ingredientes_extra'].toString(),
+        initialValue: platillosData.nombre,
         enabled: true,
         decoration: dec.decoration(),
       ),
     );
   }
 
-  Widget _crearPrecio(DocumentSnapshot platillosData) {
+  Widget _crearPrecio(PlatillosModel platillosData) {
     final dec = DecorationInputForm(
         textLabel: "Precio de platillo",
         textHint: "100.0",
         icon: Icons.attach_money);
     return TextFormField(
       keyboardType: TextInputType.numberWithOptions(decimal: true),
-      initialValue: platillosData.data['precio'].toString(),
+      // initialValue: platillosData.data['precio'].toString(),
+      initialValue: platillosData.precio.toString(),
       decoration: dec.decoration(),
     );
   }
 
-  Widget _tiempoDePreparacion(DocumentSnapshot platillosData) {
+  Widget _tiempoDePreparacion(PlatillosModel platillosData) {
     final dec = DecorationInputForm(
         textLabel: "Tiempo de preparación",
         textHint: "30 minutos",
         icon: Icons.storage);
     return TextFormField(
       keyboardType: TextInputType.numberWithOptions(decimal: true),
-      initialValue: platillosData.data['tiempo_preparacion'],
+      initialValue: platillosData.tiempoPreparacion,
       decoration: dec.decoration(),
     );
   }
 
-  Widget _crearBoton(DocumentSnapshot platillosData) {
+  Widget _crearBoton(PlatillosModel platillosData) {
     return RaisedButton.icon(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       color: Color(0xFFC93F42),

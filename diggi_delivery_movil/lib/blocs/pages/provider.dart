@@ -1,6 +1,7 @@
 import 'package:diggi_delivery_movil/blocs/archivos_bloc.dart';
 import 'package:diggi_delivery_movil/blocs/pages/Login/registro_bloc.dart';
 import 'package:diggi_delivery_movil/blocs/pages/locales/locales_bloc.dart';
+import 'package:diggi_delivery_movil/blocs/pages/restaurantes/restaurantes_bloc.dart';
 import 'package:flutter/material.dart';
 
 export 'Login/registro_bloc.dart';
@@ -8,7 +9,8 @@ export 'Login/registro_bloc.dart';
 class Provider extends InheritedWidget {
   static Provider _instancia;
 
-  final _localesBloc = new LocalesBloc();
+  final _localesBloc = LocalesBloc();
+  final _restaurantesBloc = RestaurantesBloc();
   final registroBloc = RegistroBloc();
   final _archivosBloc = ArchivosBloc();
 
@@ -35,6 +37,11 @@ class Provider extends InheritedWidget {
   //LocalesBloc
   static LocalesBloc localesBloc(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<Provider>()._localesBloc;
+  }
+
+  //LocalesBloc
+  static RestaurantesBloc restaurantesBloc(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<Provider>()._restaurantesBloc;
   }
 
   //Archivos_BLoC para subir archivos al servidor

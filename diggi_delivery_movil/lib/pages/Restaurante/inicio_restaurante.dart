@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
+import 'package:diggi_delivery_movil/blocs/pages/restaurantes/restaurantes_bloc.dart';
+import 'package:diggi_delivery_movil/models/platillo_model.dart';
 import 'package:diggi_delivery_movil/providers/locales_provider.dart';
 import 'package:diggi_delivery_movil/providers/restaurantes_provider.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
@@ -16,16 +19,18 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
   final prefs = new PreferenciasUsuario();
   @override
   Widget build(BuildContext context) {
+    final platillosBloc = Provider.restaurantesBloc(context);
+    platillosBloc.cargarPlatillos();
     final size = MediaQuery.of(context).size;
 
-    LocalesProvider localesProvider = LocalesProvider();
+    // LocalesProvider localesProvider = LocalesProvider();
     return Container(
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFFC93F42),
           title: Center(child: Text('Restaurante')),
         ),
-        body: _crearGrid(context, localesProvider, size),
+        body: _crearGrid(context, platillosBloc, size),
         floatingActionButton: _crearBoton(context),
       ),
     );
@@ -41,13 +46,15 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
   }
 
   Widget _crearGrid(
-      BuildContext context, LocalesProvider localesProvider, Size size) {
+      BuildContext context, RestaurantesBloc restaurantesBloc, Size size) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(5),
       child: StreamBuilder(
-        stream: restaurantesProvider.getPlatilloRestaurante(prefs.email),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        // stream: restaurantesProvider.getPlatilloRestaurante(prefs.email),
+        stream: restaurantesBloc.platillosStream,
+        builder: (BuildContext context,
+            AsyncSnapshot<List<PlatillosModel>> snapshot) {
           if (!snapshot.hasData)
             return Center(
                 child: CircularProgressIndicator(
@@ -60,15 +67,15 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
                 childAspectRatio: 0.7,
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 20),
-            itemCount: platillos.documents.length,
+            itemCount: platillos.length,
             itemBuilder: (context, index) {
-              DocumentSnapshot xd = platillos.documents[index];
+              // DocumentSnapshot xd = platillos.documents[index];
               return Transform.translate(
                 offset: Offset(0.0, index.isOdd ? 20 : 0),
                 child: InkWell(
                   onTap: () => Navigator.pushNamed(
                           context, 'platilloRestaurante',
-                          arguments: xd)
+                          arguments: platillos)
                       .then((value) => setState(() {})),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
@@ -80,12 +87,13 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
                         // child: Text(platillos.documents[index].documentID),
                         child: Stack(
                           children: <Widget>[
-                            _imagenAvatar(size, platillos, index),
+                            _imagenAvatar(size, platillos[index], index),
                             containerBlack(),
                             Center(
                               child: ListTile(
                                 title: Text(
-                                  '${platillos.documents[index].data['nombre']}',
+                                  // '${platillos.documents[index].data['nombre']}',
+                                  '${platillos[index].nombre}',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.white,
@@ -110,7 +118,7 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
     );
   }
 
-  Widget _imagenAvatar(Size size, QuerySnapshot platillos, int index) {
+  Widget _imagenAvatar(Size size, PlatillosModel platillos, int index) {
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -121,7 +129,8 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
           width: size.width,
           fit: BoxFit.cover,
           placeholder: AssetImage('assets/img/original.gif'),
-          image: NetworkImage(platillos.documents[index].data['foto'])),
+          // image: NetworkImage(platillos.documents[index].data['foto'])),
+          image: NetworkImage(platillos.foto)),
     );
   }
 

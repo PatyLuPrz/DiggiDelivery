@@ -22,7 +22,7 @@ class RestaurantesProvider {
   }
 
   //Obtiene los platillos de cada restaurante
-  Stream<QuerySnapshot> getPlatilloRestaurante(String email) async* {
+  Future<List<PlatillosModel>> getPlatilloRestaurante(String email) async {
     //COnsulta a la tabla de restaurantes
     int index = 0;
 
@@ -52,10 +52,16 @@ class RestaurantesProvider {
         .where('restaurante', isEqualTo: idDocument)
         .getDocuments();
 
-
+    final List<PlatillosModel> productos = new List();
     // consultaPlatillos.documents.
+    consultaPlatillos.documents.forEach((producto) {
+      final prodTemp = PlatillosModel.fromFirestore(producto.data);
+      productos.add(prodTemp);
+    });
 
-    yield consultaPlatillos;
+    print(productos);
+
+    return productos;
   }
 }
 
