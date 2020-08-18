@@ -39,8 +39,11 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
   Widget _crearBoton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () =>
-          Navigator.pushNamed(context, PlatilloRestaurante.routeName)
-              .then((value) => setState(() {})),
+          Navigator.pushNamed(context, PlatilloRestaurante.routeName).then(
+        (value) => setState(
+          () {},
+        ),
+      ),
       backgroundColor: Color(0xFFC93F42),
       child: Icon(Icons.add),
     );
@@ -78,7 +81,6 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
           mainAxisSpacing: 20),
       itemCount: platillos.documents.length,
       itemBuilder: (context, index) {
-        // DocumentSnapshot xd = platillos.documents[index];
         return _transformTralslate(context, index, platillos, size);
       },
     );
@@ -86,13 +88,16 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
 
   Widget _transformTralslate(
       BuildContext context, int index, QuerySnapshot platillos, Size size) {
-    prefs.idUpdateRegistro = platillos.documents[index].documentID;
     return Transform.translate(
       offset: Offset(0.0, index.isOdd ? 20 : 0),
       child: InkWell(
-        onTap: () => Navigator.pushNamed(context, PlatilloRestaurante.routeName,
-                arguments: platillos.documents[index].data)
-            .then((value) => setState(() {})),
+        onTap: () {
+          Navigator.pushNamed(context, PlatilloRestaurante.routeName,
+                  arguments: platillos.documents[index].data)
+              .then((value) => setState(() {}));
+          prefs.idUpdateRegistro = platillos.documents[index].documentID;
+          print(prefs.idUpdateRegistro);
+        },
         child: _clipRRect(context, index, platillos, size),
       ),
     );
@@ -105,8 +110,6 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
       child: Container(
         child: CircleAvatar(
           backgroundColor: Colors.white,
-          // child: Text(platillos.documents[index].data['nombre']),
-          // child: Text(platillos.documents[index].documentID),
           child: _stackCard(context, index, platillos, size),
         ),
       ),
@@ -131,12 +134,14 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
       // clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(color: Colors.white),
       child: FadeInImage(
-          height: size.height * 2,
-          width: size.width,
-          fit: BoxFit.cover,
-          placeholder: AssetImage('assets/img/original.gif'),
-          // image: NetworkImage(platillos.documents[index].data['foto'])),
-          image: NetworkImage(platillos.documents[index].data['foto'])),
+        height: size.height * 2,
+        width: size.width,
+        fit: BoxFit.cover,
+        placeholder: AssetImage('assets/img/original.gif'),
+        image: NetworkImage(
+          platillos.documents[index].data['foto'],
+        ),
+      ),
     );
   }
 
@@ -152,7 +157,6 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
     return Center(
       child: ListTile(
         title: Text(
-          // '${platillos.documents[index].data['nombre']}',
           '${platillos.documents[index].data['nombre']}',
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -160,8 +164,6 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
             fontSize: 20.0,
           ),
         ),
-        // title:
-        //     Text(platillos.documents[index].documentID),
       ),
     );
   }

@@ -121,6 +121,10 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
   }
 
   Widget _ingredientesExtra(PlatillosModel platillosData) {
+    final value = platillosData.ingredientes.toString();
+    final newValue = value.replaceAll("[", "").replaceAll("]", "");
+    print("value: $newValue");
+
     final dec = DecorationInputForm(
         textLabel: "Ingredientes extra",
         textHint: "Extra queso, extra piña...",
@@ -128,7 +132,7 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
     return Container(
       child: TextFormField(
           keyboardType: TextInputType.text,
-          initialValue: platillosData.ingredientes?.toString() ?? '',
+          initialValue: newValue?.toString() ?? '',
           enabled: true,
           decoration: dec.decoration(),
           onChanged: (value) =>
@@ -242,7 +246,7 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
       print(_platillosModel.nombre);
       print(_platillosModel.ingredientes);
       print(_platillosModel.descripcion);
-      print(prefs.idUpdateRegistro);
+      print("${prefs.idUpdateRegistro}  xDDDDDDDDDDDDDDDDDDDD");
     });
 
     if (foto != null) {
@@ -253,9 +257,10 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
     if (id == null) {
       _platillosModel.restaurante = prefs.idRestaurante;
       _restaurantesBloc.agregarProducto(_platillosModel);
+    } else {
+      _restaurantesBloc.editarProducto(_platillosModel);
     }
-    // _productosBloc.editarProducto(_platillosModel);
-    // }
+
     // _guardando = false;
     // mostrarSnackbar('Registro guardado');
 

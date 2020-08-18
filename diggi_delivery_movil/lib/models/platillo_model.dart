@@ -49,7 +49,7 @@ class PlatillosModel {
         "ingredientes_extra": List<dynamic>.from(ingredientes.map((x) => x)),
         "foto": foto,
         "descripcion": descripcion,
-        "tiempoPreparacion": tiempoPreparacion,
+        "tiempo_preparacion": tiempoPreparacion,
         "restaurante": restaurante,
       };
 }

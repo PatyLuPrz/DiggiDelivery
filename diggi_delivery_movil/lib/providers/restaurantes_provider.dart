@@ -32,7 +32,7 @@ class RestaurantesProvider {
 
   //Insertar platillos en la BD
   // Future<bool> crearPlatillo(RegistroLocalModel platillo) async {
-    
+
   //   return true;
   // }
 
@@ -69,16 +69,20 @@ class RestaurantesProvider {
 
   //Insertar nuevo platillo en la BD
   Future<bool> crearPlatillo(PlatillosModel platillosModel) async {
-    await _db.collection('platillos').document().setData(platillosModel.toMap());
+    await _db
+        .collection('platillos')
+        .document()
+        .setData(platillosModel.toMap());
 
+    return true;
+  }
 
-    // final url = '$_url/productos.json?auth=${_prefs.token}';
-
-    // final resp = await http.post(url, body: productoModelToJson(producto));
-
-    // final decodedData = json.decode(resp.body);
-
-    // print(decodedData);
+  //Edita platillo que existe en la base de datos
+  Future<bool> editarPlatillo(PlatillosModel platillosModel) async {
+    await _db
+        .collection("platillos")
+        .document(prefs.idUpdateRegistro)
+        .updateData(platillosModel.toMap());
 
     return true;
   }
