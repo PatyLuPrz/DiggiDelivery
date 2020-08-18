@@ -11,6 +11,8 @@ class RestaurantesBloc {
   final _restaurantesController = new BehaviorSubject<List<RestauranteModel>>();
   final _restaurantesControllerPlatillos =
       new BehaviorSubject<List<PlatillosModel>>();
+  final _restaurantesControllerPlatillosCliente =
+      new BehaviorSubject<List<PlatillosModel>>();
   final _cargandoController = new BehaviorSubject<bool>();
 
   //Referencia para realizar la petición a cada proceso
@@ -20,6 +22,8 @@ class RestaurantesBloc {
   Stream<List<RestauranteModel>> get restaurantesStream => _restaurantesController.stream;
   Stream<List<PlatillosModel>> get platillosStream =>
       _restaurantesControllerPlatillos.stream;
+  Stream<List<PlatillosModel>> get platillosClienteStream =>
+      _restaurantesControllerPlatillosCliente.stream;
   Stream<bool> get cargando => _cargandoController.stream;
 
   //Implementar metodos para cargar, agregar, etc, productos
@@ -33,12 +37,19 @@ class RestaurantesBloc {
   void cargarPlatillos() async {
     final platillos =
         await _restaurantesProvider.getPlatilloRestaurante(prefs.email);
-    _restaurantesControllerPlatillos.sink.add(platillos);
+    _restaurantesControllerPlatillosCliente.sink.add(platillos);
+  }
+  //Implementar metodos para cargar, agregar, etc, productos
+  void cargarPlatillosCliente() async {
+    final platillos =
+        await _restaurantesProvider.getPlatilloRestaurante(prefs.idRestaurante);
+    _restaurantesControllerPlatillosCliente.sink.add(platillos);
   }
 
   dispose() {
     _cargandoController.close();
     _restaurantesController.close();
     _restaurantesControllerPlatillos.close();
+    _restaurantesControllerPlatillosCliente.close();
   }
 }

@@ -119,4 +119,22 @@ class PreferenciasUsuario {
   set fotoURL(String value) {
     _prefs.setString('fotoURL', value);
   }
+
+  //Get And Set Correo - idRestaurante
+  get idRestaurante {
+    return _prefs.getString('idRestaurante') ?? '';
+  }
+
+  set idRestaurante(String value) {
+    _prefs.setString('idRestaurante', value);
+  }
+
+  //Get And Set Correo - idRestaurante
+  get nombreRestaurantes {
+    return _prefs.getString('nombreRestaurantes') ?? '';
+  }
+
+  set nombreRestaurantes(String value) {
+    _prefs.setString('nombreRestaurantes', value);
+  }
 }

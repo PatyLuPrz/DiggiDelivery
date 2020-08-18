@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/blocs/pages/restaurantes/restaurantes_bloc.dart';
 import 'package:diggi_delivery_movil/models/platillo_model.dart';
+import 'package:diggi_delivery_movil/providers/locales_provider.dart';
 import 'package:diggi_delivery_movil/providers/restaurantes_provider.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
@@ -72,10 +73,9 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
               return Transform.translate(
                 offset: Offset(0.0, index.isOdd ? 20 : 0),
                 child: InkWell(
-                  key: UniqueKey(),
                   onTap: () => Navigator.pushNamed(
                           context, 'platilloRestaurante',
-                          arguments: platillos[index])
+                          arguments: platillos)
                       .then((value) => setState(() {})),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),

@@ -6,7 +6,8 @@ RestauranteModel restauranteModelFromJson(String str) =>
     RestauranteModel.fromFirestore(json.decode(str));
 
 //Toma el modelo y lo genera a un JSon
-String restauranteModelToJson(RestauranteModel data) => json.encode(data.toMap());
+String restauranteModelToJson(RestauranteModel data) =>
+    json.encode(data.toMap());
 
 class RestauranteModel {
   RestauranteModel({
@@ -31,7 +32,8 @@ class RestauranteModel {
   String longitud;
   String pass;
 
-  factory RestauranteModel.fromFirestore(Map<String, dynamic> json) => RestauranteModel(
+  factory RestauranteModel.fromFirestore(Map<String, dynamic> json) =>
+      RestauranteModel(
         // id: json["id"],
         nombre: json["nombre"],
         telefono: json["telefono"],

@@ -1,46 +1,44 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/blocs/pages/restaurantes/restaurantes_bloc.dart';
 import 'package:diggi_delivery_movil/models/platillo_model.dart';
+import 'package:diggi_delivery_movil/pages/clientes/platillo_informacion.dart';
 import 'package:diggi_delivery_movil/providers/restaurantes_provider.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 
 class PlatillosRestauranteCliente extends StatefulWidget {
   const PlatillosRestauranteCliente({Key key}) : super(key: key);
-
+  static final routeName = "platilloRestaurante";
   @override
-  _PlatillosRestauranteClienteState createState() => _PlatillosRestauranteClienteState();
+  _PlatillosRestauranteClienteState createState() =>
+      _PlatillosRestauranteClienteState();
 }
 
-class _PlatillosRestauranteClienteState extends State<PlatillosRestauranteCliente> {
+class _PlatillosRestauranteClienteState
+    extends State<PlatillosRestauranteCliente> {
   RestaurantesProvider restaurantesProvider = RestaurantesProvider();
   final prefs = new PreferenciasUsuario();
+  String email;
   @override
   Widget build(BuildContext context) {
-    final platillosBloc = Provider.restaurantesBloc(context);
-    platillosBloc.cargarPlatillos();
+    final String emailData = ModalRoute.of(context).settings.arguments;
     final size = MediaQuery.of(context).size;
+    if (emailData != null) {
+      email = emailData;
+    }
+    prefs.idRestaurante = email;
+    final platillosBloc = Provider.restaurantesBloc(context);
+    platillosBloc.cargarPlatillosCliente();
 
     // LocalesProvider localesProvider = LocalesProvider();
     return Container(
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFFC93F42),
-          title: Center(child: Text('Restaurante')),
+          title: Center(child: Text(prefs.nombreRestaurantes)),
         ),
         body: _crearGrid(context, platillosBloc, size),
-        floatingActionButton: _crearBoton(context),
       ),
-    );
-  }
-
-  _crearBoton(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () => Navigator.pushNamed(context, 'platilloRestaurante')
-          .then((value) => setState(() {})),
-      backgroundColor: Color(0xFFC93F42),
-      child: Icon(Icons.add),
     );
   }
 
@@ -51,7 +49,7 @@ class _PlatillosRestauranteClienteState extends State<PlatillosRestauranteClient
       padding: EdgeInsets.all(5),
       child: StreamBuilder(
         // stream: restaurantesProvider.getPlatilloRestaurante(prefs.email),
-        stream: restaurantesBloc.platillosStream,
+        stream: restaurantesBloc.platillosClienteStream,
         builder: (BuildContext context,
             AsyncSnapshot<List<PlatillosModel>> snapshot) {
           if (!snapshot.hasData)
@@ -74,7 +72,7 @@ class _PlatillosRestauranteClienteState extends State<PlatillosRestauranteClient
                 child: InkWell(
                   key: UniqueKey(),
                   onTap: () => Navigator.pushNamed(
-                          context, 'platilloRestaurante',
+                          context, PlatilloInformacion.routeName,
                           arguments: platillos[index])
                       .then((value) => setState(() {})),
                   child: ClipRRect(
@@ -124,13 +122,16 @@ class _PlatillosRestauranteClienteState extends State<PlatillosRestauranteClient
       height: double.infinity,
       // clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(color: Colors.white),
-      child: FadeInImage(
-          height: size.height * 2,
-          width: size.width,
-          fit: BoxFit.cover,
-          placeholder: AssetImage('assets/img/original.gif'),
-          // image: NetworkImage(platillos.documents[index].data['foto'])),
-          image: NetworkImage(platillos.foto)),
+      child: Hero(
+        tag: new Text('hero1'),
+        child: FadeInImage(
+            height: size.height * 2,
+            width: size.width,
+            fit: BoxFit.cover,
+            placeholder: AssetImage('assets/img/original.gif'),
+            // image: NetworkImage(platillos.documents[index].data['foto'])),
+            image: NetworkImage(platillos.foto)),
+      ),
     );
   }
 
