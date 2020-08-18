@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:diggi_delivery_movil/blocs/archivos_bloc.dart';
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/blocs/pages/restaurantes/restaurantes_bloc.dart';
 import 'package:diggi_delivery_movil/models/platillo_model.dart';
+import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/widgets/input_decoration.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PlatilloRestaurante extends StatefulWidget {
   static final routeName = "platilloRestaurante";
@@ -15,39 +18,48 @@ class PlatilloRestaurante extends StatefulWidget {
 class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
   //Key de los widget para evaluar las acciones a realizar
   final formKey = GlobalKey<FormState>();
-
-  RestaurantesBloc platilloRestaurante;
-  PlatillosModel platillosModel = new PlatillosModel();
-  // final scaffoldKey = GlobalKey<ScaffoldState>();
+  final prefs = new PreferenciasUsuario();
+  PlatillosModel _platillosModel = PlatillosModel();
+  RestaurantesBloc _platilloRestaurante;
+  ArchivosBloc _archivosBloc = new ArchivosBloc();
+  RestaurantesBloc _restaurantesBloc = RestaurantesBloc();
+  final picker = ImagePicker();
   File foto;
+  bool _guardando = false;
+  String id;
 
   @override
   Widget build(BuildContext context) {
-    platilloRestaurante = Provider.restaurantesBloc(context);
-    final PlatillosModel platillosData =
+    _platilloRestaurante = Provider.restaurantesBloc(context);
+    final Map<String, dynamic> platillosData =
         ModalRoute.of(context).settings.arguments;
-    // print(platillosData.documentID);
     if (platillosData != null) {
-      platillosModel = platillosData;
+      platillosData.forEach((key, value) {
+        _platillosModel = PlatillosModel.fromFirestore(platillosData);
+      });
+      id = _platillosModel.restaurante;
+      print(id);
     }
+    print(id);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFFC93F42),
         title: Text('Platillo'),
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.photo_size_select_actual), onPressed: () {}),
-          IconButton(icon: Icon(Icons.camera_alt), onPressed: () {}),
+              icon: Icon(Icons.photo_size_select_actual),
+              onPressed: _seleccionarFoto),
+          IconButton(icon: Icon(Icons.camera_alt), onPressed: _tomarFoto),
         ],
       ),
       body: SingleChildScrollView(
-        child: _formularioPlatillo(
-            context, platillosData, platilloRestaurante, platillosModel),
+        child:
+            _formularioPlatillo(context, _platilloRestaurante, _platillosModel),
       ),
     );
   }
 
-  Widget _formularioPlatillo(BuildContext context, PlatillosModel platillosData,
+  Widget _formularioPlatillo(BuildContext context,
       RestaurantesBloc platilloRestaurante, PlatillosModel platillosModel) {
     return Container(
       padding: EdgeInsets.all(15.0),
@@ -86,6 +98,7 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
         initialValue: platillosData.nombre,
         enabled: true,
         decoration: dec.decoration(),
+        onChanged: (value) => _platillosModel.nombre = value,
       ),
     );
   }
@@ -102,6 +115,7 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
         initialValue: platillosData.descripcion,
         enabled: true,
         decoration: dec.decoration(),
+        onChanged: (value) => _platillosModel.descripcion = value,
       ),
     );
   }
@@ -113,11 +127,12 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
         icon: Icons.view_list);
     return Container(
       child: TextFormField(
-        keyboardType: TextInputType.text,
-        initialValue: platillosData.ingredientes?.toString() ?? '',
-        enabled: true,
-        decoration: dec.decoration(),
-      ),
+          keyboardType: TextInputType.text,
+          initialValue: platillosData.ingredientes?.toString() ?? '',
+          enabled: true,
+          decoration: dec.decoration(),
+          onChanged: (value) =>
+              _platillosModel.ingredientes = value.split(',')),
     );
   }
 
@@ -127,11 +142,11 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
         textHint: "100.0",
         icon: Icons.attach_money);
     return TextFormField(
-      keyboardType: TextInputType.numberWithOptions(decimal: true),
-      // initialValue: platillosData.data['precio'].toString(),
-      initialValue: platillosData.precio.toString(),
-      decoration: dec.decoration(),
-    );
+        keyboardType: TextInputType.numberWithOptions(decimal: false),
+        // initialValue: platillosData.data['precio'].toString(),
+        initialValue: platillosData.precio.toString(),
+        decoration: dec.decoration(),
+        onChanged: (value) => _platillosModel.precio = int.parse(value));
   }
 
   Widget _tiempoDePreparacion(PlatillosModel platillosData) {
@@ -140,10 +155,10 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
         textHint: "30 minutos",
         icon: Icons.storage);
     return TextFormField(
-      keyboardType: TextInputType.numberWithOptions(decimal: true),
-      initialValue: platillosData.tiempoPreparacion,
-      decoration: dec.decoration(),
-    );
+        keyboardType: TextInputType.text,
+        initialValue: platillosData.tiempoPreparacion,
+        decoration: dec.decoration(),
+        onChanged: (value) => _platillosModel.tiempoPreparacion = value);
   }
 
   Widget _card(PlatillosModel platillosModel) {
@@ -182,14 +197,78 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
     }
   }
 
+  void _seleccionarFoto() async {
+    _procesarImagen(ImageSource.gallery);
+  }
+
+  void _tomarFoto() async {
+    _procesarImagen(ImageSource.camera);
+  }
+
+  _procesarImagen(ImageSource source) async {
+    final pickedFile = await picker.getImage(source: source);
+
+    if (foto != null) {
+      _platillosModel.foto = null;
+    }
+
+    setState(() {
+      foto = File(pickedFile.path);
+    });
+  }
+
   Widget _crearBoton(PlatillosModel platillosData) {
     return RaisedButton.icon(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       color: Color(0xFFC93F42),
       textColor: Colors.white,
       label: Text('Guardar platillo'),
       icon: Icon(Icons.save),
-      onPressed: () {},
+      onPressed: (_guardando) ? null : _submit,
     );
   }
+
+  void _submit() async {
+    if (!formKey.currentState.validate()) return;
+
+    formKey.currentState.save();
+
+    setState(() {
+      _guardando = true;
+      print(prefs.idUpdateRegistro);
+      print(_platillosModel.tiempoPreparacion);
+      print(_platillosModel.restaurante = id);
+      print(_platillosModel.precio);
+      print(_platillosModel.nombre);
+      print(_platillosModel.ingredientes);
+      print(_platillosModel.descripcion);
+      print(prefs.idUpdateRegistro);
+    });
+
+    if (foto != null) {
+      _platillosModel.foto = await _archivosBloc.subirFoto(foto);
+      print(_platillosModel.foto);
+    }
+
+    if (id == null) {
+      _platillosModel.restaurante = prefs.idRestaurante;
+      _restaurantesBloc.agregarProducto(_platillosModel);
+    }
+    // _productosBloc.editarProducto(_platillosModel);
+    // }
+    // _guardando = false;
+    // mostrarSnackbar('Registro guardado');
+
+    Navigator.pop(context);
+    _guardando = false;
+  }
+
+  // void mostrarSnackbar(String mensaje) {
+  //   final snackbar = SnackBar(
+  //     content: Text(mensaje),
+  //     duration: Duration(milliseconds: 1500),
+  //   );
+
+  // scaffoldKey.currentState.showSnackBar(snackbar);
+  // }
 }

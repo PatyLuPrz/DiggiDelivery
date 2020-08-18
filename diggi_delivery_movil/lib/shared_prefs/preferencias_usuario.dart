@@ -137,4 +137,13 @@ class PreferenciasUsuario {
   set nombreRestaurantes(String value) {
     _prefs.setString('nombreRestaurantes', value);
   }
+
+  //Get And Set Correo - idRestaurante
+  get idUpdateRegistro {
+    return _prefs.getString('idUpdateRegistro') ?? '';
+  }
+
+  set idUpdateRegistro(String value) {
+    _prefs.setString('idUpdateRegistro', value);
+  }
 }

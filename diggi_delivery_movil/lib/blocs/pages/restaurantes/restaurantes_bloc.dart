@@ -9,44 +9,54 @@ class RestaurantesBloc {
   final prefs = new PreferenciasUsuario();
   //Streamcontroller
   final _restaurantesController = new BehaviorSubject<List<RestauranteModel>>();
-  final _restaurantesControllerPlatillos =
-      new BehaviorSubject<List<PlatillosModel>>();
+  final _restaurantesControllerPlatillos = new BehaviorSubject<QuerySnapshot>();
   final _restaurantesControllerPlatillosCliente =
-      new BehaviorSubject<List<PlatillosModel>>();
+      new BehaviorSubject<QuerySnapshot>();
+  final _crearPlatillo = new BehaviorSubject<List<PlatillosModel>>();
   final _cargandoController = new BehaviorSubject<bool>();
 
   //Referencia para realizar la petición a cada proceso
   final _restaurantesProvider = new RestaurantesProvider();
 
   //Escuchar streams
-  Stream<List<RestauranteModel>> get restaurantesStream => _restaurantesController.stream;
-  Stream<List<PlatillosModel>> get platillosStream =>
+  Stream<List<RestauranteModel>> get restaurantesStream =>
+      _restaurantesController.stream;
+  Stream<QuerySnapshot> get platillosStream =>
       _restaurantesControllerPlatillos.stream;
-  Stream<List<PlatillosModel>> get platillosClienteStream =>
+  Stream<QuerySnapshot> get platillosClienteStream =>
       _restaurantesControllerPlatillosCliente.stream;
+  Stream<List<PlatillosModel>> get crearPlatilloStream => _crearPlatillo.stream;
   Stream<bool> get cargando => _cargandoController.stream;
 
-  //Implementar metodos para cargar, agregar, etc, productos
+  //Carga los restaurantes para mostrarlos al cliente
   void cargarRestaurantes() async {
-    final restaurantes =
-        await _restaurantesProvider.getRestaurantes();
+    final restaurantes = await _restaurantesProvider.getRestaurantes();
     _restaurantesController.sink.add(restaurantes);
   }
 
-  //Implementar metodos para cargar, agregar, etc, productos
+  //Cargar los platillos a mostrar al restaurante
   void cargarPlatillos() async {
     final platillos =
         await _restaurantesProvider.getPlatilloRestaurante(prefs.email);
     _restaurantesControllerPlatillos.sink.add(platillos);
   }
-  //Implementar metodos para cargar, agregar, etc, productos
+
+  //Cargar los platillos que se le mostraran al cliente
   void cargarPlatillosCliente() async {
     final platillos =
         await _restaurantesProvider.getPlatilloRestaurante(prefs.idRestaurante);
     _restaurantesControllerPlatillosCliente.sink.add(platillos);
   }
 
+  //Agregar nuevo platillo
+  void agregarProducto(PlatillosModel producto) async {
+    _cargandoController.sink.add(true);
+    await _restaurantesProvider.crearPlatillo(producto);
+    _cargandoController.sink.add(false);
+  }
+
   dispose() {
+    _crearPlatillo..close();
     _cargandoController.close();
     _restaurantesController.close();
     _restaurantesControllerPlatillos.close();

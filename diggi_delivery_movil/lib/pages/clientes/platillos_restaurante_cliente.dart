@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/blocs/pages/restaurantes/restaurantes_bloc.dart';
 import 'package:diggi_delivery_movil/models/platillo_model.dart';
@@ -50,8 +51,7 @@ class _PlatillosRestauranteClienteState
       child: StreamBuilder(
         // stream: restaurantesProvider.getPlatilloRestaurante(prefs.email),
         stream: restaurantesBloc.platillosClienteStream,
-        builder: (BuildContext context,
-            AsyncSnapshot<List<PlatillosModel>> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData)
             return Center(
                 child: CircularProgressIndicator(
@@ -64,7 +64,7 @@ class _PlatillosRestauranteClienteState
                 childAspectRatio: 0.7,
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 20),
-            itemCount: platillos.length,
+            itemCount: platillos.documents.length,
             itemBuilder: (context, index) {
               // DocumentSnapshot xd = platillos.documents[index];
               return Transform.translate(
@@ -73,7 +73,7 @@ class _PlatillosRestauranteClienteState
                   key: UniqueKey(),
                   onTap: () => Navigator.pushNamed(
                           context, PlatilloInformacion.routeName,
-                          arguments: platillos[index])
+                          arguments: platillos.documents[index])
                       .then((value) => setState(() {})),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
@@ -85,13 +85,13 @@ class _PlatillosRestauranteClienteState
                         // child: Text(platillos.documents[index].documentID),
                         child: Stack(
                           children: <Widget>[
-                            _imagenAvatar(size, platillos[index], index),
+                            _imagenAvatar(size, platillos, index),
                             containerBlack(),
                             Center(
                               child: ListTile(
                                 title: Text(
                                   // '${platillos.documents[index].data['nombre']}',
-                                  '${platillos[index].nombre}',
+                                  '${platillos.documents[index].data['nombre']}',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.white,
@@ -116,7 +116,7 @@ class _PlatillosRestauranteClienteState
     );
   }
 
-  Widget _imagenAvatar(Size size, PlatillosModel platillos, int index) {
+  Widget _imagenAvatar(Size size, QuerySnapshot platillos, int index) {
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -130,7 +130,7 @@ class _PlatillosRestauranteClienteState
             fit: BoxFit.cover,
             placeholder: AssetImage('assets/img/original.gif'),
             // image: NetworkImage(platillos.documents[index].data['foto'])),
-            image: NetworkImage(platillos.foto)),
+            image: NetworkImage(platillos.documents[index].data['foto'])),
       ),
     );
   }

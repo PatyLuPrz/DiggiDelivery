@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diggi_delivery_movil/models/locales_model.dart';
 import 'package:diggi_delivery_movil/models/platillo_model.dart';
 import 'package:diggi_delivery_movil/models/restaurante_model.dart';
+import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 
 class RestaurantesProvider {
   Firestore _db = Firestore();
+  final prefs = PreferenciasUsuario();
 
   Future<List<RestauranteModel>> getRestaurantes() async {
     //COnsulta para obtener los documentos de restaurantes
@@ -29,13 +31,13 @@ class RestaurantesProvider {
   // }
 
   //Insertar platillos en la BD
-  Future<bool> crearPlatillo(RegistroLocalModel platillo) async {
-    await _db.collection('restaurantes').document().setData(platillo.toMap());
-    return true;
-  }
+  // Future<bool> crearPlatillo(RegistroLocalModel platillo) async {
+    
+  //   return true;
+  // }
 
   //Obtiene los platillos de cada restaurante
-  Future<List<PlatillosModel>> getPlatilloRestaurante(String email) async {
+  Future<QuerySnapshot> getPlatilloRestaurante(String email) async {
     //COnsulta a la tabla de restaurantes
     int index = 0;
 
@@ -55,53 +57,29 @@ class RestaurantesProvider {
 
     //Como solo existe un registro con el mismo email obtiene el id del documento de restaurante al que pertene el correo
     var idDocument = consultaEmail.documents[index].documentID;
+    prefs.idRestaurante = idDocument;
 
     QuerySnapshot consultaPlatillos = await _db
         .collection('platillos')
         .where('restaurante', isEqualTo: idDocument)
         .getDocuments();
 
-    final List<PlatillosModel> productos = new List();
-    // consultaPlatillos.documents.
-    consultaPlatillos.documents.forEach((producto) {
-      final prodTemp = PlatillosModel.fromFirestore(producto.data);
-      productos.add(prodTemp);
-    });
+    return consultaPlatillos;
+  }
 
-    print(productos);
+  //Insertar nuevo platillo en la BD
+  Future<bool> crearPlatillo(PlatillosModel platillosModel) async {
+    await _db.collection('platillos').document().setData(platillosModel.toMap());
 
-    return productos;
+
+    // final url = '$_url/productos.json?auth=${_prefs.token}';
+
+    // final resp = await http.post(url, body: productoModelToJson(producto));
+
+    // final decodedData = json.decode(resp.body);
+
+    // print(decodedData);
+
+    return true;
   }
 }
-
-// consultaPlatillos.documents.forEach((DocumentSnapshot element) {
-//   print(element.documentID);
-//   return decodeResp2 = element.data;
-// });
-
-//Imprime los valores que hay en restaurante con el id
-// _db
-//     .collection('restaurantes')
-//     .document(idDocument)
-//     .get()
-//     .then((value) => {print(value.data.values)});
-// PlatillosModel model = PlatillosModel();
-// Map<String, dynamic> str;
-// Map<String, dynamic> str2;
-// Map<String, dynamic> str3 = _db.collection('platillos').snapshots().listen(
-//   (QuerySnapshot data) {
-//     data.documents.forEach(
-//       (DocumentSnapshot document) {
-//         if (document.data['restaurante'].path ==
-//             'restaurantes/$idDocument') {
-//           return str = document.data;
-//           // return str.addAll({'id': document.documentID});
-//         }
-//         return str;
-//       },
-//     );
-
-//     print("xDDDDDDDD :::: ${str.keys}");
-//     return str2 = str;
-//   },
-// );

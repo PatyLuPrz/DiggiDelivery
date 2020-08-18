@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/blocs/pages/restaurantes/restaurantes_bloc.dart';
 import 'package:diggi_delivery_movil/models/platillo_model.dart';
@@ -53,13 +54,14 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
       child: StreamBuilder(
         // stream: restaurantesProvider.getPlatilloRestaurante(prefs.email),
         stream: restaurantesBloc.platillosStream,
-        builder: (BuildContext context,
-            AsyncSnapshot<List<PlatillosModel>> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData)
             return Center(
-                child: CircularProgressIndicator(
-              valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFC93F42)),
-            ));
+              child: CircularProgressIndicator(
+                valueColor:
+                    new AlwaysStoppedAnimation<Color>(Color(0xFFC93F42)),
+              ),
+            );
           final platillos = snapshot.data;
           return _gridView(context, platillos, size);
         },
@@ -67,15 +69,14 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
     );
   }
 
-  Widget _gridView(
-      BuildContext context, List<PlatillosModel> platillos, Size size) {
+  Widget _gridView(BuildContext context, QuerySnapshot platillos, Size size) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           childAspectRatio: 0.7,
           crossAxisSpacing: 20,
           mainAxisSpacing: 20),
-      itemCount: platillos.length,
+      itemCount: platillos.documents.length,
       itemBuilder: (context, index) {
         // DocumentSnapshot xd = platillos.documents[index];
         return _transformTralslate(context, index, platillos, size);
@@ -83,21 +84,22 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
     );
   }
 
-  Widget _transformTralslate(BuildContext context, int index,
-      List<PlatillosModel> platillos, Size size) {
+  Widget _transformTralslate(
+      BuildContext context, int index, QuerySnapshot platillos, Size size) {
+    prefs.idUpdateRegistro = platillos.documents[index].documentID;
     return Transform.translate(
       offset: Offset(0.0, index.isOdd ? 20 : 0),
       child: InkWell(
         onTap: () => Navigator.pushNamed(context, PlatilloRestaurante.routeName,
-                arguments: platillos[index])
+                arguments: platillos.documents[index].data)
             .then((value) => setState(() {})),
         child: _clipRRect(context, index, platillos, size),
       ),
     );
   }
 
-  Widget _clipRRect(BuildContext context, int index,
-      List<PlatillosModel> platillos, Size size) {
+  Widget _clipRRect(
+      BuildContext context, int index, QuerySnapshot platillos, Size size) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10.0),
       child: Container(
@@ -111,18 +113,18 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
     );
   }
 
-  Widget _stackCard(BuildContext context, int index,
-      List<PlatillosModel> platillos, Size size) {
+  Widget _stackCard(
+      BuildContext context, int index, QuerySnapshot platillos, Size size) {
     return Stack(
       children: <Widget>[
-        _imagenAvatar(size, platillos[index], index),
+        _imagenAvatar(size, platillos, index),
         containerBlack(),
         _listText(context, index, platillos),
       ],
     );
   }
 
-  Widget _imagenAvatar(Size size, PlatillosModel platillos, int index) {
+  Widget _imagenAvatar(Size size, QuerySnapshot platillos, int index) {
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -134,7 +136,7 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
           fit: BoxFit.cover,
           placeholder: AssetImage('assets/img/original.gif'),
           // image: NetworkImage(platillos.documents[index].data['foto'])),
-          image: NetworkImage(platillos.foto)),
+          image: NetworkImage(platillos.documents[index].data['foto'])),
     );
   }
 
@@ -146,13 +148,12 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
     );
   }
 
-  Widget _listText(
-      BuildContext context, int index, List<PlatillosModel> platillos) {
+  Widget _listText(BuildContext context, int index, QuerySnapshot platillos) {
     return Center(
       child: ListTile(
         title: Text(
           // '${platillos.documents[index].data['nombre']}',
-          '${platillos[index].nombre}',
+          '${platillos.documents[index].data['nombre']}',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,
