@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/blocs/pages/restaurantes/restaurantes_bloc.dart';
 import 'package:diggi_delivery_movil/models/platillo_model.dart';
@@ -48,9 +47,22 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
               key: formKey,
               child: Column(
                 children: <Widget>[
-                  Text(
-                    "Introducir la información necesaria para agregar un nuevo producto",
-                    textAlign: TextAlign.center,
+                  Card(
+                    clipBehavior: Clip.antiAlias,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            "Introducir la información necesaria para agregar un nuevo producto",
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        _mostrarFoto(platillosModel),
+                      ],
+                    ),
                   ),
                   SizedBox(height: 10.0),
                   _crearNombre(platillosModel),
@@ -104,17 +116,6 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
   }
 
   Widget _ingredientesExtra(PlatillosModel platillosData) {
-    // platillosData.data['ingredientes_extra'].toString();
-    // List<dynamic> split = platillosData.data['ingredientes_extra'];
-    // List<PlatillosModel> p = new List();
-
-    // final prodTemp = PlatillosModel.fromFirestore(platillosData.data);
-
-    // p.add(prodTemp);
-    // p.forEach((element) {
-    //   print(element.ingredientes);
-    // });
-
     final dec = DecorationInputForm(
         textLabel: "Ingredientes extra",
         textHint: "Extra queso, extra piña...",
@@ -122,7 +123,7 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
     return Container(
       child: TextFormField(
         keyboardType: TextInputType.text,
-        initialValue: platillosData.nombre,
+        initialValue: platillosData.ingredientes?.toString()??'',
         enabled: true,
         decoration: dec.decoration(),
       ),
@@ -163,5 +164,22 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
       icon: Icon(Icons.save),
       onPressed: () {},
     );
+  }
+
+  Widget _mostrarFoto(PlatillosModel platillosModel) {
+    if (platillosModel.foto != null) {
+      return FadeInImage(
+        width: double.infinity,
+        placeholder: AssetImage('assets/img/jar-loading.gif'),
+        image: NetworkImage(platillosModel.foto),
+        height: 180,
+        fit: BoxFit.fill,
+      );
+    } else {
+      return Image(
+        image: AssetImage(foto?.path ?? 'assets/img/no-image.png'),
+        fit: BoxFit.cover,
+      );
+    }
   }
 }

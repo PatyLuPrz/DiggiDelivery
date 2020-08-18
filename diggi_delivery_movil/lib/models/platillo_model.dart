@@ -12,7 +12,7 @@ class PlatillosModel {
   PlatillosModel({
     this.id,
     this.nombre,
-    this.precio,
+    this.precio = 0,
     this.ingredientes,
     this.foto,
     this.descripcion,
@@ -29,14 +29,16 @@ class PlatillosModel {
   String tiempoPreparacion;
   String restaurante;
 
-  factory PlatillosModel.fromFirestore(Map<String, dynamic> json) => PlatillosModel(
+  factory PlatillosModel.fromFirestore(Map<String, dynamic> json) =>
+      PlatillosModel(
         descripcion: json["descripcion"],
         foto: json["foto"],
-        ingredientes: List<String>.from(json["ingredientes_extra"].map((x) => x)),
+        ingredientes:
+            List<String>.from(json["ingredientes_extra"].map((x) => x)),
         nombre: json["nombre"],
         precio: json["precio"],
         restaurante: json["restaurante"],
-        tiempoPreparacion: json["tiempoPreparacion"],
+        tiempoPreparacion: json["tiempo_preparacion"],
         id: json["id"],
       );
 

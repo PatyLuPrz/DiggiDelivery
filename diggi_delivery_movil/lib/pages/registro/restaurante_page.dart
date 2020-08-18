@@ -4,6 +4,7 @@ import 'package:diggi_delivery_movil/blocs/archivos_bloc.dart';
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/models/model_usuarios.dart';
 import 'package:diggi_delivery_movil/models/restaurante_model.dart';
+import 'package:diggi_delivery_movil/routes.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/widgets/input_decoration.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:diggi_delivery_movil/utils/utils.dart' as utils;
 
 class RestauranteRegistro extends StatefulWidget {
-    static final String routeName = 'restaurante';
+  static final String routeName = 'restaurante';
 
   RestauranteRegistro({Key key}) : super(key: key);
 
@@ -38,6 +39,7 @@ class _RestauranteRegistroState extends State<RestauranteRegistro>
     super.initState();
     //Agrega un observador cuando la app se activa
     WidgetsBinding.instance.addObserver(this);
+    _prefs.foto = '';
   }
 
   @override
@@ -47,6 +49,7 @@ class _RestauranteRegistroState extends State<RestauranteRegistro>
     //Deja de escuchar los cambios de ubicación
     _prefs.latitud = '';
     _prefs.logitud = '';
+    _prefs.foto = '';
     super.dispose();
   }
 
@@ -346,7 +349,7 @@ class _RestauranteRegistroState extends State<RestauranteRegistro>
         _prefs.clear();
         _prefs.email = _restauranteModel.email;
       });
-        Navigator.pushReplacementNamed(context, 'homePageRestaurante');
+      Navigator.pushReplacementNamed(context, HomePageRestaurante.routeName);
       _guardando = false;
     } else {
       utils.mostrarAlerta(context, info['mensaje']);

@@ -4,6 +4,7 @@ import 'package:diggi_delivery_movil/blocs/archivos_bloc.dart';
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/models/cliente_model.dart';
 import 'package:diggi_delivery_movil/models/model_usuarios.dart';
+import 'package:diggi_delivery_movil/routes.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/widgets/input_decoration.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,7 @@ class _ClienteRegisgtroState extends State<ClienteRegisgtro>
     super.initState();
     //Agrega un observador cuando la app se activa
     WidgetsBinding.instance.addObserver(this);
+    prefs.foto = '';
   }
 
   @override
@@ -49,6 +51,7 @@ class _ClienteRegisgtroState extends State<ClienteRegisgtro>
     //Deja de escuchar los cambios de ubicación
     prefs.latitud = '';
     prefs.logitud = '';
+    prefs.foto = '';
     super.dispose();
   }
 
@@ -316,7 +319,7 @@ class _ClienteRegisgtroState extends State<ClienteRegisgtro>
         prefs.clear();
         prefs.email = _clienteModel.email;
       });
-      Navigator.pushReplacementNamed(context, 'homepagecliente');
+      Navigator.pushReplacementNamed(context, HomePage.routeName);
       _guardando = false;
     } else {
       utils.mostrarAlerta(context, info['mensaje']);

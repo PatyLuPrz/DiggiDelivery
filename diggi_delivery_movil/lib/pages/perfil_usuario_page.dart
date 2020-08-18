@@ -1,3 +1,4 @@
+import 'package:diggi_delivery_movil/routes.dart';
 import 'package:diggi_delivery_movil/utils/theme_preferences.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
@@ -141,7 +142,7 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
       child: RaisedButton(
         onPressed: () {
           prefs.clear();
-          Navigator.pushReplacementNamed(context, 'login');
+          Navigator.pushReplacementNamed(context, LoginPage.routeName);
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/providers/usuario_provider.dart';
+import 'package:diggi_delivery_movil/routes.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -168,7 +169,7 @@ class _RegistroPageState extends State<RegistroPage> {
           Text('¿Ya tienes una cuenta?'),
           FlatButton(
             child: Text('Inicia sesión aquí'),
-            onPressed: () => Navigator.pushReplacementNamed(context, 'login'),
+            onPressed: () => Navigator.pushReplacementNamed(context, LoginPage.routeName),
           ),
         ],
       ),

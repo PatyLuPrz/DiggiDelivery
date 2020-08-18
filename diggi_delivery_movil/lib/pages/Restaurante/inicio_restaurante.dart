@@ -73,9 +73,10 @@ class _InicioRestauranteState extends State<InicioRestaurante> {
               return Transform.translate(
                 offset: Offset(0.0, index.isOdd ? 20 : 0),
                 child: InkWell(
+                  key: UniqueKey(),
                   onTap: () => Navigator.pushNamed(
                           context, 'platilloRestaurante',
-                          arguments: platillos)
+                          arguments: platillos[index])
                       .then((value) => setState(() {})),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),

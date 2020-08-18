@@ -1,5 +1,6 @@
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/providers/usuario_provider.dart';
+import 'package:diggi_delivery_movil/routes.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -181,13 +182,13 @@ class _LoginPageState extends State<LoginPage> {
         String nombre;
 
         if (infoEmail['nivel'] == '0') {
-          Navigator.pushReplacementNamed(context, 'homePageRestaurante');
+          Navigator.pushReplacementNamed(context, HomePageRestaurante.routeName);
           nombre = 'restaurantes';
         } else if (infoEmail['nivel'] == '1') {
-          Navigator.pushReplacementNamed(context, 'homepagelocal');
+          Navigator.pushReplacementNamed(context, HomePageLocal.routeName);
           nombre = 'locales';
         } else if (infoEmail['nivel'] == '2') {
-          Navigator.pushReplacementNamed(context, 'homepagecliente');
+          Navigator.pushReplacementNamed(context, HomePage.routeName);
           nombre = 'clientes';
         }
         var nombreFotoUsuario =

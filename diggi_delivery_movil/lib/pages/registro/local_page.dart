@@ -4,6 +4,7 @@ import 'package:diggi_delivery_movil/blocs/archivos_bloc.dart';
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/models/locales_model.dart';
 import 'package:diggi_delivery_movil/models/model_usuarios.dart';
+import 'package:diggi_delivery_movil/routes.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/widgets/input_decoration.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
     super.initState();
     //Agrega un observador cuando la app se activa
     WidgetsBinding.instance.addObserver(this);
+    prefs.foto = '';
   }
 
   @override
@@ -48,6 +50,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
     //Deja de escuchar los cambios de ubicación
     prefs.latitud = '';
     prefs.logitud = '';
+    prefs.foto = '';
     super.dispose();
   }
 
@@ -348,7 +351,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
         prefs.clear();
         prefs.email = registroLocalModel.email;
       });
-      Navigator.pushReplacementNamed(context, 'homepagelocal');
+      Navigator.pushReplacementNamed(context, HomePageLocal.routeName);
       _guardando = false;
     } else {
       utils.mostrarAlerta(context, info['mensaje']);
