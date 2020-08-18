@@ -6,14 +6,14 @@ import 'package:diggi_delivery_movil/providers/restaurantes_provider.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 
-class InicioRestaurante extends StatefulWidget {
-  const InicioRestaurante({Key key}) : super(key: key);
+class PlatillosRestauranteCliente extends StatefulWidget {
+  const PlatillosRestauranteCliente({Key key}) : super(key: key);
 
   @override
-  _InicioRestauranteState createState() => _InicioRestauranteState();
+  _PlatillosRestauranteClienteState createState() => _PlatillosRestauranteClienteState();
 }
 
-class _InicioRestauranteState extends State<InicioRestaurante> {
+class _PlatillosRestauranteClienteState extends State<PlatillosRestauranteCliente> {
   RestaurantesProvider restaurantesProvider = RestaurantesProvider();
   final prefs = new PreferenciasUsuario();
   @override

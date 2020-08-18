@@ -23,7 +23,7 @@ class RestauranteModel {
 
   String id;
   String nombre;
-  int telefono;
+  String telefono;
   String email;
   String foto;
   String direccion;
@@ -32,7 +32,7 @@ class RestauranteModel {
   String pass;
 
   factory RestauranteModel.fromFirestore(Map<String, dynamic> json) => RestauranteModel(
-        id: json["id"],
+        // id: json["id"],
         nombre: json["nombre"],
         telefono: json["telefono"],
         email: json["email"],

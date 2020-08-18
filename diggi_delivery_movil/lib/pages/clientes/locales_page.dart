@@ -17,7 +17,7 @@ class _LocalesPageState extends State<LocalesPage> {
   Widget build(BuildContext context) {
     final localesBloc = Provider.localesBloc(context);
     localesBloc.cargarLocales();
-    final currentTheme = prov.Provider.of<ThemeProvider>(context);
+    // final currentTheme = prov.Provider.of<ThemeProvider>(context);
     final size = MediaQuery.of(context).size;
     return Flexible(
       child: Container(
@@ -25,23 +25,23 @@ class _LocalesPageState extends State<LocalesPage> {
         height: double.infinity,
         child: Column(
           children: <Widget>[
-            _barraDeBusqueda(currentTheme, size),
+            _barraDeBusqueda(size),
             SizedBox(
               height: size.height * 0.015,
             ),
-            _localesRegistros(currentTheme, size, localesBloc),
+            _localesRegistros(size, localesBloc),
           ],
         ),
       ),
     );
   }
 
-  Widget _barraDeBusqueda(ThemeProvider currentTheme, Size size) {
+  Widget _barraDeBusqueda(Size size) {
     return Container(
       width: double.infinity,
       height: size.height * 0.09,
       decoration: BoxDecoration(
-        color: currentTheme.currentThemeColorComponents(currentTheme),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(20),
       ),
       child: ListTile(
@@ -49,7 +49,7 @@ class _LocalesPageState extends State<LocalesPage> {
           decoration: InputDecoration(
               prefixIcon: Icon(
                 Icons.search,
-                color: currentTheme.currentThemeColorText(currentTheme),
+                color: Color.fromRGBO(49, 49, 49, 1.0),
               ),
               hintText: "Encuentra un establecimiento",
               border: OutlineInputBorder(
@@ -57,16 +57,14 @@ class _LocalesPageState extends State<LocalesPage> {
                   Radius.circular(10.0),
                 ),
               ),
-              fillColor: currentTheme.currentThemeColorText(currentTheme),
-              hintStyle: TextStyle(
-                  color: currentTheme.currentThemeColorText(currentTheme))),
+              fillColor: Color.fromRGBO(49, 49, 49, 1.0),
+              hintStyle: TextStyle(color: Color.fromRGBO(49, 49, 49, 1.0))),
         ),
       ),
     );
   }
 
-  Widget _localesRegistros(
-      ThemeProvider currentTheme, Size size, LocalesBloc localesBloc) {
+  Widget _localesRegistros(Size size, LocalesBloc localesBloc) {
     return Container(
       margin: EdgeInsets.only(left: 10.0, right: 10.0),
       height: size.height * 0.65,
@@ -98,8 +96,7 @@ class _LocalesPageState extends State<LocalesPage> {
                       document["nombre"],
                     ),
                     Text(
-                      document["telefono"].toString()
-                      ,
+                      document["telefono"].toString(),
                     ),
                   ],
                 ),

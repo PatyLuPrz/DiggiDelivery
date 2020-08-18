@@ -6,14 +6,27 @@ import 'package:diggi_delivery_movil/models/restaurante_model.dart';
 class RestaurantesProvider {
   Firestore _db = Firestore();
 
-  Stream<QuerySnapshot> getDocuments(String colection) {
-    return _db.collection(colection).snapshots();
+  Future<List<RestauranteModel>> getRestaurantes() async {
+    //COnsulta para obtener los documentos de restaurantes
+    QuerySnapshot consultaPlatillos =
+        await _db.collection('restaurantes').getDocuments();
+
+    //Se crea una nueva lista del modelo de restaurantes
+    final List<RestauranteModel> productos = new List();
+
+    //Recorre los documentos para insertarlos en una lista de restaurantes
+    consultaPlatillos.documents.forEach((producto) {
+      final prodTemp = RestauranteModel.fromFirestore(producto.data);
+      productos.add(prodTemp);
+    });
+
+    return productos;
   }
 
-  //Obtener registros
-  Stream<QuerySnapshot> getRestaurantes() {
-    return Firestore.instance.collection('restaurantes').snapshots();
-  }
+  // //Obtener registros
+  // Stream<QuerySnapshot> getRestaurantes() {
+  //   return Firestore.instance.collection('restaurantes').snapshots();
+  // }
 
   //Insertar platillos en la BD
   Future<bool> crearPlatillo(RegistroLocalModel platillo) async {
@@ -42,10 +55,6 @@ class RestaurantesProvider {
 
     //Como solo existe un registro con el mismo email obtiene el id del documento de restaurante al que pertene el correo
     var idDocument = consultaEmail.documents[index].documentID;
-
-    //Conculta el email al que pertenece el restaurante
-    Map<String, dynamic> decodeResp2 = new Map();
-    List<PlatillosModel> decodeResp3 = new List();
 
     QuerySnapshot consultaPlatillos = await _db
         .collection('platillos')

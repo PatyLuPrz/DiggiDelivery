@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
+import 'package:diggi_delivery_movil/blocs/pages/restaurantes/restaurantes_bloc.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
-import 'package:diggi_delivery_movil/providers/locales_provider.dart';
+import 'package:diggi_delivery_movil/models/restaurante_model.dart';
+import 'package:diggi_delivery_movil/providers/restaurantes_provider.dart';
+import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart'
+    as pref;
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class RestaurantesPage extends StatefulWidget {
   RestaurantesPage({Key key}) : super(key: key);
@@ -12,10 +16,12 @@ class RestaurantesPage extends StatefulWidget {
 }
 
 class _RestaurantesPageState extends State<RestaurantesPage> {
-  LocalesProvider localesProvider = LocalesProvider();
+  RestaurantesProvider restaurantesProvider = RestaurantesProvider();
+  final prefs = new pref.PreferenciasUsuario();
   @override
   Widget build(BuildContext context) {
-    final currentTheme = Provider.of<ThemeProvider>(context);
+    final restaurantesBloc = Provider.restaurantesBloc(context);
+    restaurantesBloc.cargarRestaurantes();
     final size = MediaQuery.of(context).size;
     return Flexible(
       child: Container(
@@ -23,60 +29,75 @@ class _RestaurantesPageState extends State<RestaurantesPage> {
         height: double.infinity,
         child: Column(
           children: <Widget>[
-            _barraDeBusqueda(currentTheme, size),
-            _popularesRestaurantes(currentTheme, size),
+            _barraDeBusqueda(size, restaurantesBloc),
+            _popularesRestaurantes(size, restaurantesBloc),
           ],
         ),
       ),
     );
   }
 
-  Widget _barraDeBusqueda(ThemeProvider currentTheme, Size size) {
+  Widget _barraDeBusqueda(Size size, RestaurantesBloc restaurantesBloc) {
     return Container(
       width: double.infinity,
       height: size.height * 0.09,
       decoration: BoxDecoration(
-        color: currentTheme.currentThemeColorComponents(currentTheme),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(20),
       ),
       child: ListTile(
         title: TextField(
           decoration: InputDecoration(
-              prefixIcon: Icon(
-                Icons.search,
-                color: currentTheme.currentThemeColorText(currentTheme),
+            prefixIcon: Icon(
+              Icons.search,
+              color: Color.fromRGBO(49, 49, 49, 1.0),
+            ),
+            hintText: "Encuentra un restaurante",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(10.0),
               ),
-              hintText: "Encuentra un restaurante",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10.0),
-                ),
-              ),
-              fillColor: currentTheme.currentThemeColorText(currentTheme),
-              hintStyle: TextStyle(
-                  color: currentTheme.currentThemeColorText(currentTheme))),
+            ),
+            fillColor: Colors.black,
+            hintStyle: TextStyle(
+              color: Color.fromRGBO(49, 49, 49, 1.0),
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Widget _popularesRestaurantes(ThemeProvider currentTheme, Size size) {
+  Widget _popularesRestaurantes(Size size, RestaurantesBloc restaurantesBloc) {
     return Container(
       margin: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 1.0),
       height: size.height * 0.65,
       width: double.infinity,
       child: StreamBuilder(
-        stream: localesProvider.getDocuments('restaurantes'),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) return CircularProgressIndicator();
-          return ListView.builder(
-            shrinkWrap: true,
-            physics: ClampingScrollPhysics(),
-            itemCount: snapshot.data.documents.length,
-            itemBuilder: (BuildContext context, int index) {
+        stream: restaurantesBloc.restaurantesStream,
+        builder: (BuildContext context,
+            AsyncSnapshot<List<RestauranteModel>> snapshot) {
+          if (!snapshot.hasData)
+            return Center(
+                child: CircularProgressIndicator(
+              valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFC93F42)),
+            ));
+          final restaurantes = snapshot.data;
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+                childAspectRatio: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10),
+            itemCount: restaurantes.length,
+            itemBuilder: (context, index) {
               return Container(
                 margin: EdgeInsets.only(top: 10.0),
-                child: _cardTipo2(snapshot, size, index),
+                child: _cardTipo2(
+                  restaurantes[index],
+                  size,
+                  index,
+                ),
               );
             },
           );
@@ -85,70 +106,79 @@ class _RestaurantesPageState extends State<RestaurantesPage> {
     );
   }
 
-  _cardTipo2(AsyncSnapshot snapshot, Size size, int index) {
-    return Container(
-      height: 150,
-      width: double.infinity,
-      decoration: BoxDecoration(boxShadow: <BoxShadow>[
-        BoxShadow(
-          color: Colors.black26,
-          blurRadius: 10.0,
-          spreadRadius: 2.0,
-          offset: Offset(2.0, 10.0),
-        )
-      ], borderRadius: BorderRadius.circular(10.0), color: Colors.white),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10.0),
-        child: _cardRestaurante(snapshot, size, index),
+  _cardTipo2(RestauranteModel restauranteModel, Size size, int index) {
+    return Transform.translate(
+      offset: Offset(0.0,0.0),
+      child: InkWell(
+        key: UniqueKey(),
+        onTap: () => Navigator.pushNamed(context, 'platilloRestaurante',
+                arguments: restauranteModel)
+            .then((value) => setState(() {})),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10.0),
+          child: _cardRestaurante(restauranteModel, size, index),
+        ),
       ),
     );
   }
 
-  Widget _cardRestaurante(AsyncSnapshot snapshot, Size size, int index) {
-    
-    return Stack(
-      children: <Widget>[
-        _imagenRestaurante(snapshot, size, index),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(10.0),
-            decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0.5)),
-            width: size.width * 0.505,
-            height: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  snapshot.data.documents[index].data['nombre'],
-                  style: TextStyle(color: Colors.white),
-                ),
-                Text(
-                  snapshot.data.documents[index].data["direccion"],
-                  style: TextStyle(color: Colors.white),
-                ),
-              ],
-            ),
-          ),
+  Widget _cardRestaurante(
+      RestauranteModel restauranteModel, Size size, int index) {
+    return Container(
+      color: Colors.primaries[index % Colors.primaries.length],
+      child: CircleAvatar(
+        backgroundColor: Colors.white,
+        child: Stack(
+          children: <Widget>[
+            _imagenRestaurante(restauranteModel, size, index),
+            containerBlack(),
+            _textCard(restauranteModel, size, index),
+          ],
         ),
-      ],
+      ),
     );
   }
 
-  Widget _imagenRestaurante(AsyncSnapshot snapshot, Size size, int index) {
+  Widget _imagenRestaurante(
+      RestauranteModel restauranteModel, Size size, int index) {
     return Container(
       // clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(color: Colors.white),
       child: FadeInImage(
         placeholder: AssetImage('assets/img/original.gif'),
-        image: NetworkImage(
-            "https://media-cdn.tripadvisor.com/media/photo-s/18/1a/96/54/main-restaurant.jpg"),
+        image: NetworkImage(restauranteModel.foto),
         fadeInDuration: Duration(milliseconds: 200),
         height: size.height * 0.274,
         width: double.infinity,
         fit: BoxFit.cover,
       ),
+    );
+  }
+
+  _textCard(RestauranteModel restauranteModel, Size size, int index) {
+    return Align(
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            restauranteModel.nombre,
+            style: TextStyle(color: Colors.white),
+          ),
+          Text(
+            restauranteModel.telefono,
+            style: TextStyle(color: Colors.white),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget containerBlack() {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      color: Color.fromRGBO(0, 0, 0, 0.3),
     );
   }
 }

@@ -288,7 +288,7 @@ class _RestauranteRegistroState extends State<RestauranteRegistro>
         keyboardType: TextInputType.phone,
         maxLength: 10,
         enableInteractiveSelection: false,
-        onSaved: (value) => _restauranteModel.telefono = int.parse(value),
+        onSaved: (value) => _restauranteModel.telefono,
         validator: (value) {
           print("Telefono :::: $value");
           if (!utils.isNumeric(value) || value.contains(".") || value.isEmpty) {

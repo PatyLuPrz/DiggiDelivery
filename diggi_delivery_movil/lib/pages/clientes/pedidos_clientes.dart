@@ -16,16 +16,17 @@ class _PedidosClientesState extends State<PedidosClientes> {
   Widget build(BuildContext context) {
     final currentTheme = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: currentTheme.currentThemeColorComponents(currentTheme),
+      // backgroundColor: currentTheme.currentThemeColorComponents(currentTheme),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         iconTheme: IconThemeData(
-            color: currentTheme.currentThemeColorText(currentTheme)),
+            color: Color.fromRGBO(49, 49, 49, 1.0)),
         title: Text(
           'Pedidos',
           style: TextStyle(
-              color: currentTheme.currentThemeColorText(currentTheme)),
+              color: Color.fromRGBO(49, 49, 49, 1.0)),
         ),
-        backgroundColor: currentTheme.currentThemeColorComponents(currentTheme),
+        backgroundColor: Colors.white,
       ),
       drawer: _drawerPedidos(currentTheme),
       body: ListView(

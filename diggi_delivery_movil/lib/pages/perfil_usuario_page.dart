@@ -21,14 +21,14 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    final currentTheme = Provider.of<ThemeProvider>(context);
+    // final currentTheme = Provider.of<ThemeProvider>(context);
     return Container(
       width: size.width,
       height: size.height,
       decoration: BoxDecoration(),
       child: Column(
         children: <Widget>[
-          _userData(currentTheme),
+          _userData(),
           // _modoOscuro(currentTheme),
         ],
       ),
@@ -69,7 +69,7 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
   // }
 
   //Container que contiene información del usuario como su foto, nombre
-  _userData(ThemeProvider currentTheme) {
+  _userData() {
     return Container(
       margin: EdgeInsets.all(20.0),
       padding: EdgeInsets.all(20.0),
@@ -77,7 +77,7 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.0),
-        color: currentTheme.currentThemeColorContainer(currentTheme),
+        color: Colors.black38,
       ),
       child: SingleChildScrollView(
         child: Column(

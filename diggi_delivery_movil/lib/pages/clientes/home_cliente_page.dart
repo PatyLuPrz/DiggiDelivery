@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
 
     prefs.ultimaPagina = HomePage.routeName;
 
-    final currentTheme = Provider.of<ThemeProvider>(context);
+    // final currentTheme = Provider.of<ThemeProvider>(context);
     return Scaffold(
       // appBar: AppBar(
       //   backgroundColor: currentTheme.currentThemeColorComponents(currentTheme),
@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
       //     ),
       //   ),
       // ),
-      backgroundColor: currentTheme.currentThemeColorComponents(currentTheme),
+      backgroundColor: Colors.white,
       body: SafeArea(child: _widgetOptions.elementAt(_selectedIndex)),
       bottomNavigationBar: _bottomNavigationBarCliente(),
     );
