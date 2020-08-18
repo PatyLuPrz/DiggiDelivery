@@ -37,7 +37,7 @@ class RestaurantesBloc {
   void cargarPlatillos() async {
     final platillos =
         await _restaurantesProvider.getPlatilloRestaurante(prefs.email);
-    _restaurantesControllerPlatillosCliente.sink.add(platillos);
+    _restaurantesControllerPlatillos.sink.add(platillos);
   }
   //Implementar metodos para cargar, agregar, etc, productos
   void cargarPlatillosCliente() async {

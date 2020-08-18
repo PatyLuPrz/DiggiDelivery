@@ -1,10 +1,7 @@
 import 'package:diggi_delivery_movil/routes.dart';
-import 'package:diggi_delivery_movil/utils/theme_preferences.dart';
-import 'package:diggi_delivery_movil/helpers/theme.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class PerfilUsuarioPage extends StatefulWidget {
   static final String routeName = 'home';
@@ -25,7 +22,7 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
     return Container(
       width: size.width,
       height: size.height,
-      decoration: BoxDecoration(),
+      decoration: BoxDecoration(color: Colors.white),
       child: Column(
         children: <Widget>[
           _userData(),
@@ -73,7 +70,7 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
     return Container(
       margin: EdgeInsets.all(20.0),
       padding: EdgeInsets.all(20.0),
-      height: size.height * 0.5,
+      height: size.height * 0.8,
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.0),

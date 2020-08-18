@@ -41,44 +41,35 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(15.0),
-          child: Form(
-              key: formKey,
-              child: Column(
-                children: <Widget>[
-                  Card(
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            "Introducir la información necesaria para agregar un nuevo producto",
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        _mostrarFoto(platillosModel),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                  _crearNombre(platillosModel),
-                  SizedBox(height: 15.0),
-                  _crearDescripcion(platillosModel),
-                  SizedBox(height: 15.0),
-                  _ingredientesExtra(platillosModel),
-                  SizedBox(height: 15.0),
-                  _crearPrecio(platillosModel),
-                  SizedBox(height: 15.0),
-                  _tiempoDePreparacion(platillosModel),
-                  SizedBox(height: 15.0),
-                  _crearBoton(platillosModel),
-                  SizedBox(height: 15.0),
-                ],
-              )),
+        child: _formularioPlatillo(
+            context, platillosData, platilloRestaurante, platillosModel),
+      ),
+    );
+  }
+
+  Widget _formularioPlatillo(BuildContext context, PlatillosModel platillosData,
+      RestaurantesBloc platilloRestaurante, PlatillosModel platillosModel) {
+    return Container(
+      padding: EdgeInsets.all(15.0),
+      child: Form(
+        key: formKey,
+        child: Column(
+          children: <Widget>[
+            _card(platillosModel),
+            SizedBox(height: 10.0),
+            _crearNombre(platillosModel),
+            SizedBox(height: 15.0),
+            _crearDescripcion(platillosModel),
+            SizedBox(height: 15.0),
+            _ingredientesExtra(platillosModel),
+            SizedBox(height: 15.0),
+            _crearPrecio(platillosModel),
+            SizedBox(height: 15.0),
+            _tiempoDePreparacion(platillosModel),
+            SizedBox(height: 15.0),
+            _crearBoton(platillosModel),
+            SizedBox(height: 15.0),
+          ],
         ),
       ),
     );
@@ -123,7 +114,7 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
     return Container(
       child: TextFormField(
         keyboardType: TextInputType.text,
-        initialValue: platillosData.ingredientes?.toString()??'',
+        initialValue: platillosData.ingredientes?.toString() ?? '',
         enabled: true,
         decoration: dec.decoration(),
       ),
@@ -155,14 +146,22 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
     );
   }
 
-  Widget _crearBoton(PlatillosModel platillosData) {
-    return RaisedButton.icon(
+  Widget _card(PlatillosModel platillosModel) {
+    return Card(
+      clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      color: Color(0xFFC93F42),
-      textColor: Colors.white,
-      label: Text('Guardar platillo'),
-      icon: Icon(Icons.save),
-      onPressed: () {},
+      child: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(10),
+            child: Text(
+              "Introducir la información necesaria para agregar un nuevo producto",
+              textAlign: TextAlign.center,
+            ),
+          ),
+          _mostrarFoto(platillosModel),
+        ],
+      ),
     );
   }
 
@@ -181,5 +180,16 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
         fit: BoxFit.cover,
       );
     }
+  }
+
+  Widget _crearBoton(PlatillosModel platillosData) {
+    return RaisedButton.icon(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      color: Color(0xFFC93F42),
+      textColor: Colors.white,
+      label: Text('Guardar platillo'),
+      icon: Icon(Icons.save),
+      onPressed: () {},
+    );
   }
 }

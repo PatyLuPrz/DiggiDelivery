@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 class PlatillosRestauranteCliente extends StatefulWidget {
   const PlatillosRestauranteCliente({Key key}) : super(key: key);
-  static final routeName = "platilloRestaurante";
+  static final routeName = "platilloRestauranteCliente";
   @override
   _PlatillosRestauranteClienteState createState() =>
       _PlatillosRestauranteClienteState();
