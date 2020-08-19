@@ -36,10 +36,12 @@ class ScreenProgress extends StatelessWidget {
         ? Icon(
             Icons.check_circle,
             color: Color.fromRGBO(202, 63, 67, 1.0),
+            size: 35.0,
           )
         : Icon(
             Icons.radio_button_unchecked,
             color: Color.fromRGBO(202, 63, 67, 1.0),
+            size: 35.0,
           );
   }
 
@@ -63,7 +65,8 @@ class ScreenProgress extends StatelessWidget {
 
   Widget line() {
     return Container(
-      color: Color.fromRGBO(49, 49, 49, 1.0),
+      // color: Color.fromRGBO(49, 49, 49, 1.0),
+      color: Colors.white,
       height: 5.0,
       width: 50.0,
     );

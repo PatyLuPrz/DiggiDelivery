@@ -1,6 +1,7 @@
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
 import 'package:diggi_delivery_movil/models/model_pedidos.dart';
+import 'package:diggi_delivery_movil/pages/clientes/pedido_clientes_detalle.dart';
 import 'package:diggi_delivery_movil/providers/pedidos_provider.dart';
 import 'package:diggi_delivery_movil/widgets/timeline_card.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class PedidosClientes extends StatefulWidget {
 class _PedidosClientesState extends State<PedidosClientes> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     final pedidosBloc = Provider.pedidosBloc(context);
     pedidosBloc.cargarPedidos();
 
@@ -41,13 +43,13 @@ class _PedidosClientesState extends State<PedidosClientes> {
         builder:
             (BuildContext context, AsyncSnapshot<List<ModelPedidos>> snapshot) {
           final pedidos = snapshot.data;
-          return girdView(pedidos, context);
+          return girdView(pedidos, context, size);
         },
       ),
     );
   }
 
-  Widget girdView(List<ModelPedidos> pedidos, BuildContext context) {
+  Widget girdView(List<ModelPedidos> pedidos, BuildContext context, Size size) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 1,
@@ -56,8 +58,48 @@ class _PedidosClientesState extends State<PedidosClientes> {
           mainAxisSpacing: 20),
       itemCount: pedidos.length,
       itemBuilder: (context, index) {
-        return transformTraslate(index, pedidos);
+        return transformTraslate(index, pedidos, size);
       },
+    );
+  }
+
+  Widget transformTraslate(int index, List<ModelPedidos> pedidos, Size size) {
+    return Transform.translate(
+      offset: Offset(0.0, 0.0),
+      child: InkWell(
+        key: UniqueKey(),
+        onTap: () => Navigator.pushNamed(
+                context, PedidoDetallesCliente.routeName,
+                arguments: pedidos[index])
+            .then((value) => setState(() {})),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10.0),
+          child: Container(
+            margin: EdgeInsets.all(5.0),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                border: Border.all(color: Colors.black12)),
+            child: Stack(
+              children: <Widget>[
+                _imagenAvatar(size),
+                containerBlack(),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: _textPedidoCard(index, pedidos),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: _textPedidoPrecio(index, pedidos),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ScreenProgress(ticks: pedidos[index].proceso),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -68,42 +110,49 @@ class _PedidosClientesState extends State<PedidosClientes> {
         '#${pedidos[index].producto.idProducto}',
         textAlign: TextAlign.left,
         style: TextStyle(
-          color: Colors.black,
-          fontSize: 20.0,
+          color: Colors.white,
+          fontStyle: FontStyle.italic,
+          fontSize: 14.0,
         ),
       ),
     );
   }
 
-  Widget transformTraslate(int index, List<ModelPedidos> pedidos) {
-    return Transform.translate(
-      offset: Offset(0.0, 0.0),
-      child: InkWell(
-        key: UniqueKey(),
-        // onTap: () => Navigator.pushNamed(
-        //         context, PlatilloInformacion.routeName,
-        //         arguments: platillos.documents[index].data)
-        //     .then((value) => setState(() {})),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10.0),
-          child: Container(
-            margin: EdgeInsets.all(5.0),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                border: Border.all(color: Colors.black12)),
-            child: Stack(
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: _textPedidoCard(index, pedidos),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ScreenProgress(ticks: pedidos[index].proceso),
-                ),
-              ],
-            ),
-          ),
+  _textPedidoPrecio(int index, List<ModelPedidos> pedidos) {
+    return ListTile(
+      title: Text(
+        // '${platillos.documents[index].data['nombre']}',
+        '\$ ${pedidos[index].total} MXN',
+        textAlign: TextAlign.right,
+        style: TextStyle(
+          color: Colors.white,
+          fontStyle: FontStyle.italic,
+          fontSize: 18.0,
+        ),
+      ),
+    );
+  }
+
+  Widget containerBlack() {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(9.0),
+          color: Color.fromRGBO(0, 0, 0, 0.3)),
+    );
+  }
+
+  Widget _imagenAvatar(Size size) {
+    return Container(
+      width: size.width,
+      height: size.height,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(9.0)),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10.0),
+        child: Image.asset(
+          'assets/img/cliente.png',
+          fit: BoxFit.fill,
         ),
       ),
     );

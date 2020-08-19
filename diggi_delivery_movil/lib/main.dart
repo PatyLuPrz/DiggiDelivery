@@ -1,7 +1,6 @@
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
 
-
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +42,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Material App',
-          initialRoute: prefs?.ultimaPagina??'login',
+          initialRoute: prefs?.ultimaPagina ?? 'login',
           routes: {
             LoginPage.routeName: (BuildContext context) => LoginPage(),
             RegistroPage.routeName: (BuildContext context) => RegistroPage(),
@@ -69,6 +68,8 @@ class _MyAppState extends State<MyApp> {
                 ProductoLocalesCliente(),
             PlatilloInformacion.routeName: (BuildContext context) =>
                 PlatilloInformacion(),
+            PedidoDetallesCliente.routeName: (BuildContext context) =>
+                PedidoDetallesCliente(),
           },
         ),
       ),
