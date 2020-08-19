@@ -1,6 +1,7 @@
 import 'package:diggi_delivery_movil/blocs/archivos_bloc.dart';
 import 'package:diggi_delivery_movil/blocs/pages/Login/registro_bloc.dart';
 import 'package:diggi_delivery_movil/blocs/pages/locales/locales_bloc.dart';
+import 'package:diggi_delivery_movil/blocs/pages/pedidos/pedidos_bloc.dart';
 import 'package:diggi_delivery_movil/blocs/pages/restaurantes/restaurantes_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,7 @@ class Provider extends InheritedWidget {
   final _restaurantesBloc = RestaurantesBloc();
   final registroBloc = RegistroBloc();
   final _archivosBloc = ArchivosBloc();
+  final _pedidosBloc = PedidosBloc();
 
   // Determinar si necesita una nueva instancia
   factory Provider({Key key, Widget child}) {
@@ -41,7 +43,14 @@ class Provider extends InheritedWidget {
 
   //LocalesBloc
   static RestaurantesBloc restaurantesBloc(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<Provider>()._restaurantesBloc;
+    return context
+        .dependOnInheritedWidgetOfExactType<Provider>()
+        ._restaurantesBloc;
+  }
+
+  //LocalesBloc
+  static PedidosBloc pedidosBloc(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<Provider>()._pedidosBloc;
   }
 
   //Archivos_BLoC para subir archivos al servidor

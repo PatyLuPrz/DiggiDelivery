@@ -8,19 +8,26 @@ class ScreenProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        tick1(),
-        spacer(),
-        line(),
-        spacer(),
-        tick2(),
-        spacer(),
-        line(),
-        spacer(),
-        tick3(),
-        spacer(),
-      ],
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      width: size.width,
+      height: size.height * 0.07,
+      // color: Colors.red,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          tick1(),
+          spacer(),
+          line(),
+          spacer(),
+          tick2(),
+          spacer(),
+          line(),
+          spacer(),
+          tick3(),
+          spacer(),
+        ],
+      ),
     );
   }
 
@@ -48,13 +55,9 @@ class ScreenProgress extends StatelessWidget {
     return this.ticks > 2 ? tick(true) : tick(false);
   }
 
-  Widget tick4() {
-    return this.ticks > 3 ? tick(true) : tick(false);
-  }
-
   Widget spacer() {
     return Container(
-      width: 5.0,
+      width: 10.0,
     );
   }
 

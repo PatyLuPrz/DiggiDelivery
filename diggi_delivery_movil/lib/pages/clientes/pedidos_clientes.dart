@@ -1,7 +1,10 @@
+import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
+import 'package:diggi_delivery_movil/models/model_pedidos.dart';
+import 'package:diggi_delivery_movil/providers/pedidos_provider.dart';
 import 'package:diggi_delivery_movil/widgets/timeline_card.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as prov;
 
 class PedidosClientes extends StatefulWidget {
   final String nombre;
@@ -15,7 +18,13 @@ class PedidosClientes extends StatefulWidget {
 class _PedidosClientesState extends State<PedidosClientes> {
   @override
   Widget build(BuildContext context) {
-    final currentTheme = Provider.of<ThemeProvider>(context);
+    final pedidosBloc = Provider.pedidosBloc(context);
+    pedidosBloc.cargarPedidos();
+
+    PedidosProvider pedidosProvider = PedidosProvider();
+    pedidosProvider.getPedidos();
+
+    final currentTheme = prov.Provider.of<ThemeProvider>(context);
     return Scaffold(
       // backgroundColor: currentTheme.currentThemeColorComponents(currentTheme),
       backgroundColor: Colors.white,
@@ -27,81 +36,76 @@ class _PedidosClientesState extends State<PedidosClientes> {
         ),
         backgroundColor: Colors.white,
       ),
-      drawer: _drawerPedidos(currentTheme),
-      body: ListView(
-        padding: const EdgeInsets.all(8),
-        children: <Widget>[
-          _listaPedidos('Gabi', '#000000001', 'Repartidor 1', currentTheme),
-          _listaPedidos('Norberto', '#000000001', 'Repartidor 2', currentTheme),
-          _listaPedidos('Beto', '#000000001', 'Repartidor 3', currentTheme),
-          _listaPedidos('Jocelyn', '#000000001', 'Repartidor 4', currentTheme),
-          _listaPedidos('Pato', '#000000001', 'Repartidor 5', currentTheme),
-        ],
+      body: StreamBuilder(
+        stream: pedidosBloc.pedidosStream,
+        builder:
+            (BuildContext context, AsyncSnapshot<List<ModelPedidos>> snapshot) {
+          final pedidos = snapshot.data;
+          return girdView(pedidos, context);
+        },
       ),
     );
   }
 
-  Widget _listaPedidos(String nombre, String numero, String repartidor,
-      ThemeProvider currentTheme) {
-    return Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0)),
-        height: 50,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  nombre,
-                  style: TextStyle(color: Colors.black),
-                ),
-                ScreenProgress(ticks: 1),
-              ],
-            ),
-            Align(
-                alignment: Alignment.centerRight,
-                child:
-                    Icon(Icons.chevron_right, size: 30.0, color: Colors.black))
-          ],
-        ));
+  Widget girdView(List<ModelPedidos> pedidos, BuildContext context) {
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 1,
+          childAspectRatio: 2,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20),
+      itemCount: pedidos.length,
+      itemBuilder: (context, index) {
+        return transformTraslate(index, pedidos);
+      },
+    );
   }
 
-  //Menu para acceder a los pedidos e historial del cliente
-  Widget _drawerPedidos(ThemeProvider currentTheme) {
-    return Drawer(
-        child: ListView(
-      padding: EdgeInsets.zero,
-      children: <Widget>[
-        Container(
-          height: 60.0,
-          width: double.infinity,
-          child: DrawerHeader(
-            child: Text(
-              'Drawer Header',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: currentTheme.currentThemeColorText(currentTheme)),
-            ),
+  _textPedidoCard(int index, List<ModelPedidos> pedidos) {
+    return ListTile(
+      title: Text(
+        // '${platillos.documents[index].data['nombre']}',
+        '#${pedidos[index].producto.idProducto}',
+        textAlign: TextAlign.left,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 20.0,
+        ),
+      ),
+    );
+  }
+
+  Widget transformTraslate(int index, List<ModelPedidos> pedidos) {
+    return Transform.translate(
+      offset: Offset(0.0, 0.0),
+      child: InkWell(
+        key: UniqueKey(),
+        // onTap: () => Navigator.pushNamed(
+        //         context, PlatilloInformacion.routeName,
+        //         arguments: platillos.documents[index].data)
+        //     .then((value) => setState(() {})),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10.0),
+          child: Container(
+            margin: EdgeInsets.all(5.0),
             decoration: BoxDecoration(
-                color: currentTheme.currentThemeColorComponents(currentTheme)),
+                borderRadius: BorderRadius.circular(10.0),
+                border: Border.all(color: Colors.black12)),
+            child: Stack(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: _textPedidoCard(index, pedidos),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ScreenProgress(ticks: pedidos[index].proceso),
+                ),
+              ],
+            ),
           ),
         ),
-        ListTile(
-          title: Text('En camino'),
-          onTap: () {
-            // Actualiza el estado de la aplicación
-            // ...
-          },
-        ),
-        ListTile(
-          title: Text('Compras'),
-          onTap: () {
-            // Actualiza el estado de la aplicación
-            // ...
-          },
-        ),
-      ],
-    ));
+      ),
+    );
   }
 }

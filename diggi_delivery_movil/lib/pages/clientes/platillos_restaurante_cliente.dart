@@ -57,59 +57,7 @@ class _PlatillosRestauranteClienteState
               valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFC93F42)),
             ));
           final platillos = snapshot.data;
-          return GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.7,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20),
-            itemCount: platillos.documents.length,
-            itemBuilder: (context, index) {
-              // DocumentSnapshot xd = platillos.documents[index];
-              return Transform.translate(
-                offset: Offset(0.0, index.isOdd ? 20 : 0),
-                child: InkWell(
-                  key: UniqueKey(),
-                  onTap: () => Navigator.pushNamed(
-                          context, PlatilloInformacion.routeName,
-                          arguments: platillos.documents[index].data)
-                      .then((value) => setState(() {})),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Container(
-                      color: Colors.primaries[index % Colors.primaries.length],
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        // child: Text(platillos.documents[index].data['nombre']),
-                        // child: Text(platillos.documents[index].documentID),
-                        child: Stack(
-                          children: <Widget>[
-                            _imagenAvatar(size, platillos, index),
-                            containerBlack(),
-                            Center(
-                              child: ListTile(
-                                title: Text(
-                                  // '${platillos.documents[index].data['nombre']}',
-                                  '${platillos.documents[index].data['nombre']}',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20.0,
-                                  ),
-                                ),
-                                // title:
-                                //     Text(platillos.documents[index].documentID),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          );
+          return _gridView(platillos, size);
         },
       ),
     );
@@ -139,6 +87,62 @@ class _PlatillosRestauranteClienteState
       width: double.infinity,
       height: double.infinity,
       color: Color.fromRGBO(0, 0, 0, 0.3),
+    );
+  }
+
+  Widget _gridView(QuerySnapshot platillos, Size size) {
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.7,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20),
+      itemCount: platillos.documents.length,
+      itemBuilder: (context, index) {
+        // DocumentSnapshot xd = platillos.documents[index];
+        return Transform.translate(
+          offset: Offset(0.0, index.isOdd ? 20 : 0),
+          child: InkWell(
+            key: UniqueKey(),
+            onTap: () => Navigator.pushNamed(
+                    context, PlatilloInformacion.routeName,
+                    arguments: platillos.documents[index].data)
+                .then((value) => setState(() {})),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Container(
+                color: Colors.primaries[index % Colors.primaries.length],
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  // child: Text(platillos.documents[index].data['nombre']),
+                  // child: Text(platillos.documents[index].documentID),
+                  child: Stack(
+                    children: <Widget>[
+                      _imagenAvatar(size, platillos, index),
+                      containerBlack(),
+                      Center(
+                        child: ListTile(
+                          title: Text(
+                            // '${platillos.documents[index].data['nombre']}',
+                            '${platillos.documents[index].data['nombre']}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          // title:
+                          //     Text(platillos.documents[index].documentID),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
