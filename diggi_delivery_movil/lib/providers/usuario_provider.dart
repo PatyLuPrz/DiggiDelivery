@@ -174,7 +174,7 @@ class UsuarioProvider {
   //Nuevo establecimiento
   Future<bool> crearNuevoRestaurante(RestauranteModel restauranteModel) async {
     await _db
-        .collection('locales')
+        .collection('restaurantes')
         .document()
         .setData(restauranteModel.toMap());
     return true;

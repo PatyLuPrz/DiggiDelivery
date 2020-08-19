@@ -14,6 +14,7 @@ class HomePageLocal extends StatefulWidget {
 }
 
 class _HomePageLocalState extends State<HomePageLocal> {
+  final prefs = PreferenciasUsuario();
   int _selectedIndex = 0;
 
   //Lista de BottomNavBar
@@ -56,7 +57,7 @@ class _HomePageLocalState extends State<HomePageLocal> {
       type: BottomNavigationBarType.fixed,
       items: <BottomNavigationBarItem>[
         //Inicio
-        bottomNavBarItem(Icon(Icons.home), 'Inicio'),
+        bottomNavBarItem(Icon(Icons.home), prefs.nombre),
         //Pedidos
         bottomNavBarItem(Icon(Icons.add_shopping_cart), 'Pedidos'),
         //Yo

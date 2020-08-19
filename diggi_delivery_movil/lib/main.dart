@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Material App',
-          initialRoute: prefs.ultimaPagina,
+          initialRoute: prefs?.ultimaPagina??'login',
           routes: {
             LoginPage.routeName: (BuildContext context) => LoginPage(),
             RegistroPage.routeName: (BuildContext context) => RegistroPage(),

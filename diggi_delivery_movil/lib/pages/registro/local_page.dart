@@ -30,6 +30,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
   UsuarioProvider usuarioProvider = new UsuarioProvider();
   final picker = ImagePicker();
   final prefs = new PreferenciasUsuario();
+  File imageFile;
   File foto;
   Path path;
   final formKey = GlobalKey<FormState>();
@@ -210,7 +211,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
         keyboardType: TextInputType.phone,
         maxLength: 10,
         enableInteractiveSelection: false,
-        onSaved: (value) => registroLocalModel.telefono = int.parse(value),
+        onSaved: (value) => registroLocalModel.telefono = value,
         validator: (value) {
           print("Telefono :::: $value");
           if (!utils.isNumeric(value) || value.contains(".") || value.isEmpty) {
@@ -229,7 +230,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
     return Container(
       width: double.infinity,
       child: RaisedButton(
-        onPressed: () => Navigator.pushNamed(context, "registroMapa"),
+        onPressed: () => Navigator.pushNamed(context, MapaRegistro.routeName),
         child: Container(
           alignment: Alignment.center,
           width: double.infinity,
@@ -270,13 +271,17 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
               RaisedButton.icon(
                   icon: Icon(Icons.photo_size_select_actual),
                   label: Text("Elegir imagen"),
-                  onPressed: _seleccionarFoto),
+                  onPressed: (){
+                    _seleccionarFoto();
+                  }),
               SizedBox(
                 width: size.width * 0.05,
               ),
               RaisedButton.icon(
                 icon: Icon(Icons.camera_alt),
-                onPressed: _tomarFoto,
+                onPressed: (){
+                  _tomarFoto();
+                },
                 label: Text("Tomar foto"),
               ),
             ],
@@ -299,6 +304,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
     print(pickedFile);
     if (pickedFile != null) {
       setState(() {
+        foto = null;
         foto = File(pickedFile.path);
       });
     }
@@ -350,6 +356,9 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
 
         prefs.clear();
         prefs.email = registroLocalModel.email;
+        prefs.nivelUsuario = modelUsuarios.nivel;
+        prefs.nombre = registroLocalModel.nombre;
+        prefs.fotoURL = registroLocalModel.foto;
       });
       Navigator.pushReplacementNamed(context, HomePageLocal.routeName);
       _guardando = false;

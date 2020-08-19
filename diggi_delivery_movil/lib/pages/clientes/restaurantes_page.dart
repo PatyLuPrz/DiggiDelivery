@@ -1,6 +1,7 @@
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/blocs/pages/restaurantes/restaurantes_bloc.dart';
 import 'package:diggi_delivery_movil/models/restaurante_model.dart';
+import 'package:diggi_delivery_movil/pages/clientes/platillos_restaurante_cliente.dart';
 import 'package:diggi_delivery_movil/providers/restaurantes_provider.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart'
     as pref;
@@ -112,7 +113,7 @@ class _RestaurantesPageState extends State<RestaurantesPage> {
         onTap: () {
           prefs.idLocal = restauranteModel.email;
           prefs.nombreRestaurantes = restauranteModel.nombre;
-          Navigator.pushNamed(context, 'platilloRestaurante',
+          Navigator.pushNamed(context, PlatillosRestauranteCliente.routeName,
                   arguments: restauranteModel.email)
               .then((value) => setState(() {}));
         },

@@ -1,8 +1,5 @@
 // To parse this JSON data, do
 import 'dart:convert';
-
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 //Recibe un Json en forma de String
 RegistroLocalModel registroLocalModelFromJson(String str) =>
     RegistroLocalModel.fromFirestore(json.decode(str));
@@ -25,7 +22,7 @@ class RegistroLocalModel {
 
   String id;
   String nombre;
-  int telefono;
+  String telefono;
   String email;
   String foto;
   String direccion;

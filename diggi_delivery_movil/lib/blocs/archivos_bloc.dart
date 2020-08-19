@@ -12,20 +12,15 @@ class ArchivosBloc {
   final _productoProvider = new ArchivosModel();
 
   //Escuchar streams
-  Stream<String> get productosStream =>
-      _productosController.stream;
+  Stream<String> get productosStream => _productosController.stream;
   Stream<bool> get cargando => _cargandoController.stream;
-
 
   //Subir foto
   Future<String> subirFoto(File foto) async {
-    _cargandoController.sink.add(true);
     final fotoUrl = await _productoProvider.subirImagen(foto);
-    _cargandoController.sink.add(false);
 
     return fotoUrl;
   }
-
 
   dispose() {
     _cargandoController.close();

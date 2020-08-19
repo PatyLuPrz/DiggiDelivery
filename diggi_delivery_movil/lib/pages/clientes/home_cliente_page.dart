@@ -1,10 +1,10 @@
 import 'package:diggi_delivery_movil/pages/clientes/inicio_clientes.dart';
 import 'package:diggi_delivery_movil/pages/clientes/pedidos_clientes.dart';
 import 'package:diggi_delivery_movil/pages/perfil_usuario_page.dart';
-import 'package:diggi_delivery_movil/helpers/theme.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class HomePage extends StatefulWidget {
   static final String routeName = 'homePageCliente';
@@ -45,6 +45,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       body: SafeArea(child: _widgetOptions.elementAt(_selectedIndex)),
       bottomNavigationBar: _bottomNavigationBarCliente(),
+      floatingActionButton: _floatingButton(),
     );
   }
 
@@ -89,4 +90,23 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  _floatingButton() {
+    return FloatingActionButton(
+      backgroundColor: Colors.white,
+      onPressed: (){
+        _urlLauncher();
+      },
+    );
+  }
+
+  void _urlLauncher() async {
+    // int phone = 527751284715;
+    // String urlMensaje = "Hola"; 
+    // var whatsappUrl = "whatsapp://send?phone=$phone?text=$urlMensaje"; 
+    // await canLaunch(whatsappUrl) != null ? launch(whatsappUrl): print("open WhatsApp app link or do a snackbar with notification that there is no WhatsApp installed");
+
+  }
 }
+
+

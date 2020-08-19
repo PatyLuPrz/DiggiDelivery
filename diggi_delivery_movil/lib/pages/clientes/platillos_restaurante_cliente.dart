@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/blocs/pages/restaurantes/restaurantes_bloc.dart';
-import 'package:diggi_delivery_movil/models/platillo_model.dart';
 import 'package:diggi_delivery_movil/pages/clientes/platillo_informacion.dart';
 import 'package:diggi_delivery_movil/providers/restaurantes_provider.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
@@ -73,7 +72,7 @@ class _PlatillosRestauranteClienteState
                   key: UniqueKey(),
                   onTap: () => Navigator.pushNamed(
                           context, PlatilloInformacion.routeName,
-                          arguments: platillos.documents[index])
+                          arguments: platillos.documents[index].data)
                       .then((value) => setState(() {})),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),

@@ -21,7 +21,7 @@ class ClienteModel {
 
   String id;
   String nombre;
-  int telefono;
+  String telefono;
   String email;
   String foto;
   String direccion;
@@ -30,7 +30,7 @@ class ClienteModel {
   String pass;
 
   factory ClienteModel.fromFirestore(Map<String, dynamic> json) => ClienteModel(
-        id: json["id"],
+        // id: json["id"],
         nombre: json["nombre"],
         telefono: json["telefono"],
         email: json["email"],

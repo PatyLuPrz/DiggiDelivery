@@ -8,6 +8,8 @@ import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:diggi_delivery_movil/widgets/input_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter/services.dart';
+
 
 class PlatilloRestaurante extends StatefulWidget {
   static final routeName = "platilloRestaurante";
@@ -15,9 +17,11 @@ class PlatilloRestaurante extends StatefulWidget {
   _PlatilloRestauranteState createState() => _PlatilloRestauranteState();
 }
 
-class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
+class _PlatilloRestauranteState extends State<PlatilloRestaurante>
+    with WidgetsBindingObserver {
   //Key de los widget para evaluar las acciones a realizar
   final formKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   final prefs = new PreferenciasUsuario();
   PlatillosModel _platillosModel = PlatillosModel();
   RestaurantesBloc _platilloRestaurante;
@@ -26,6 +30,9 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
   final picker = ImagePicker();
   File foto;
   bool _guardando = false;
+  bool registro = false;
+  bool nuevoPath = false;
+
   String id;
 
   @override
@@ -38,18 +45,24 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
         _platillosModel = PlatillosModel.fromFirestore(platillosData);
       });
       id = _platillosModel.restaurante;
-      print(id);
+      registro = true;
     }
-    print(id);
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         backgroundColor: Color(0xFFC93F42),
         title: Text('Platillo'),
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.photo_size_select_actual),
-              onPressed: _seleccionarFoto),
-          IconButton(icon: Icon(Icons.camera_alt), onPressed: _tomarFoto),
+              onPressed: () {
+                _seleccionarFoto(_platillosModel);
+              }),
+          IconButton(
+              icon: Icon(Icons.camera_alt),
+              onPressed: () {
+                _tomarFoto(_platillosModel);
+              }),
         ],
       ),
       body: SingleChildScrollView(
@@ -185,40 +198,57 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
   }
 
   Widget _mostrarFoto(PlatillosModel platillosModel) {
-    if (platillosModel.foto != null) {
+    // if (platillosModel.foto != null) {
+    //   return FadeInImage(
+    //     placeholder: AssetImage('assets/img/jar-loading.gif'),
+    //     image: NetworkImage(platillosModel.foto),
+    //     height: 250.0,
+    //     fit: BoxFit.fill,
+    //   );
+    // } else {
+    //   if (foto != null) {
+    //     return Image.file(foto);
+    //   }
+    //   return Image.asset('assets/img/no-image.png');
+    // }
+    print(platillosModel.foto);
+    if (platillosModel.foto != null && registro && nuevoPath == false) {
       return FadeInImage(
-        width: double.infinity,
         placeholder: AssetImage('assets/img/jar-loading.gif'),
         image: NetworkImage(platillosModel.foto),
-        height: 180,
+        height: 250.0,
         fit: BoxFit.fill,
       );
     } else {
-      return Image(
-        image: AssetImage(foto?.path ?? 'assets/img/no-image.png'),
-        fit: BoxFit.cover,
-      );
+      if (foto != null) {
+        return Image(
+          image: AssetImage(foto?.path ?? 'assets/img/no-image.png'),
+          fit: BoxFit.contain,
+        );
+      }
+      return Container();
     }
   }
 
-  void _seleccionarFoto() async {
-    _procesarImagen(ImageSource.gallery);
+  void _seleccionarFoto(PlatillosModel platillosModel) async {
+    _procesarImagen(ImageSource.gallery, platillosModel);
   }
 
-  void _tomarFoto() async {
-    _procesarImagen(ImageSource.camera);
+  void _tomarFoto(PlatillosModel platillosModel) async {
+    _procesarImagen(ImageSource.camera, platillosModel);
   }
 
-  _procesarImagen(ImageSource source) async {
+  _procesarImagen(ImageSource source, PlatillosModel platillosModel) async {
     final pickedFile = await picker.getImage(source: source);
-
-    if (foto != null) {
-      _platillosModel.foto = null;
+    print(pickedFile);
+    if (pickedFile != null) {
+      setState(() {
+        platillosModel.foto = '';
+        foto = null;
+        nuevoPath = true;
+        foto = File(pickedFile.path);
+      });
     }
-
-    setState(() {
-      foto = File(pickedFile.path);
-    });
   }
 
   Widget _crearBoton(PlatillosModel platillosData) {
@@ -239,41 +269,22 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante> {
 
     setState(() {
       _guardando = true;
-      print(prefs.idUpdateRegistro);
-      print(_platillosModel.tiempoPreparacion);
-      print(_platillosModel.restaurante = id);
-      print(_platillosModel.precio);
-      print(_platillosModel.nombre);
-      print(_platillosModel.ingredientes);
-      print(_platillosModel.descripcion);
-      print("${prefs.idUpdateRegistro}  xDDDDDDDDDDDDDDDDDDDD");
     });
 
     if (foto != null) {
-      _platillosModel.foto = await _archivosBloc.subirFoto(foto);
-      print(_platillosModel.foto);
+      prefs.fotoURLCrud = await _archivosBloc.subirFoto(foto);
+      print(prefs.fotoURLCrud);
+      _platillosModel.foto = prefs.fotoURLCrud;
     }
 
+    _platillosModel.restaurante = prefs.idRestaurante;
     if (id == null) {
-      _platillosModel.restaurante = prefs.idRestaurante;
       _restaurantesBloc.agregarProducto(_platillosModel);
     } else {
       _restaurantesBloc.editarProducto(_platillosModel);
     }
 
-    // _guardando = false;
-    // mostrarSnackbar('Registro guardado');
-
     Navigator.pop(context);
     _guardando = false;
   }
-
-  // void mostrarSnackbar(String mensaje) {
-  //   final snackbar = SnackBar(
-  //     content: Text(mensaje),
-  //     duration: Duration(milliseconds: 1500),
-  //   );
-
-  // scaffoldKey.currentState.showSnackBar(snackbar);
-  // }
 }

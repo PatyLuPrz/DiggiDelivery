@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diggi_delivery_movil/models/locales_model.dart';
 import 'package:diggi_delivery_movil/models/platillo_model.dart';
 import 'package:diggi_delivery_movil/models/restaurante_model.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';

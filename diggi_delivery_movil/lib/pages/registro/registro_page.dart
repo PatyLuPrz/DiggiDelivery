@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/providers/usuario_provider.dart';
 import 'package:diggi_delivery_movil/routes.dart';
@@ -42,7 +41,6 @@ class _RegistroPageState extends State<RegistroPage> {
   }
 
   Widget _registerForm(BuildContext context) {
-    final usuarioProvider = new UsuarioProvider();
     final size = MediaQuery.of(context).size;
     final bloc = Provider.of(context);
     return SingleChildScrollView(

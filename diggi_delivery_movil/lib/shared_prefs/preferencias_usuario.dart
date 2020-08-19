@@ -42,7 +42,7 @@ class PreferenciasUsuario {
 
   //Get And Set de la ultima pagina
   get ultimaPagina {
-    return _prefs.getString('ultimaPagina') ?? 'home';
+    return _prefs.getString('ultimaPagina') ?? 'login';
   }
 
   set ultimaPagina(String value) {
@@ -73,6 +73,15 @@ class PreferenciasUsuario {
 
   set email(String value) {
     _prefs.setString('email', value);
+  }
+
+  //Get And Set Correo
+  get nivelUsuario {
+    return _prefs.getString('nivelUsuario') ?? '';
+  }
+
+  set nivelUsuario(String value) {
+    _prefs.setString('nivelUsuario', value);
   }
 
   //Get And Set Nombre de usuario
@@ -109,6 +118,15 @@ class PreferenciasUsuario {
 
   set foto(String value) {
     _prefs.setString('foto', value);
+  }
+
+  //Geta and Set FotoPathRegistro
+  get fotoURLCrud {
+    return _prefs.getString('fotoURLCrud') ?? '';
+  }
+
+  set fotoURLCrud(String value) {
+    _prefs.setString('fotoURLCrud', value);
   }
 
   //Geta and Set FotoURL

@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/blocs/pages/locales/locales_bloc.dart';
-import 'package:diggi_delivery_movil/helpers/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart' as prov;
 
 class LocalesPage extends StatefulWidget {
   LocalesPage({Key key}) : super(key: key);

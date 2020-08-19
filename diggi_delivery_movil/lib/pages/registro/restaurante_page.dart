@@ -30,9 +30,7 @@ class _RestauranteRegistroState extends State<RestauranteRegistro>
   final _picker = ImagePicker();
   final _prefs = new PreferenciasUsuario();
   File _foto;
-  Path _path;
   final _formKey = GlobalKey<FormState>();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _guardando = false;
   @override
   void initState() {
@@ -60,7 +58,7 @@ class _RestauranteRegistroState extends State<RestauranteRegistro>
       child: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: Text("Local"),
+            title: Text("Restaurante"),
             backgroundColor: Color(0xFFC93F42),
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
@@ -158,7 +156,7 @@ class _RestauranteRegistroState extends State<RestauranteRegistro>
     return Container(
       width: double.infinity,
       child: RaisedButton(
-        onPressed: () => Navigator.pushNamed(context, "registroMapa"),
+        onPressed: () => Navigator.pushNamed(context, MapaRegistro.routeName),
         child: Container(
           alignment: Alignment.center,
           width: double.infinity,
@@ -250,6 +248,7 @@ class _RestauranteRegistroState extends State<RestauranteRegistro>
     print(pickedFile);
     if (pickedFile != null) {
       setState(() {
+        _foto = null;
         _foto = File(pickedFile.path);
       });
     }
@@ -288,7 +287,7 @@ class _RestauranteRegistroState extends State<RestauranteRegistro>
         keyboardType: TextInputType.phone,
         maxLength: 10,
         enableInteractiveSelection: false,
-        onSaved: (value) => _restauranteModel.telefono,
+        onSaved: (value) => _restauranteModel.telefono = value,
         validator: (value) {
           print("Telefono :::: $value");
           if (!utils.isNumeric(value) || value.contains(".") || value.isEmpty) {
@@ -348,6 +347,9 @@ class _RestauranteRegistroState extends State<RestauranteRegistro>
         _registroBloc.agregarNuevoUsuario(_modelUsuarios);
         _prefs.clear();
         _prefs.email = _restauranteModel.email;
+        _prefs.nivelUsuario = _modelUsuarios.nivel;
+        _prefs.nombre = _restauranteModel.nombre;
+        _prefs.fotoURL = _restauranteModel.foto;
       });
       Navigator.pushReplacementNamed(context, HomePageRestaurante.routeName);
       _guardando = false;

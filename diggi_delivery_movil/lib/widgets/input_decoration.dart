@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../helpers/style.dart';
 
 class DecorationInputForm {
   final String textLabel;

@@ -60,20 +60,21 @@ class _ClienteRegisgtroState extends State<ClienteRegisgtro>
     final size = MediaQuery.of(context).size;
     return Container(
       child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text("Cliente"),
-            backgroundColor: Color(0xFFC93F42),
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("Cliente"),
+          backgroundColor: Color(0xFFC93F42),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          body: SingleChildScrollView(
-            child: _formCliente(context, size),
-          )),
+        ),
+        body: SingleChildScrollView(
+          child: _formCliente(context, size),
+        ),
+      ),
     );
   }
 
@@ -225,6 +226,7 @@ class _ClienteRegisgtroState extends State<ClienteRegisgtro>
     print(pickedFile);
     if (pickedFile != null) {
       setState(() {
+        foto = null;
         foto = File(pickedFile.path);
       });
     }
@@ -263,7 +265,7 @@ class _ClienteRegisgtroState extends State<ClienteRegisgtro>
         keyboardType: TextInputType.phone,
         maxLength: 10,
         enableInteractiveSelection: false,
-        onSaved: (value) => _clienteModel.telefono = int.parse(value),
+        onSaved: (value) => _clienteModel.telefono = value,
         validator: (value) {
           print("Telefono :::: $value");
           if (!utils.isNumeric(value) || value.contains(".") || value.isEmpty) {
@@ -308,16 +310,26 @@ class _ClienteRegisgtroState extends State<ClienteRegisgtro>
       _clienteModel.foto = await _archivosModel.subirFoto(foto);
       setState(() {
         _guardando = true;
+        print(_clienteModel.direccion);
+        print(_clienteModel.email);
+        print(_clienteModel.foto);
+        print(_clienteModel.nombre);
+        print(_clienteModel.telefono);
+
         _clienteModel.latitud = prefs.latitud;
         _clienteModel.longitud = prefs.logitud;
         _modelUsuarios.email = _clienteModel.email;
         _modelUsuarios.nivel = '2';
+
         //Agrega los registros a la tabla de usuario y locales
         _registroBloc.agregarNuevoCliente(_clienteModel);
         _registroBloc.agregarNuevoUsuario(_modelUsuarios);
 
         prefs.clear();
         prefs.email = _clienteModel.email;
+        prefs.nivelUsuario = _modelUsuarios.nivel;
+        prefs.nombre = _clienteModel.nombre;
+        prefs.fotoURL = _clienteModel.foto;
       });
       Navigator.pushReplacementNamed(context, HomePage.routeName);
       _guardando = false;
