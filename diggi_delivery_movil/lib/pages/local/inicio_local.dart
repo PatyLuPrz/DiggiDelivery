@@ -52,7 +52,7 @@ class _InicioLocalState extends State<InicioLocal> {
       padding: EdgeInsets.all(5),
       child: StreamBuilder(
         // stream: restaurantesProvider.getPlatilloRestaurante(prefs.email),
-        stream: productosBloc.platillosStream,
+        stream: productosBloc.productosStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData)
             return Center(

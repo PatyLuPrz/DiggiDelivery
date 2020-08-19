@@ -163,11 +163,11 @@ class UsuarioProvider {
   }
 
   //Nuevo establecimiento
-  Future<bool> crearNuevoLocal(RegistroLocalModel registroLocalModel) async {
+  Future<bool> crearNuevoLocal(LocalesModel _localesModel) async {
     await _db
         .collection('locales')
         .document()
-        .setData(registroLocalModel.toMap());
+        .setData(_localesModel.toMap());
     return true;
   }
 

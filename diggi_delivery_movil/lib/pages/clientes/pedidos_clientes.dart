@@ -1,4 +1,5 @@
 import 'package:diggi_delivery_movil/helpers/theme.dart';
+import 'package:diggi_delivery_movil/widgets/timeline_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,12 +20,10 @@ class _PedidosClientesState extends State<PedidosClientes> {
       // backgroundColor: currentTheme.currentThemeColorComponents(currentTheme),
       backgroundColor: Colors.white,
       appBar: AppBar(
-        iconTheme: IconThemeData(
-            color: Color.fromRGBO(49, 49, 49, 1.0)),
+        iconTheme: IconThemeData(color: Color.fromRGBO(49, 49, 49, 1.0)),
         title: Text(
           'Pedidos',
-          style: TextStyle(
-              color: Color.fromRGBO(49, 49, 49, 1.0)),
+          style: TextStyle(color: Color.fromRGBO(49, 49, 49, 1.0)),
         ),
         backgroundColor: Colors.white,
       ),
@@ -55,28 +54,15 @@ class _PedidosClientesState extends State<PedidosClientes> {
               children: <Widget>[
                 Text(
                   nombre,
-                  style: TextStyle(
-                      color: currentTheme.currentThemeColorText(currentTheme)),
+                  style: TextStyle(color: Colors.black),
                 ),
-                Text(
-                  nombre,
-                  style: TextStyle(
-                      color: currentTheme.currentThemeColorText(currentTheme)),
-                ),
-                Text(
-                  nombre,
-                  style: TextStyle(
-                      color: currentTheme.currentThemeColorText(currentTheme)),
-                ),
+                ScreenProgress(ticks: 1),
               ],
             ),
             Align(
                 alignment: Alignment.centerRight,
-                child: Icon(
-                  Icons.chevron_right,
-                  size: 30.0,
-                  color: currentTheme.currentThemeColorText(currentTheme),
-                ))
+                child:
+                    Icon(Icons.chevron_right, size: 30.0, color: Colors.black))
           ],
         ));
   }

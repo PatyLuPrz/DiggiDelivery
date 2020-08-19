@@ -1,14 +1,14 @@
 // To parse this JSON data, do
 import 'dart:convert';
 //Recibe un Json en forma de String
-RegistroLocalModel registroLocalModelFromJson(String str) =>
-    RegistroLocalModel.fromFirestore(json.decode(str));
+LocalesModel localesModelFromJson(String str) =>
+    LocalesModel.fromFirestore(json.decode(str));
 
 //Toma el modelo y lo genera a un JSon
-String registroLocalModelToJson(RegistroLocalModel data) => json.encode(data.toMap());
+String localesModelToJson(LocalesModel data) => json.encode(data.toMap());
 
-class RegistroLocalModel {
-  RegistroLocalModel({
+class LocalesModel {
+  LocalesModel({
     this.id,
     this.nombre,
     this.telefono,
@@ -30,7 +30,7 @@ class RegistroLocalModel {
   String longitud;
   String pass;
 
-  factory RegistroLocalModel.fromFirestore(Map<String, dynamic> json) => RegistroLocalModel(
+  factory LocalesModel.fromFirestore(Map<String, dynamic> json) => LocalesModel(
         id: json["id"],
         nombre: json["nombre"],
         telefono: json["telefono"],

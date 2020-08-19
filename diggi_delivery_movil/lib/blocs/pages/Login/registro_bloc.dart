@@ -41,9 +41,9 @@ class RegistroBloc with Validators {
       emailStreamlog, passwordStream, (a, b) => true);
 
   //AGREGAR NUEVO ESTABLECIMIENTO
-  void agregarNuevoLocal(RegistroLocalModel registroLocalModel) async {
+  void agregarNuevoLocal(LocalesModel _localesModel) async {
     _cargandoController.sink.add(true);
-    await _usuarioProvider.crearNuevoLocal(registroLocalModel);
+    await _usuarioProvider.crearNuevoLocal(_localesModel);
     _cargandoController.sink.add(false);
   }
 

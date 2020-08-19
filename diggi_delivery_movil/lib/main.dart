@@ -1,6 +1,6 @@
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/helpers/theme.dart';
-import 'package:diggi_delivery_movil/pages/clientes/platillo_informacion.dart';
+
 
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
@@ -65,6 +65,8 @@ class _MyAppState extends State<MyApp> {
                 PlatilloRestaurante(),
             PlatillosRestauranteCliente.routeName: (BuildContext context) =>
                 PlatillosRestauranteCliente(),
+            ProductoLocalesCliente.routeName: (BuildContext context) =>
+                ProductoLocalesCliente(),
             PlatilloInformacion.routeName: (BuildContext context) =>
                 PlatilloInformacion(),
           },

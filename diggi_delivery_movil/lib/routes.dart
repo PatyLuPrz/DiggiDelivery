@@ -11,3 +11,5 @@ export 'package:diggi_delivery_movil/pages/Restaurante/home_restaurante_page.dar
 export 'package:diggi_delivery_movil/pages/Restaurante/platillo_restaurante.dart';
 export 'package:diggi_delivery_movil/pages/clientes/platillos_restaurante_cliente.dart';
 export 'package:diggi_delivery_movil/pages/local/producto_local.dart';
+export 'package:diggi_delivery_movil/pages/clientes/platillo_informacion.dart';
+export 'package:diggi_delivery_movil/pages/clientes/productos_locales_cliente.dart';

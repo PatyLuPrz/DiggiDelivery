@@ -24,7 +24,7 @@ class LocalRegisgtro extends StatefulWidget {
 class _LocalRegisgtroState extends State<LocalRegisgtro>
     with WidgetsBindingObserver {
   RegistroBloc registroBloc = RegistroBloc();
-  RegistroLocalModel registroLocalModel = new RegistroLocalModel();
+  LocalesModel _localesModel = new LocalesModel();
   ArchivosBloc archivosModel = new ArchivosBloc();
   ModelUsuarios modelUsuarios = new ModelUsuarios();
   UsuarioProvider usuarioProvider = new UsuarioProvider();
@@ -122,7 +122,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
         keyboardType: TextInputType.emailAddress,
         enabled: false,
         decoration: dec.decoration(),
-        onSaved: (value) => registroLocalModel.email = value,
+        onSaved: (value) => _localesModel.email = value,
         validator: (value) {
           if (value.isEmpty) {
             return 'Ingrese el correo valido';
@@ -145,7 +145,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
           obscureText: true,
           keyboardType: TextInputType.emailAddress,
           decoration: dec.decoration(),
-          onSaved: (value) => registroLocalModel.pass = value,
+          onSaved: (value) => _localesModel.pass = value,
           validator: (value) {
             if (value.length <= 6) {
               return 'Ingresar más de 6 caracteres';
@@ -166,7 +166,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
         keyboardType: TextInputType.text,
         enabled: true,
         decoration: dec.decoration(),
-        onSaved: (value) => registroLocalModel.direccion = value,
+        onSaved: (value) => _localesModel.direccion = value,
         validator: (value) {
           if (value.isEmpty) {
             return 'Ingrese su dirección';
@@ -188,7 +188,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
         keyboardType: TextInputType.text,
         enabled: true,
         decoration: dec.decoration(),
-        onSaved: (value) => registroLocalModel.nombre = value,
+        onSaved: (value) => _localesModel.nombre = value,
         validator: (value) {
           print("NOMBRE :::: $value");
           if (value.isEmpty) {
@@ -211,7 +211,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
         keyboardType: TextInputType.phone,
         maxLength: 10,
         enableInteractiveSelection: false,
-        onSaved: (value) => registroLocalModel.telefono = value,
+        onSaved: (value) => _localesModel.telefono = value,
         validator: (value) {
           print("Telefono :::: $value");
           if (!utils.isNumeric(value) || value.contains(".") || value.isEmpty) {
@@ -271,7 +271,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
               RaisedButton.icon(
                   icon: Icon(Icons.photo_size_select_actual),
                   label: Text("Elegir imagen"),
-                  onPressed: (){
+                  onPressed: () {
                     _seleccionarFoto();
                   }),
               SizedBox(
@@ -279,7 +279,7 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
               ),
               RaisedButton.icon(
                 icon: Icon(Icons.camera_alt),
-                onPressed: (){
+                onPressed: () {
                   _tomarFoto();
                 },
                 label: Text("Tomar foto"),
@@ -340,25 +340,25 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
     formKey.currentState.save();
 
     final info = await usuarioProvider.nuevoUsuario(
-        registroLocalModel.email, registroLocalModel.pass);
+        _localesModel.email, _localesModel.pass);
     if (info['ok']) {
-      registroLocalModel.foto = await archivosModel.subirFoto(foto);
+      _localesModel.foto = await archivosModel.subirFoto(foto);
       setState(() {
         _guardando = true;
-        registroLocalModel.latitud = prefs.latitud;
-        registroLocalModel.longitud = prefs.logitud;
-        modelUsuarios.email = registroLocalModel.email;
+        _localesModel.latitud = prefs.latitud;
+        _localesModel.longitud = prefs.logitud;
+        modelUsuarios.email = _localesModel.email;
         modelUsuarios.nivel = '1';
 
         //Agrega los registros a la tabla de usuario y locales
-        registroBloc.agregarNuevoLocal(registroLocalModel);
+        registroBloc.agregarNuevoLocal(_localesModel);
         registroBloc.agregarNuevoUsuario(modelUsuarios);
 
         prefs.clear();
-        prefs.email = registroLocalModel.email;
+        prefs.email = _localesModel.email;
         prefs.nivelUsuario = modelUsuarios.nivel;
-        prefs.nombre = registroLocalModel.nombre;
-        prefs.fotoURL = registroLocalModel.foto;
+        prefs.nombre = _localesModel.nombre;
+        prefs.fotoURL = _localesModel.foto;
       });
       Navigator.pushReplacementNamed(context, HomePageLocal.routeName);
       _guardando = false;

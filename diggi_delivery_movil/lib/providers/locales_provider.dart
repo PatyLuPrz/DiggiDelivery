@@ -12,12 +12,25 @@ class LocalesProvider {
   }
 
   //Obtener registros
-  Stream<QuerySnapshot> getLocales() {
-    return Firestore.instance.collection('locales').snapshots();
+  Future<List<LocalesModel>> getLocales() async {
+    //COnsulta para obtener los documentos de restaurantes
+    QuerySnapshot consultaPlatillos =
+        await _db.collection('locales').getDocuments();
+
+    //Se crea una nueva lista del modelo de restaurantes
+    final List<LocalesModel> locales = new List();
+
+    //Recorre los documentos para insertarlos en una lista de restaurantes
+    consultaPlatillos.documents.forEach((producto) {
+      final prodTemp = LocalesModel.fromFirestore(producto.data);
+      locales.add(prodTemp);
+    });
+
+    return locales;
   }
 
   //Insertar productos en la BD
-  Future<bool> crearProducto(RegistroLocalModel producto) async {
+  Future<bool> crearProducto(LocalesModel producto) async {
     await _db.collection('restaurantes').document().setData(producto.toMap());
     return true;
   }
@@ -50,5 +63,36 @@ class LocalesProvider {
         .getDocuments();
 
     return consultaProductos;
+  }
+
+//Obtiene los productos de cada restaurante
+  Future<QuerySnapshot> getProductosLocales(String email) async {
+    //COnsulta a la tabla de restaurantes
+    int index = 0;
+
+    //Conculta el email al que pertenece el restaurante
+    QuerySnapshot consultaEmail = await _db
+        .collection('locales')
+        .where('email', isEqualTo: email)
+        .getDocuments();
+
+    //Genera un Map en la respuesta de la consulta a la tabla de restaurantes con el email
+    Map<String, dynamic> decodeResp;
+
+    //Recorre la consulta de restaurantes para obtener los datos del restaurante
+    consultaEmail.documents.forEach((DocumentSnapshot element) {
+      return decodeResp = element.data;
+    });
+
+    //Como solo existe un registro con el mismo email obtiene el id del documento de restaurante al que pertene el correo
+    var idDocument = consultaEmail.documents[index].documentID;
+    prefs.idRestaurante = idDocument;
+
+    QuerySnapshot consultaPlatillos = await _db
+        .collection('productos')
+        .where('local', isEqualTo: idDocument)
+        .getDocuments();
+
+    return consultaPlatillos;
   }
 }
