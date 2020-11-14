@@ -3,6 +3,7 @@ import 'package:diggi_delivery_movil/blocs/pages/locales/locales_bloc.dart';
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/blocs/pages/restaurantes/restaurantes_bloc.dart';
 import 'package:diggi_delivery_movil/pages/clientes/platillo_informacion.dart';
+import 'package:diggi_delivery_movil/pages/clientes/producto_informacion.dart';
 import 'package:diggi_delivery_movil/providers/locales_provider.dart';
 import 'package:diggi_delivery_movil/providers/restaurantes_provider.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
@@ -70,7 +71,7 @@ class _ProductoLocalesClienteState extends State<ProductoLocalesCliente> {
                 child: InkWell(
                   key: UniqueKey(),
                   onTap: () => Navigator.pushNamed(
-                          context, PlatilloInformacion.routeName,
+                          context, ProductoInformacion.routeName,
                           arguments: platillos.documents[index].data)
                       .then((value) => setState(() {})),
                   child: ClipRRect(

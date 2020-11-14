@@ -1,4 +1,4 @@
-// import 'package:compras/models/productos_model.dart';
+// import 'package:diggi_delivery_movil/models/model_pedidos.dart';
 // import 'package:diggi_delivery_movil/pages/carrito/carrito_model.dart';
 // import 'package:fancy_dialog/FancyAnimation.dart';
 // import 'package:fancy_dialog/FancyGif.dart';
@@ -8,7 +8,7 @@
 // import 'package:flutter/material.dart';
 
 // class Cart extends StatefulWidget {
-//   final List<ProductosModel> _cart;
+//   final List<ModelPedidos> _cart;
 
 //   Cart(this._cart);
 
@@ -22,9 +22,9 @@
 //   var _firstScroll = true;
 //   bool _enabled = false;
 
-//   List<CarritoModel> _cart;
+//   List<ModelPedidos> _cart;
 
-//   Container pagoTotal(List<CarritoModel> _cart) {
+//   Container pagoTotal(List<ModelPedidos> _cart) {
 //     return Container(
 //       alignment: Alignment.centerRight,
 //       padding: EdgeInsets.only(left: 120),
@@ -45,11 +45,14 @@
 //     );
 //   }
 
-//   String valorTotal(List<CarritoModel> listaProductos) {
+//   String valorTotal(List<ModelPedidos> listaProductos) {
 //     double total = 0.0;
 
-//     for (int i = 0; i < listaProductos.length; i++) {
-//       total = total + listaProductos[i].price * listaProductos[i].quantity;
+//     for (int i = 0; i < listaProductos[i].platillo.subplatillo.length; i++) {
+//       total = total + listaProductos[i].platillo.subplatillo[i].precio * listaProductos[i].platillo.subplatillo[i].cantidad;
+//     }
+//     for (int i = 0; i < listaProductos[i].producto.subproducto.length; i++) {
+//       total = total + listaProductos[i].producto.subproducto[i].precio * listaProductos[i].producto.subproducto[i].cantidad;
 //     }
 //     return total.toStringAsFixed(2);
 //   }
@@ -102,7 +105,8 @@
 //                 physics: NeverScrollableScrollPhysics(),
 //                 itemCount: _cart.length,
 //                 itemBuilder: (context, index) {
-//                   final String imagen = _cart[index].image;
+//                   // final String imagen = _cart[index].image;
+//                   final String imagen = "assets/img/log.png";
 //                   var item = _cart[index];
 //                   //item.quantity = 0;
 //                   return Column(
@@ -123,7 +127,7 @@
 //                                 ),
 //                                 Column(
 //                                   children: <Widget>[
-//                                     Text(item.name,
+//                                     Text(item.total.toString(),
 //                                         style: new TextStyle(
 //                                             fontWeight: FontWeight.bold,
 //                                             fontSize: 16.0,
@@ -165,7 +169,7 @@
 //                                                 },
 //                                                 color: Colors.yellow,
 //                                               ),
-//                                               Text('${_cart[index].quantity}',
+//                                               Text('${_cart[index].platillo.subplatillo[index].cantidad}',
 //                                                   style: new TextStyle(
 //                                                       fontWeight:
 //                                                           FontWeight.bold,
@@ -193,7 +197,7 @@
 //                                 SizedBox(
 //                                   width: 38.0,
 //                                 ),
-//                                 Text(item.price.toString(),
+//                                 Text(item.total.toString(),
 //                                     style: new TextStyle(
 //                                         fontWeight: FontWeight.bold,
 //                                         fontSize: 24.0,
@@ -250,13 +254,13 @@
 
 //   _addProduct(int index) {
 //     setState(() {
-//       _cart[index].quantity++;
+//       _cart[index].platillo.subplatillo[index].cantidad++;
 //     });
 //   }
 
 //   _removeProduct(int index) {
 //     setState(() {
-//       _cart[index].quantity--;
+//       _cart[index].platillo.subplatillo[index].cantidad--;
 //     });
 //   }
 // }

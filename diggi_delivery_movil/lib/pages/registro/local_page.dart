@@ -292,23 +292,41 @@ class _LocalRegisgtroState extends State<LocalRegisgtro>
   }
 
   void _seleccionarFoto() async {
-    _procesarImagen(ImageSource.gallery);
+    // _procesarImagen(ImageSource.gallery, platillosModel);
+
+    var picture = await picker.getImage(source: ImageSource.gallery);
+    if (picture != null) {
+      foto = null;
+      this.setState(() {
+        foto = File(picture.path);
+      });
+    }
+    // Navigator.of(context).pop();
   }
 
   void _tomarFoto() async {
-    _procesarImagen(ImageSource.camera);
-  }
-
-  _procesarImagen(ImageSource source) async {
-    final pickedFile = await picker.getImage(source: source);
+    // _procesarImagen(ImageSource.camera, platillosModel);
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
     print(pickedFile);
     if (pickedFile != null) {
+      foto = null;
       setState(() {
-        foto = null;
         foto = File(pickedFile.path);
       });
     }
+    // Navigator.of(context).pop();
   }
+
+  // _procesarImagen(ImageSource source) async {
+  //   final pickedFile = await picker.getImage(source: source);
+  //   print(pickedFile);
+  //   if (pickedFile != null) {
+  //       foto = null;
+  //     setState(() {
+  //       foto = File(pickedFile.path);
+  //     });
+  //   }
+  // }
 
   Widget _crearUsuario() {
     return Container(

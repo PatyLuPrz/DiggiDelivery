@@ -68,6 +68,10 @@ class _MyAppState extends State<MyApp> {
                 ProductoLocalesCliente(),
             PlatilloInformacion.routeName: (BuildContext context) =>
                 PlatilloInformacion(),
+            ProductoInformacion.routeName: (BuildContext context) =>
+                ProductoInformacion(),
+            CarritoCompras.routeName: (BuildContext context) =>
+                CarritoCompras(),
             PedidoDetallesCliente.routeName: (BuildContext context) =>
                 PedidoDetallesCliente(),
           },

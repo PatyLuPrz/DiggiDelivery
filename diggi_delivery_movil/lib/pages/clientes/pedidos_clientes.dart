@@ -23,9 +23,6 @@ class _PedidosClientesState extends State<PedidosClientes> {
     final pedidosBloc = Provider.pedidosBloc(context);
     pedidosBloc.cargarPedidos();
 
-    PedidosProvider pedidosProvider = PedidosProvider();
-    pedidosProvider.getPedidos();
-
     final currentTheme = prov.Provider.of<ThemeProvider>(context);
     return Scaffold(
       // backgroundColor: currentTheme.currentThemeColorComponents(currentTheme),
@@ -56,7 +53,7 @@ class _PedidosClientesState extends State<PedidosClientes> {
           childAspectRatio: 2,
           crossAxisSpacing: 20,
           mainAxisSpacing: 20),
-      itemCount: pedidos.length,
+      itemCount: pedidos?.length ?? 0,
       itemBuilder: (context, index) {
         return transformTraslate(index, pedidos, size);
       },
@@ -107,7 +104,7 @@ class _PedidosClientesState extends State<PedidosClientes> {
     return ListTile(
       title: Text(
         // '${platillos.documents[index].data['nombre']}',
-        '#${pedidos[index].producto.idProducto}',
+        '#${pedidos[index].idPedido}',
         textAlign: TextAlign.left,
         style: TextStyle(
           color: Colors.white,
@@ -122,7 +119,7 @@ class _PedidosClientesState extends State<PedidosClientes> {
     return ListTile(
       title: Text(
         // '${platillos.documents[index].data['nombre']}',
-        '\$ ${pedidos[index].total} MXN',
+        '\$ ${pedidos[index].total.toString()} MXN',
         textAlign: TextAlign.right,
         style: TextStyle(
           color: Colors.white,

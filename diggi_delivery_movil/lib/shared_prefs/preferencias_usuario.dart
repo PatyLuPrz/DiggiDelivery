@@ -164,4 +164,32 @@ class PreferenciasUsuario {
   set idUpdateRegistro(String value) {
     _prefs.setString('idUpdateRegistro', value);
   }
+
+  /*PARTE PARA PEDIDOS DATOS */
+  //PRECIO TOTAL EN EL CARRITO DE COMPRAS
+  get total {
+    return _prefs.getInt('total') ?? 0;
+  }
+
+  set total(int value) {
+    _prefs.setInt('total', value);
+  }
+
+  //ID DEL DOCUMENTO DE PLATILLO O PRODUCTO
+  get idDocumentPlatilloProducto {
+    return _prefs.getString('idDocumentPlatilloProducto') ?? '';
+  }
+
+  set idDocumentPlatilloProducto(String value) {
+    _prefs.setString('idDocumentPlatilloProducto', value);
+  }
+
+  //ID DEL DOCUMENTO DE PLATILLO O PRODUCTO
+  get correoEstablecimientoRestaurante {
+    return _prefs.getString('correoEstablecimientoRestaurante') ?? '';
+  }
+
+  set correoEstablecimientoRestaurante(String value) {
+    _prefs.setString('correoEstablecimientoRestaurante', value);
+  }
 }

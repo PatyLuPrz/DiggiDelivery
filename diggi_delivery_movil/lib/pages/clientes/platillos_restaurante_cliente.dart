@@ -99,7 +99,8 @@ class _PlatillosRestauranteClienteState
           mainAxisSpacing: 20),
       itemCount: platillos.documents.length,
       itemBuilder: (context, index) {
-        // DocumentSnapshot xd = platillos.documents[index];
+        prefs.idDocumentPlatilloProducto =
+            platillos.documents[index].documentID;
         return Transform.translate(
           offset: Offset(0.0, index.isOdd ? 20 : 0),
           child: InkWell(
@@ -120,21 +121,7 @@ class _PlatillosRestauranteClienteState
                     children: <Widget>[
                       _imagenAvatar(size, platillos, index),
                       containerBlack(),
-                      Center(
-                        child: ListTile(
-                          title: Text(
-                            // '${platillos.documents[index].data['nombre']}',
-                            '${platillos.documents[index].data['nombre']}',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
-                            ),
-                          ),
-                          // title:
-                          //     Text(platillos.documents[index].documentID),
-                        ),
-                      ),
+                      _centerText(size, platillos, index),
                     ],
                   ),
                 ),
@@ -143,6 +130,24 @@ class _PlatillosRestauranteClienteState
           ),
         );
       },
+    );
+  }
+
+  Widget _centerText(Size size, QuerySnapshot platillos, int index) {
+    return Center(
+      child: ListTile(
+        title: Text(
+          // '${platillos.documents[index].data['nombre']}',
+          '${platillos.documents[index].data['nombre']}',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+          ),
+        ),
+        // title:
+        //     Text(platillos.documents[index].documentID),
+      ),
     );
   }
 }

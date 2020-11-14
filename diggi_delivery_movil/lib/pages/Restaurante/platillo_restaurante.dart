@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 
-
 class PlatilloRestaurante extends StatefulWidget {
   static final routeName = "platilloRestaurante";
   @override
@@ -134,7 +133,7 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante>
   }
 
   Widget _ingredientesExtra(PlatillosModel platillosData) {
-    final value = platillosData.ingredientes.toString();
+    final value = platillosData.ingredientes?.toString() ?? '';
     final newValue = value.replaceAll("[", "").replaceAll("]", "");
     print("value: $newValue");
 
@@ -231,25 +230,46 @@ class _PlatilloRestauranteState extends State<PlatilloRestaurante>
   }
 
   void _seleccionarFoto(PlatillosModel platillosModel) async {
-    _procesarImagen(ImageSource.gallery, platillosModel);
+    // _procesarImagen(ImageSource.gallery, platillosModel);
+
+    var picture = await picker.getImage(source: ImageSource.gallery);
+    if (picture != null) {
+      foto = null;
+      this.setState(() {
+        platillosModel.foto = '';
+        nuevoPath = true;
+        foto = File(picture.path);
+      });
+    }
+    // Navigator.of(context).pop();
   }
 
   void _tomarFoto(PlatillosModel platillosModel) async {
-    _procesarImagen(ImageSource.camera, platillosModel);
-  }
-
-  _procesarImagen(ImageSource source, PlatillosModel platillosModel) async {
-    final pickedFile = await picker.getImage(source: source);
-    print(pickedFile);
-    if (pickedFile != null) {
-      setState(() {
+    // _procesarImagen(ImageSource.camera, platillosModel);
+    var picture = await picker.getImage(source: ImageSource.camera);
+    if (picture != null) {
+      foto = null;
+      this.setState(() {
         platillosModel.foto = '';
-        foto = null;
         nuevoPath = true;
-        foto = File(pickedFile.path);
+        foto = File(picture.path);
       });
     }
+    // Navigator.of(context).pop();
   }
+
+  // _procesarImagen(ImageSource source, PlatillosModel platillosModel) async {
+  //   final pickedFile = await picker.getImage(source: source);
+  //   print(pickedFile);
+  //   if (pickedFile != null) {
+  //     foto = null;
+  //     setState(() {
+  //       platillosModel.foto = '';
+  //       nuevoPath = true;
+  //       foto = File(pickedFile.path);
+  //     });
+  //   }
+  // }
 
   Widget _crearBoton(PlatillosModel platillosData) {
     return RaisedButton.icon(

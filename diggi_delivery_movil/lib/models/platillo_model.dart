@@ -18,6 +18,8 @@ class PlatillosModel {
     this.descripcion,
     this.tiempoPreparacion,
     this.restaurante,
+
+    this.cantidad = 0,
   });
 
   String id;
@@ -28,6 +30,8 @@ class PlatillosModel {
   String descripcion;
   String tiempoPreparacion;
   String restaurante;
+
+  int cantidad;
 
   factory PlatillosModel.fromFirestore(Map<String, dynamic> json) =>
       PlatillosModel(

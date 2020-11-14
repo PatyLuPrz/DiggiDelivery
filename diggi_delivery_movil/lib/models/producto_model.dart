@@ -1,55 +1,65 @@
 // To parse this JSON data, do
+//
+//     final productoModel = productoModelFromJson(jsonString);
+
 import 'dart:convert';
 
-//Recibe un Json en forma de String
-ProductoModel roductoModelFromJson(String str) =>
-    ProductoModel.fromFirestore(json.decode(str));
+ProductoModel productoModelFromJson(String str) => ProductoModel.fromJson(json.decode(str));
 
-//Toma el modelo y lo genera a un JSon
-String productoModelToJson(ProductoModel data) => json.encode(data.toMap());
+String productoModelToJson(ProductoModel data) => json.encode(data.toJson());
 
 class ProductoModel {
-  ProductoModel({
-    this.id,
-    this.nombre,
-    this.marca,
-    this.local,
-    this.foto,
-    this.presentacion,
-    this.precio = 0,
-    this.cantidadDisponible,
-    this.descripcion,
-  });
+    ProductoModel({
+        this.descripcion,
+        this.foto,
+        this.local,
+        this.marca,
+        this.nombre,
+    });
 
-  String id;
-  String nombre;
-  String marca;
-  String local;
-  String foto;
-  String presentacion;
-  int precio;
-  int cantidadDisponible;
+    Descripcion descripcion;
+    String foto;
+    String local;
+    String marca;
+    String nombre;
 
-  Map<String, dynamic> descripcion;
-
-  factory ProductoModel.fromFirestore(Map<String, dynamic> json) =>
-      ProductoModel(
-        // descripcion: json["descripcion"],
-        nombre: json["nombre"],
-        marca: json["marca"],
-        local: json["local"],
+    factory ProductoModel.fromJson(Map<String, dynamic> json) => ProductoModel(
+        descripcion: Descripcion.fromJson(json["descripcion"]),
         foto: json["foto"],
-        descripcion: Map<String, dynamic>.from(json["descripcion"]),
-      );
+        local: json["local"],
+        marca: json["marca"],
+        nombre: json["nombre"],
+    );
 
-  Map<String, dynamic> toMap() => {
-        // "id": id,
-        "nombre": nombre,
-        "marca": marca,
-        "local": local,
+    Map<String, dynamic> toJson() => {
+        "descripcion": descripcion.toJson(),
         "foto": foto,
-        "descripcion": precio,
-        // "descripcion": Map<String, dynamic>.from(descripcion.addAll({'value': cantidad_disponible})),
-        // "descripcion": descripcion,
-      };
+        "local": local,
+        "marca": marca,
+        "nombre": nombre,
+    };
+}
+
+class Descripcion {
+    Descripcion({
+        this.cantidadDisponible,
+        this.precio,
+        this.presentacion,
+    });
+
+    int cantidadDisponible;
+    int precio;
+    String presentacion;
+
+    factory Descripcion.fromJson(Map<String, dynamic> json) => Descripcion(
+        cantidadDisponible: json["cantidad_disponible"],
+        precio: json["precio"],
+        presentacion: json["presentacion"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "cantidad_disponible": cantidadDisponible,
+        "precio": precio,
+        "presentacion": presentacion,
+    };
 }

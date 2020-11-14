@@ -236,23 +236,41 @@ class _RestauranteRegistroState extends State<RestauranteRegistro>
   }
 
   void _seleccionarFoto() async {
-    _procesarImagen(ImageSource.gallery);
+    // _procesarImagen(ImageSource.gallery, platillosModel);
+
+    var picture = await _picker.getImage(source: ImageSource.gallery);
+    if (picture != null) {
+      _foto = null;
+      this.setState(() {
+        _foto = File(picture.path);
+      });
+    }
+    // Navigator.of(context).pop();
   }
 
   void _tomarFoto() async {
-    _procesarImagen(ImageSource.camera);
-  }
-
-  _procesarImagen(ImageSource source) async {
-    final pickedFile = await _picker.getImage(source: source);
+    // _procesarImagen(ImageSource.camera, platillosModel);
+    final pickedFile = await _picker.getImage(source: ImageSource.camera);
     print(pickedFile);
     if (pickedFile != null) {
+      _foto = null;
       setState(() {
-        _foto = null;
         _foto = File(pickedFile.path);
       });
     }
+    // Navigator.of(context).pop();
   }
+
+  // _procesarImagen(ImageSource source) async {
+  //   final pickedFile = await _picker.getImage(source: source);
+  //   print(pickedFile);
+  //   if (pickedFile != null) {
+  //     _foto = null;
+  //     setState(() {
+  //       _foto = File(pickedFile.path);
+  //     });
+  //   }
+  // }
 
   Widget _crearNombre() {
     final dec = DecorationInputForm(

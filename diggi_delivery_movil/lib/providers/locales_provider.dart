@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diggi_delivery_movil/models/locales_model.dart';
+import 'package:diggi_delivery_movil/models/model_pedidos.dart';
+import 'package:diggi_delivery_movil/models/producto_model.dart';
 import 'package:diggi_delivery_movil/shared_prefs/preferencias_usuario.dart';
 
 class LocalesProvider {
@@ -29,11 +31,11 @@ class LocalesProvider {
     return locales;
   }
 
-  //Insertar productos en la BD
-  Future<bool> crearProducto(LocalesModel producto) async {
-    await _db.collection('restaurantes').document().setData(producto.toMap());
-    return true;
-  }
+  // //Insertar productos en la BD
+  // Future<bool> crearProducto(LocalesModel producto) async {
+  //   await _db.collection('restaurantes').document().setData(producto.toMap());
+  //   return true;
+  // }
 
   Future<QuerySnapshot> getProductoLocal(email) async {
     //COnsulta a la tabla de restaurantes
@@ -94,5 +96,49 @@ class LocalesProvider {
         .getDocuments();
 
     return consultaPlatillos;
+  }
+
+  //Regresa un booleano si el producto fue actualizado con exito
+  Future<bool> editarProducto(ProductoModel productoModel) async {
+    await _db
+        .collection("productos")
+        .document(prefs.idUpdateRegistro)
+        .updateData(productoModel.toJson());
+
+    return true;
+  }
+
+  //Regresa un booleano si el producto se pudo registrar con exito
+  Future<bool> crearProducto(ProductoModel productoModel) async {
+    await _db
+        .collection('productos')
+        .document()
+        .setData(productoModel.toJson());
+
+    return true;
+  }
+
+  Future<ProductoModel> listaProductoPedido(String idDocument) async {
+    // Stream<DocumentSnapshot> consultaID;
+    Map<String, dynamic> decodeResp = new Map();
+    ProductoModel decode = ProductoModel();
+
+    QuerySnapshot consultaProductos = await _db
+        .collection('productos')
+        .where('id_document', isEqualTo: idDocument)
+        .getDocuments();
+
+    consultaProductos.documents.forEach((element) {
+
+      
+    });
+
+    print(decode.nombre);
+    print(decode.descripcion);
+    print(decode.foto);
+    print(decode.local);
+    print(decode.marca);
+
+    return decode;
   }
 }

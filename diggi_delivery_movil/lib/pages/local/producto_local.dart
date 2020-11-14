@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:diggi_delivery_movil/blocs/archivos_bloc.dart';
+import 'package:diggi_delivery_movil/blocs/pages/locales/locales_bloc.dart';
 import 'package:diggi_delivery_movil/blocs/pages/provider.dart';
 import 'package:diggi_delivery_movil/blocs/pages/restaurantes/restaurantes_bloc.dart';
 import 'package:diggi_delivery_movil/models/platillo_model.dart';
@@ -23,9 +24,8 @@ class _ProductoLocalState extends State<ProductoLocal>
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final prefs = new PreferenciasUsuario();
   ProductoModel _productoModel = ProductoModel();
-  RestaurantesBloc _productoBloc;
-  ArchivosBloc _archivosBloc = new ArchivosBloc();
-  RestaurantesBloc _restaurantesBloc = RestaurantesBloc();
+  LocalesBloc _productoBloc;
+  ArchivosBloc _archivosBloc = ArchivosBloc();
   final picker = ImagePicker();
   File foto;
   bool _guardando = false;
@@ -36,12 +36,12 @@ class _ProductoLocalState extends State<ProductoLocal>
 
   @override
   Widget build(BuildContext context) {
-    _productoBloc = Provider.restaurantesBloc(context);
+    _productoBloc = Provider.localesBloc(context);
     final Map<String, dynamic> platillosData =
         ModalRoute.of(context).settings.arguments;
     if (platillosData != null) {
       platillosData.forEach((key, value) {
-        _productoModel = ProductoModel.fromFirestore(platillosData);
+        _productoModel = ProductoModel.fromJson(platillosData);
       });
       id = _productoModel.local;
       registro = true;
@@ -70,8 +70,8 @@ class _ProductoLocalState extends State<ProductoLocal>
     );
   }
 
-  Widget _formularioPlatillo(BuildContext context,
-      RestaurantesBloc productoLocal, ProductoModel productoModel) {
+  Widget _formularioPlatillo(BuildContext context, LocalesBloc productoLocal,
+      ProductoModel productoModel) {
     return Container(
       padding: EdgeInsets.all(15.0),
       child: Form(
@@ -88,7 +88,7 @@ class _ProductoLocalState extends State<ProductoLocal>
             SizedBox(height: 15.0),
             _crearPrecio(productoModel),
             SizedBox(height: 15.0),
-            _tiempoDePreparacion(productoModel),
+            _cantidad(productoModel),
             SizedBox(height: 15.0),
             _crearBoton(productoModel),
             SizedBox(height: 15.0),
@@ -124,51 +124,49 @@ class _ProductoLocalState extends State<ProductoLocal>
         initialValue: productoModel.marca,
         enabled: true,
         decoration: dec.decoration(),
-        // onChanged: (value) => _platillosModel.descripcion = value,
+        onChanged: (value) => productoModel.marca = value,
       ),
     );
   }
 
   Widget _crearPresentacion(ProductoModel productoModel) {
-    final value = productoModel.nombre.toString();
-    final newValue = value.replaceAll("[", "").replaceAll("]", "");
-    print("value: $newValue");
+    // final value = productoModel.nombre.toString();
+    // final newValue = value.replaceAll("[", "").replaceAll("]", "");
+    // print("value: $newValue");
 
     final dec = DecorationInputForm(
-        textLabel: "Presentación", textHint: "10g", icon: Icons.view_list);
+        textLabel: "Presentación", textHint: "10 ml", icon: Icons.view_list);
     return Container(
       child: TextFormField(
-        keyboardType: TextInputType.text,
-        initialValue: newValue?.toString() ?? '',
-        enabled: true,
-        decoration: dec.decoration(),
-        // onChanged: (value) =>
-        //     _platillosModel.ingredientes = value.split(',')
-      ),
+          keyboardType: TextInputType.text,
+          initialValue: productoModel.descripcion?.presentacion ?? '',
+          enabled: true,
+          decoration: dec.decoration(),
+          onChanged: (value) => productoModel.descripcion.presentacion = value),
     );
   }
 
   Widget _crearPrecio(ProductoModel productoModel) {
     final dec = DecorationInputForm(
-        textLabel: "Cantidad disponible", textHint: "10", icon: Icons.storage);
+        textLabel: "Precio", textHint: "10", icon: Icons.storage);
     return TextFormField(
         keyboardType: TextInputType.numberWithOptions(decimal: true),
-        initialValue: productoModel.precio.toString(),
+        initialValue: productoModel.descripcion?.precio?.toString() ?? '',
         decoration: dec.decoration(),
-        onChanged: (value) => productoModel.precio = int.parse(value));
+        onChanged: (value) =>
+            productoModel.descripcion.precio = int.parse(value));
   }
 
-  Widget _tiempoDePreparacion(ProductoModel productoModel) {
+  Widget _cantidad(ProductoModel productoModel) {
     final dec = DecorationInputForm(
-        textLabel: "Tiempo de preparación",
-        textHint: "30 minutos",
-        icon: Icons.storage);
+        textLabel: "Cantidad disponible", textHint: "20", icon: Icons.storage);
     return TextFormField(
-      keyboardType: TextInputType.text,
-      initialValue: productoModel.nombre,
-      decoration: dec.decoration(),
-    );
-    // onChanged: (value) => productoModel.tiempoPreparacion = value);
+        keyboardType: TextInputType.text,
+        initialValue:
+            productoModel.descripcion?.cantidadDisponible?.toString() ?? '',
+        decoration: dec.decoration(),
+        onChanged: (value) =>
+            productoModel.descripcion.cantidadDisponible = int.parse(value));
   }
 
   Widget _card(ProductoModel productoModel) {
@@ -224,60 +222,81 @@ class _ProductoLocalState extends State<ProductoLocal>
   }
 
   void _seleccionarFoto(ProductoModel productoModel) async {
-    _procesarImagen(ImageSource.gallery, productoModel);
+    // _procesarImagen(ImageSource.gallery, platillosModel);
+
+    var picture = await picker.getImage(source: ImageSource.gallery);
+    if (picture != null) {
+      foto = null;
+      this.setState(() {
+        productoModel.foto = '';
+        nuevoPath = true;
+        foto = File(picture.path);
+      });
+    }
+    // Navigator.of(context).pop();
   }
 
   void _tomarFoto(ProductoModel productoModel) async {
-    _procesarImagen(ImageSource.camera, productoModel);
-  }
-
-  _procesarImagen(ImageSource source, ProductoModel productoModel) async {
-    final pickedFile = await picker.getImage(source: source);
-    print(pickedFile);
-    if (pickedFile != null) {
-      setState(() {
+    // _procesarImagen(ImageSource.camera, platillosModel);
+    var picture = await picker.getImage(source: ImageSource.camera);
+    if (picture != null) {
+      foto = null;
+      this.setState(() {
         productoModel.foto = '';
-        foto = null;
         nuevoPath = true;
-        foto = File(pickedFile.path);
+        foto = File(picture.path);
       });
     }
+    // Navigator.of(context).pop();
   }
+
+  // _procesarImagen(ImageSource source, ProductoModel productoModel) async {
+  //   final pickedFile = await picker.getImage(source: source);
+  //   print(pickedFile);
+  //   if (pickedFile != null) {
+  //       foto = null;
+  //     setState(() {
+  //       productoModel.foto = '';
+  //       nuevoPath = true;
+  //       foto = File(pickedFile.path);
+  //     });
+  //   }
+  // }
 
   Widget _crearBoton(ProductoModel productoModel) {
     return RaisedButton.icon(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       color: Color(0xFFC93F42),
       textColor: Colors.white,
-      label: Text('Guardar platillo'),
+      label: Text('Guardar producto'),
       icon: Icon(Icons.save),
       onPressed: (_guardando) ? null : _submit,
     );
   }
 
   void _submit() async {
-    // if (!formKey.currentState.validate()) return;
+    if (!formKey.currentState.validate()) return;
 
-    // formKey.currentState.save();
+    formKey.currentState.save();
 
-    // setState(() {
-    //   _guardando = true;
-    // });
+    setState(() {
+      _guardando = true;
+    });
 
-    // if (foto != null) {
-    //   prefs.fotoURLCrud = await _archivosBloc.subirFoto(foto);
-    //   print(prefs.fotoURLCrud);
-    //   _productoModel.foto = prefs.fotoURLCrud;
-    // }
+    if (foto != null) {
+      prefs.fotoURLCrud = await _archivosBloc.subirFoto(foto);
+      print(prefs.fotoURLCrud);
+      _productoModel.foto = prefs.fotoURLCrud;
+    }
 
-    // _productoModel.local = prefs.idRestaurante;
-    // if (id == null) {
-    //   _restaurantesBloc.agregarProducto(_productoModel);
-    // } else {
-    //   _restaurantesBloc.editarProducto(_productoModel);
-    // }
+    _productoModel.local = prefs.idRestaurante;
+    if (id == null) {
+      _productoBloc.agregarProducto(_productoModel);
+    } else {
+      _productoBloc.editarProducto(_productoModel);
+    }
 
-    // Navigator.pop(context);
-    // _guardando = false;
+    Navigator.pop(context);
+    _guardando = false;
   }
 }
